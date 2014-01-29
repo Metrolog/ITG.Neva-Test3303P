@@ -1,0 +1,147 @@
+[PAGE]
+Size=4
+Width=297.00
+Length=210.00
+Orientation=0
+TopMargin=10.00
+BottomMargin=10.00
+LeftMargin=10.00
+RightMargin=10.00
+
+[DETAIL]
+DetailRow=24
+DetailRHeight=23
+GridLine=1
+FontSize=11
+FontColor=0
+FontName=Arial
+FontBold=0
+FontItalic=0
+FontUnderline=0
+FontStrikeOut=0
+
+[HEADER]
+TitleCol=6
+FontSize=12
+FontColor=-2147483640
+FontName=Arial
+FontBold=0
+FontItalic=0
+FontUnderline=0
+FontStrikeOut=0
+
+[BOOTER]
+BottomCol=5
+FontSize=12
+FontColor=-2147483640
+FontName=Arial
+FontBold=0
+FontItalic=0
+FontUnderline=0
+FontStrikeOut=0
+
+[TITLE]
+TitleTop=2
+FontSize=22
+FontColor=-2147483640
+FontName=Arial
+FontBold=1
+FontItalic=0
+FontUnderline=1
+FontStrikeOut=0
+Caption=1 Phase Meter Verification Record
+
+
+
+
+
+
+
+
+[PAGE HEADER]
+Model=
+Voltage=
+Current=
+Class=
+Const=
+Lot No.=
+[PAGE BOOTER]
+Temp=
+R.H.=
+Tester=
+Checker=
+Print Date=
+[DETAIL BAND]
+No.=
+A/N=
+(Test Point)=
+CRP=
+STA=
+Result=
+[TEST POINT]
+1.0 Imax=
+1.0 Ib=
+1.0 0.5Ib=
+1.0 0.2Ib=
+1.0 0.1Ib=
+0.5L Imax=
+0.5L Ib=
+0.5L 0.5Ib=
+0.5L 0.2Ib=
+0.5L 0.1Ib=
+0.8C Imax=
+0.8C 0.5Ib=
+0.8C 0.2Ib=
+0.8C 0.1Ib=
+[HEADER WIDTH]
+01=189
+02=176
+03=188
+04=116
+05=189
+06=150
+07=150
+08=150
+09=150
+10=150
+11=150
+12=150
+[BOOTER WIDTH]
+01=200
+02=200
+03=150
+04=200
+05=200
+06=150
+07=150
+08=150
+09=150
+10=150
+[DETAIL WIDTH]
+01=30
+02=97
+03=50
+04=55
+05=55
+06=50
+07=50
+08=50
+09=50
+10=50
+11=50
+12=50
+[POINT WIDTH]
+01=50
+02=50
+03=50
+04=50
+05=50
+06=50
+07=50
+08=50
+09=50
+10=50
+11=50
+12=50
+13=50
+14=50
