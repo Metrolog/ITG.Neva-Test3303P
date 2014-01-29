@@ -3,6 +3,9 @@
 	xmlns="http://wixtoolset.org/schemas/v4/wxl"
 	Culture="ru-ru"
 >
+	<String Id="LCID">1049</String>
+	<String Id="CodePage">1251</String>
+
 	<String Id="PackageDescription">Установочный пакет продукта</String>
 	<String Id="NewProductVersionExists">Более новая версия продукта [ProductName] уже установлена.</String>
 	<String Id="LaunchAfterInstall">Запустить установленный продукт сейчас</String>

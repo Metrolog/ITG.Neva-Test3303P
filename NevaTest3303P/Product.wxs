@@ -9,8 +9,8 @@
 		Id="$(var.ProductCode)"
 		Name="$(var.Manufacturer) $(var.ProductName)"
 		Version="$(var.ProductVersion)"
-		Language="1049"
-		Codepage="1251"
+		Language="!(loc.LCID)"
+		Codepage="!(loc.CodePage)"
 		Manufacturer="$(var.Manufacturer)"
 		UpgradeCode="$(var.UpgradeCode)"
 	>
@@ -21,10 +21,10 @@
 			AdminImage="$(var.IsAdminImage)"
 			Compressed="$(var.Compressed)"
 			Manufacturer="IT-Service"
-			SummaryCodepage="1251"
+			SummaryCodepage="!(loc.CodePage)"
 			ShortNames="no"
 			Description="!(loc.PackageDescription) $(var.ProductName)."
-			Languages="1049"
+			Languages="!(loc.LCID)"
 			Comments="!(loc.PackageDescription) $(var.ProductName)."
 			Keywords="Installer, $(var.ProductShortName)"
 		/>

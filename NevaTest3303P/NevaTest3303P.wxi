@@ -7,13 +7,13 @@
 	<?define ProductMinorVersion="0"?>
 	<!--<?define ProductVersion="$(fun.AutoVersion($(var.ProductMajorVersion).$(var.ProductMinorVersion)))"?>-->
 	<?define ProductVersion="01.00.0000.0000"?>
-	<?define ProductShortName="Нева-Тест 3303П"?>
+	<?define ProductShortName="!(loc.ProductShortName)"?>
 	<?define ProductInternalName="NevaTest3303P"?>
-	<?define ProductDescription="Переносная поверочная установка НЕВА-ТЕСТ 3303П."?>
+	<?define ProductDescription="!(loc.ProductDescription)"?>
 	<?define ProductName="$(var.ProductShortName) v$(var.ProductVersion)"?>
 	<?define ProductCode="{EDDA3E7A-163A-4240-AD86-97F8A75F2D41}"?>
 	<?define UpgradeCode="{97013FC5-DE4A-4DA8-84AB-008ED66479C7}"?>
-	<?define Manufacturer="Тайпит-ИП"?>
+	<?define Manufacturer="!(loc.Manufacturer)"?>
 	<?define ManufacturerId="Taipit"?>
 	
 	<?define ProductId="$(var.ManufacturerId).$(var.ProductInternalName).$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
@@ -21,7 +21,7 @@
 	<?define ProductProgIdPrefix="$(var.ManufacturerId).$(var.ProductInternalName)"?>
 	<?define ProductProgIdPostfix="$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
 	<?define ProductProgId="$(var.ProductProgIdPrefix).$(var.ProductProgIdPostfix)"?>
-	<?define ProductProgIdDescription="Файл $(var.ProductShortName)"?>
+	<?define ProductProgIdDescription="$(var.ProductShortName)"?>
 	<?define AppContentTypePrefix="application/vnd.taipit-nevatest"?>
 
 	<?define ProductRepositoryURL="https://github.com/Metrolog/ITG.$(var.ProductInternalName)"?>
