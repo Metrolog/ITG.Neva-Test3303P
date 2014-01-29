@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Include
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?define ProductMajorVersion="1"?>
+	<?define ProductMinorVersion="0"?>
+	<!--<?define ProductVersion="$(fun.AutoVersion($(var.ProductMajorVersion).$(var.ProductMinorVersion)))"?>-->
+	<?define ProductVersion="01.00.0000.0000"?>
+	<?define ProductShortName="Нева-Тест 3303П"?>
+	<?define ProductInternalName="NevaTest3303P"?>
+	<?define ProductDescription="Переносная поверочная установка НЕВА-ТЕСТ 3303П."?>
+	<?define ProductName="$(var.ProductShortName) v$(var.ProductVersion)"?>
+	<?define ProductCode="{EDDA3E7A-163A-4240-AD86-97F8A75F2D41}"?>
+	<?define UpgradeCode="{97013FC5-DE4A-4DA8-84AB-008ED66479C7}"?>
+	<?define Manufacturer="Тайпит-ИП"?>
+	<?define ManufacturerId="Taipit"?>
+	
+	<?define ProductId="$(var.ManufacturerId).$(var.ProductInternalName).$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
+	<?define ProductRegKey="SOFTWARE\$(var.Manufacturer)\$(var.ProductShortName)\$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
+	<?define ProductProgIdPrefix="$(var.ManufacturerId).$(var.ProductInternalName)"?>
+	<?define ProductProgIdPostfix="$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
+	<?define ProductProgId="$(var.ProductProgIdPrefix).$(var.ProductProgIdPostfix)"?>
+	<?define ProductProgIdDescription="Файл $(var.ProductShortName)"?>
+	<?define AppContentTypePrefix="application/vnd.taipit-nevatest"?>
+
+	<?define ProductRepositoryURL="https://github.com/Metrolog/ITG.$(var.ProductInternalName)"?>
+
+	<?ifdef SingleMSIFile ?>
+	<?define Compressed="yes" ?>
+	<?define IsAdminImage="no" ?>
+	<?else?>
+	<?define Compressed="no" ?>
+	<?define IsAdminImage="no" ?>
+	<?endif?>
+
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define PlatformPostfix="32" ?>
+	<?define SystemFolderId="SystemFolder" ?>
+	<?define SystemFolder="System32" ?>
+	<?define ProgramFilesFolderId="ProgramFilesFolder" ?>
+	<?define Win64="no" ?>
+	<?else?>
+	<?define PlatformPostfix="64" ?>
+	<?define SystemFolderId="System64Folder" ?>
+	<?define SystemFolder="System64" ?>
+	<?define ProgramFilesFolderId="ProgramFiles64Folder" ?>
+	<?define Win64="yes" ?>
+
+	<?error "Platform must be x86" ?>
+	<?endif?>
+
+	<?define ProductSettingsKey="$(var.Manufacturer)\$(var.ProductShortName)\$(var.ProductMajorVersion).$(var.ProductMinorVersion)" ?>
+
+	<?define ShFolders=PRODUCTMENUFOLDER;PRODUCTDESKTOPFOLDER?>
+
+	<?define AppRegKeySddl="D:AI(A;CI;KA;;;BU)(A;;KR;;;BU)(A;CIIO;GR;;;BU)(A;;KA;;;BA)(A;CIIO;GA;;;BA)(A;;KA;;;SY)(A;CIIO;GA;;;SY)(A;CIIO;GA;;;CO)(A;;KR;;;AC)(A;CIIO;GR;;;AC)"?>
+
+</Include>

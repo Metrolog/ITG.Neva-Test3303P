@@ -3,7 +3,7 @@
 	xmlns="http://wixtoolset.org/schemas/v4/wxs"
 >
 
-	<?include Sapsan2.wxi?>
+	<?include NevaTest3303P.wxi?>
 
 	<Product
 		Id="$(var.ProductCode)"
