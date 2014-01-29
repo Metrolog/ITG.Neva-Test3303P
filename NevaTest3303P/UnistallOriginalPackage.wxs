@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?include NevaTest3303P.wxi?>
+
+	<?define OldPackageId="OLD"?>
+	<?define OldPackageUninstallerId="НЕВА-Тест3303П V1.0 Build05.08.13"?>
+	<?define OldPackageUninstallerFileName="Uninstall.exe"?>
+	<?define OldPackageUninstallerArgs="/s"?>
+
+	<Fragment>
+
+		<?include Common.UninstallOldPackage.wxi?>
+
+	</Fragment>
+
+</Wix>

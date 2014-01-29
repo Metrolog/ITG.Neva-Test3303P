@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Include
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?ifndef OldPackageProperty?>
+	<?define OldPackageProperty="ORIGINAL$(var.OldPackageId)PACKAGEUNINSTALLER"?>
+	<?endif?>
+	<?ifndef OldPackageUninstallAction?>
+	<?define OldPackageUninstallAction="UninstallOriginal$(var.OldPackageId)Package"?>
+	<?endif?>
+	<?ifndef OldPackageUninstallerArgs?>
+	<?define OldPackageUninstallerArgs="/SILENT /NORESTART /SUPPRESSMSGBOXES"?>
+	<?endif?>
+	<?ifndef OldPackageUninstallerFileName?>
+	<?define OldPackageUninstallerFileName="unins000.exe"?>
+	<?endif?>
+
+	<?define OldPackageUninstallActionCondition="($(var.OldPackageProperty)) AND (NOT REMOVE) AND (NOT DONTUNINSTALLORIGINALPACKAGE)"?>
+
+	<Property Id="$(var.OldPackageProperty)">
+		<?ifdef OldPackageUninstallerFileName?>
+			<RegistrySearch
+				Id="Original$(var.OldPackageId)PackageUninstaller"
+				Root="HKLM"
+				Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(var.OldPackageUninstallerId)"
+				Name="UninstallString"
+				Type="file"
+			>
+				<FileSearch Name="$(var.OldPackageUninstallerFileName)"/>
+			</RegistrySearch>
+		<?else?>
+			<RegistrySearch
+				Id="Original$(var.OldPackageId)PackageUninstaller"
+				Root="HKLM"
+				Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(var.OldPackageUninstallerId)"
+				Name="UninstallString"
+				Type="raw"
+			>
+			</RegistrySearch>
+		<?endif?>
+	</Property>
+
+	<CustomAction
+		Id="$(var.OldPackageUninstallAction)"
+		Property="$(var.OldPackageProperty)"
+		ExeCommand="$(var.OldPackageUninstallerArgs)"
+		Impersonate="no"
+		Execute="deferred"
+		Return="check"
+	/>
+
+	<PropertyRef Id="DONTUNINSTALLORIGINALPACKAGE"/>
+	
+	<InstallExecuteSequence>
+		<Custom
+			Action="$(var.OldPackageUninstallAction)"
+			After="InstallInitialize"
+		><![CDATA[$(var.OldPackageUninstallActionCondition)]]></Custom>
+	</InstallExecuteSequence>
+
+	<?ifdef OldPackageUninstallerPause?>
+		<!-- для Inno Setup требуется пауза между деинсталляторами. Вставляем паузу. -->
+
+	<CustomAction
+		Id="SleepAfter$(var.OldPackageUninstallAction)"
+		Script="jscript"
+		Impersonate="no"
+		Execute="deferred"
+		Return="ignore"
+	>
+		<![CDATA[
+			var wshShell = new ActiveXObject( "WScript.Shell" );
+			wshShell.Run( "\"%COMSPEC%\" /c ping -n $(var.OldPackageUninstallerPause) localhost ", 0, 1 )
+		]]>
+	</CustomAction>
+
+	<InstallExecuteSequence>
+		<Custom
+			Action="SleepAfter$(var.OldPackageUninstallAction)"
+			After="$(var.OldPackageUninstallAction)"
+		><![CDATA[$(var.OldPackageUninstallActionCondition)]]></Custom>
+	</InstallExecuteSequence>
+
+	<?endif?>
+
+</Include>

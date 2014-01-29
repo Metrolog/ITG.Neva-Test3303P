@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="TARGETDIR">
+			<Merge
+				Id="BDE"
+				SourceFile=".\MSM\BDE\BDE_PRO.msm"
+				Language="1033"
+				DiskId="1"
+			>
+			</Merge>
+		</DirectoryRef>
+
+	</Fragment>
+</Wix>

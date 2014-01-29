@@ -9,8 +9,8 @@
 		Id="$(var.ProductCode)"
 		Name="$(var.Manufacturer) $(var.ProductName)"
 		Version="$(var.ProductVersion)"
-		Language="!(loc.LCID)"
-		Codepage="!(loc.CodePage)"
+		Language="1049"
+		Codepage="1251"
 		Manufacturer="$(var.Manufacturer)"
 		UpgradeCode="$(var.UpgradeCode)"
 	>
@@ -29,9 +29,20 @@
 			Keywords="Installer, $(var.ProductShortName)"
 		/>
 
-		<FeatureRef Id="M24" />
-		<FeatureRef Id="M10" />
-
+		<Feature
+			Id="BDE"
+			Level="2"
+			Absent="allow"
+			Display="2"
+			AllowAdvertise="no"
+			InstallDefault="local"
+			TypicalDefault="install"
+			Title="BDE"
+			Description="BDE"
+		>
+			<MergeRef Id="BDE"/>
+		</Feature>
+		
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion
 				Minimum="$(var.ProductVersion)"
@@ -57,8 +68,7 @@
 			</RemoveExistingProducts>
 		</InstallExecuteSequence>
 
-		<CustomActionRef Id="UninstallOriginalM10Package"/>
-		<CustomActionRef Id="UninstallOriginalM24Package"/>
+		<CustomActionRef Id="UninstallOriginalOLDPackage"/>
 
 		<Property Id="ARPREADME" Value="$(var.ProductRepositoryURL)/blob/master/readme.md"/>
 		<Property Id="ARPCOMMENTS" Value="$(var.ProductDescription)"/>
@@ -100,26 +110,26 @@
 		<MediaTemplate EmbedCab="$(var.Compressed)"/>
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="$(var.ProgramFilesFolderId)" Name="Program Files">
+			<Directory Id="$(var.ProgramFilesFolderId)" SourceName="Program Files" ShortSourceName="PrgFiles">
 				<Directory Id="ManufacturerProgramFolder" Name="$(var.ManufacturerId)">
 					<Directory Id="ProductProgramFolder" Name="$(var.ProductInternalName)">
 						<Directory Id="ProductVersionProgramFolder" Name="$(var.ProductMajorVersion).$(var.ProductMinorVersion)">
 							<Directory Id="APPLICATIONFOLDER"
-								ComponentGuidGenerationSeed="{2DAFAF8A-F32B-4F67-B261-66A8A32FE7A3}"
+								ComponentGuidGenerationSeed="{F7FCFA78-68A0-453E-96BB-2F9E6C674D96}"
 							>
 							</Directory>
 						</Directory>
 					</Directory>
 				</Directory>
 			</Directory>
-			<Directory Id="DesktopFolder">
+			<Directory Id="DesktopFolder" SourceName="Desktop">
 				<Directory Id="PRODUCTDESKTOPFOLDER"/>
 			</Directory>
-			<Directory Id="ProgramMenuFolder">
+			<Directory Id="ProgramMenuFolder" SourceName="Programs">
 				<Directory Id="PRODUCTMENUFOLDER" Name="$(var.ProductShortName) $(var.ProductMajorVersion).$(var.ProductMinorVersion)"/>
 			</Directory>
-			<!--<Directory Id="PersonalFolder" />-->
-			<!--<Directory Id="AppDataFolder">
+			<!--<Directory Id="PersonalFolder" SourceName="Personal"/>-->
+			<!--<Directory Id="AppDataFolder" SourceName="Application Data" ShortSourceName="AppData">
 				<Directory Id="ManufacturerAppDataFolder" Name="$(var.ManufacturerId)">
 					<Directory Id="ProductAppDataFolder" Name="$(var.ProductInternalName)">
 						<Directory Id="ProductVersionAppDataFolder" Name="$(var.ProductMajorVersion).$(var.ProductMinorVersion)">
@@ -128,31 +138,29 @@
 				</Directory>
 			</Directory>-->
 			<!--<Directory Id="TemplateFolder"/>-->
-			<Directory Id="TempFolder"/>
-			<Directory Id="WindowsFolder" Name="Windows">
-				<Directory Id="$(var.SystemFolderId)" Name="$(var.SystemFolder)">
-				</Directory>
-			</Directory>
+			<Directory Id="TempFolder" SourceName="Temp"/>
+			<Directory Id="WindowsFolder" SourceName="Windows"/>
+			<Directory Id="$(var.SystemFolderId)" SourceName="$(var.SystemFolder)"/>
 		</Directory>
 
 		<!-- возможность отключения создания ярлыков -->
 		<InstallExecuteSequence>
 			<CreateShortcuts Sequence="4500">
-				<![CDATA[NOT DISABLESHORTCUTS="Yes"]]>
+				<![CDATA[NOT DISABLESHORTCUTS]]>
 			</CreateShortcuts>
 		</InstallExecuteSequence>
 
-		<Property Id="DISABLESHORTCUTS" Value="No" Admin="yes"/>
+		<Property Id="DISABLESHORTCUTS" Admin="yes"/>
 		<!-- возможность отключения создания ярлыков - конец -->
 
 		<!-- возможность отключения создания ярлыков по одному -->
 		<?foreach ShFolder in $(var.ShFolders)?>
 		
 		<SetDirectory Id="$(var.ShFolder)" Value="[TempFolder]">
-			<![CDATA[DISABLE$(var.ShFolder)SHORTCUTS="Yes"]]>
+			<![CDATA[DISABLE$(var.ShFolder)SHORTCUTS]]>
 		</SetDirectory>
 
-		<Property Id="DISABLE$(var.ShFolder)SHORTCUTS" Value="No" Admin="yes"/>
+		<Property Id="DISABLE$(var.ShFolder)SHORTCUTS" Admin="yes"/>
 		
 		<?endforeach?>
 		<!-- возможность отключения создания ярлыков по одному - конец -->
@@ -168,7 +176,7 @@
 				Control="Finish"
 				Event="DoAction"
 				Value="LaunchApplication"
-		>
+			>
 				<![CDATA[WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed]]>
 			</Publish>
 			<?endif?>

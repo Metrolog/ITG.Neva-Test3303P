@@ -30,15 +30,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common.UninstallOldPackage.wxs" />
-    <Compile Include="UnistallOriginalPackageM10.wxs" />
-    <Compile Include="UnistallOriginalPackageM24.wxs" />
-    <Compile Include="NevaTest3303PprtFileType.wxs" />
-    <Compile Include="NevaTest3303P-10M.wxs" />
-    <Compile Include="NevaTest3303PCommonFiles.wxs" />
-    <Compile Include="Pictures.wxs" />
-    <Compile Include="NevaTest3303P-24M.wxs" />
     <Compile Include="Common.DatabaseDir.wxs" />
+    <Compile Include="Common.BDE.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="UnistallOriginalPackage.wxs" />
     <Compile Include="WixUI_MondoWithoutLicenseDlg.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +45,6 @@
     <Folder Include="SourceDir\ProgramFiles\language" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common.CreateTmpFolder.wxi" />
     <Content Include="Common.UninstallOldPackage.wxi" />
     <Content Include="MSM\BDE\BDE_PRO.msm" />
     <Content Include="MSM\BDE\README.TXT" />
