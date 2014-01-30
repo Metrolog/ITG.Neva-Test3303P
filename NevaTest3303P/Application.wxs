@@ -46,6 +46,7 @@
 			<ComponentRef Id="test.ini"/>
 			<ComponentRef Id="OEMName.ini"/>
 			<ComponentRef Id="GridWidth.ini"/>
+			<ComponentRef Id="CorpInfo.ini"/>
 		</Feature>
 
 		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">
@@ -226,6 +227,56 @@
 					KeyPath="yes"
 					Vital="no"
 					Checksum="no"
+				/>
+			</Component>
+
+			<Component
+				Id="CorpInfo.ini"
+				Guid="{BAB92BEC-DBCA-4C87-80C9-037D1852E0F9}"
+				Location="either"
+			>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.AppRegKey)"
+				>
+					<RegistryValue Name="AppShortName" Value="$(var.AppShortName)" Type="string" KeyPath="yes"/>
+				</RegistryKey>
+				<!-- информация о компании-поставщике (или о потребителе? Проверить необходимо) -->
+				<IniFile
+					Id="Set.CorpInfo.Application.Title"
+					Directory="$(var.AppDirectory)"
+					Name="CorpInfo.ini"
+					Section="Company Information"
+					Key="Application.Title"
+					Value="$(var.AppShortName)"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.CorpInfo.MainForm.Caption"
+					Directory="$(var.AppDirectory)"
+					Name="CorpInfo.ini"
+					Section="Company Information"
+					Key="MainForm.Caption"
+					Value="$(var.AppDescription)"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.CorpInfo.CompanyName"
+					Directory="$(var.AppDirectory)"
+					Name="CorpInfo.ini"
+					Section="Company Information"
+					Key="$(var.Manufacturer)"
+					Value="НЕВА-Тест3303"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.CorpInfo.CompanyNameE"
+					Directory="$(var.AppDirectory)"
+					Name="CorpInfo.ini"
+					Section="Company Information"
+					Key="CompanyNameE"
+					Value="$(var.Manufacturer)"
+					Action="createLine"
 				/>
 			</Component>
 

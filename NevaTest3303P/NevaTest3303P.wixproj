@@ -88,6 +88,7 @@
     <Content Include="SourceDir\Docs\«Тест-СОФТ» Ver 1.0 от 27-07-13.pdf" />
     <Content Include="SourceDir\Docs\«Тест-СОФТ» Ver 1.0.pdf" />
     <Content Include="SourceDir\other\3303Л.png" />
+    <Content Include="SourceDir\other\DevSetup.ini" />
     <Content Include="SourceDir\other\hysd.ico" />
     <Content Include="SourceDir\other\hysd.jpg" />
     <Content Include="SourceDir\other\UploadNo.txt" />
@@ -97,7 +98,6 @@
     <Content Include="SourceDir\ProgramFiles\BasePara.ini" />
     <Content Include="SourceDir\ProgramFiles\clocktest.ini" />
     <Content Include="SourceDir\ProgramFiles\CorpInfo.ini" />
-    <Content Include="SourceDir\ProgramFiles\DevSetup.ini" />
     <Content Include="SourceDir\ProgramFiles\GridWidth.ini" />
     <Content Include="SourceDir\ProgramFiles\hsall.exe" />
     <Content Include="SourceDir\ProgramFiles\hscom.dll" />
