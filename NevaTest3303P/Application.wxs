@@ -19,7 +19,7 @@
 		<?define AppIcon="Product.ico"?>
 		<?define AppFileNameAliases="$(var.AppFileName)"?>
 
-		<?define AppRegKey="$(var.ProductRegKey)\$(var.AppInternalName)"?>
+		<?define AppRegKey="$(var.ProductRegKey)"?>
 
 		<?define AppUserModelId="$(var.ProductProgIdPrefix).$(var.AppInternalName).$(var.AppMajorVersion).$(var.AppMinorVersion)"?>
 
@@ -47,6 +47,7 @@
 			<ComponentRef Id="OEMName.ini"/>
 			<ComponentRef Id="GridWidth.ini"/>
 			<ComponentRef Id="CorpInfo.ini"/>
+			<ComponentGroupRef Id="MetersList"/>
 		</Feature>
 
 		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">

@@ -34,6 +34,7 @@
     <Compile Include="Common.BDE.wxs" />
     <Compile Include="Application.wxs" />
     <Compile Include="barcode.wxs" />
+    <Compile Include="Meteres.wxs" />
     <Compile Include="LocResources.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="UnistallOriginalPackage.wxs" />

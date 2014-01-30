@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<!--
+		Информация о конкретных типах счётчиков хранится в BasePara.ini.
+		Перезаписывать этот файл нецелесообразно, так как в этом случае все изменения и дополнения
+		пользователя будут утеряны.
+		
+		Поэтому добавляю только данные без их перезаписи при установке.
+		
+		Желательно и не удалять этот файл при удалении продукта.
+		
+		P.S. Вероятнее всего, на него потребуется предоставить право на запись.
+		Если можно будет в ПО указать иное местоположение этого файла - следует это сделать.
+	-->
+
+	<?include NevaTest3303P.wxi?>
+
+	<?define MetersListIniFile="BasePara.ini"?>
+	<?define MetersListRegKey="$(var.ProductRegKey)"?>
+	<?define MetersListRegValue="Meters"?>
+
+	<Fragment>
+
+		<DirectoryRef Id="APPLICATIONFOLDER"/>
+		<?define MetersListIniDir="APPLICATIONFOLDER"?>
+
+		<ComponentGroup
+			Id="MetersList" 
+			Directory="$(var.MetersListIniDir)"
+			Source=".\SourceDir\ProgramFiles"
+		>
+			<Component
+				Id="Meters.CO_EE6706"
+				Guid="{4A98CA63-453D-492A-8850-E2A574593EF0}"
+				Location="either"
+			>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.MetersListRegKey)"
+				>
+					<RegistryValue
+						Name="$(var.MetersListRegValue)"
+						Type="multiString"
+						Action="append"
+						KeyPath="yes"
+						Value="СО-ЭЭ6706"
+					/>
+				</RegistryKey>
+				<!-- информация о конкретном типе счётчика -->
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Model"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Model"
+					Value="СО-ЭЭ6706"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Description"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Description"
+					Value="Однофазный счетчик"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Type"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Type"
+					Value="0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.PW"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="P&amp;W"
+					Value="0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Freq"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Freq"
+					Value="50Hz"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Voltage"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Voltage"
+					Value="220V"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Current"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Current"
+					Value="10(40)A"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Class"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Class"
+					Value="2.0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.ClassR"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Class(R)"
+					Value="2.0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BasePara.CO_EE6706.Constant"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СО-ЭЭ6706"
+					Key="Constant"
+					Value="400"
+					Action="createLine"
+				/>
+			</Component>
+
+			<Component
+				Id="MetersCA4_I678"
+				Guid="{8E452F02-89A2-4FBB-992E-C8F3C0152905}"
+				Location="either"
+			>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.MetersListRegKey)"
+				>
+					<RegistryValue
+						Name="$(var.MetersListRegValue)"
+						Type="multiString"
+						Action="append"
+						KeyPath="yes"
+						Value="СА4-И678"
+					/>
+				</RegistryKey>
+				<!-- информация о конкретном типе счётчика -->
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Model"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Model"
+					Value="СА4-И678"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Description"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Description"
+					Value="Однофазный счетчик"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Type"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Type"
+					Value="0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.PW"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="P&amp;W"
+					Value="0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Freq"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Freq"
+					Value="50Hz"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Voltage"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Voltage"
+					Value="220V"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Current"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Current"
+					Value="10(40)A"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Class"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Class"
+					Value="2.0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.ClassR"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Class(R)"
+					Value="2.0"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="Set.BaseParaCA4_I678.Constant"
+					Directory="$(var.MetersListIniDir)"
+					Name="$(var.MetersListIniFile)"
+					Section="СА4-И678"
+					Key="Constant"
+					Value="400"
+					Action="createLine"
+				/>
+			</Component>
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>
