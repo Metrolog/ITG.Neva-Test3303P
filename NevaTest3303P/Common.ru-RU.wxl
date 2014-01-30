@@ -3,6 +3,7 @@
 	xmlns="http://wixtoolset.org/schemas/v4/wxl"
 	Culture="ru-ru"
 >
+	<String Id="Culture">ru-ru</String>
 	<String Id="LCID">1049</String>
 	<String Id="CodePage">1251</String>
 

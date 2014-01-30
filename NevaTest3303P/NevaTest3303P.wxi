@@ -24,6 +24,9 @@
 	<?define ProductProgIdDescription="$(var.ProductShortName)"?>
 	<?define AppContentTypePrefix="application/vnd.taipit-nevatest"?>
 
+	<?define ProductIniFile="hyyb.ini"?>
+	<?define ProductIniDirectory="APPLICATIONFOLDER"?>
+
 	<?define ProductRepositoryURL="https://github.com/Metrolog/ITG.$(var.ProductInternalName)"?>
 
 	<?ifdef SingleMSIFile ?>

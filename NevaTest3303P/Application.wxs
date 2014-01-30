@@ -36,6 +36,7 @@
 			ConfigurableDirectory="$(var.AppDirectory)"
 		>
 			<ComponentRef Id="$(var.AppInternalName)" Primary="yes"/>
+			<ComponentGroupRef Id="LocResources"/>
 			<ComponentRef Id="hscom.dll"/>
 			<ComponentRef Id="hsgps.dll"/>
 			<ComponentRef Id="line485.exe"/>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?include NevaTest3303P.wxi?>
+
+	<Fragment>
+
+		<DirectoryRef Id="APPLICATIONFOLDER">
+			<Directory Id="Language" Name="Language" FileSource=".\SourceDir\ProgramFiles\language"/>
+		</DirectoryRef>
+
+		<ComponentGroup
+			Id="LocResources"
+			Directory="Language"
+			Source=".\SourceDir\ProgramFiles\language"
+		>
+			<Component
+				Id="LocResources.ini"
+				Guid="{4D757C44-DC70-40C1-8D53-435F34F39E45}"
+				Location="either"
+			>
+				<File
+					Name="!(loc.Culture).ini"
+					KeyPath="yes"
+					Vital="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="SetCulture"
+				Location="either"
+			>
+				<IniFile
+					Id="SetCulture"
+					Directory="$(var.ProductIniDirectory)"
+					Name="$(var.ProductIniFile)"
+					Section="Other Para"
+					Key="Language"
+					Value="!(loc.Culture)"
+					Action="addLine"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.ProductRegKey)"
+				>
+					<RegistryValue Name="Culture" Value="!(loc.Culture)" Type="string" KeyPath="yes"/>
+				</RegistryKey>
+			</Component>
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

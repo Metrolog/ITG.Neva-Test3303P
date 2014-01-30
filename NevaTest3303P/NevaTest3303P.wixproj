@@ -34,6 +34,7 @@
     <Compile Include="Common.BDE.wxs" />
     <Compile Include="Application.wxs" />
     <Compile Include="barcode.wxs" />
+    <Compile Include="LocResources.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="UnistallOriginalPackage.wxs" />
     <Compile Include="WixUI_MondoWithoutLicenseDlg.wxs" />
@@ -104,7 +105,7 @@
     <Content Include="SourceDir\ProgramFiles\hyyb.ini" />
     <Content Include="SourceDir\ProgramFiles\language\English.ini" />
     <Content Include="SourceDir\ProgramFiles\language\Japanese.ini" />
-    <Content Include="SourceDir\ProgramFiles\language\Russian.ini" />
+    <Content Include="SourceDir\ProgramFiles\language\ru-ru.ini" />
     <Content Include="SourceDir\ProgramFiles\line485.exe" />
     <Content Include="SourceDir\ProgramFiles\OEMName.ini" />
     <Content Include="SourceDir\ProgramFiles\test.ini" />
