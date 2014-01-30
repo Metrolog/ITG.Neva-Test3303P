@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?include NevaTest3303P.wxi?>
+
+	<Fragment>
+
+		<?define AppVersion="01.00.0000.0000"?>
+		<?define AppMajorVersion="1"?>
+		<?define AppMinorVersion="0"?>
+		<?define AppShortName="$(var.ProductShortName)"?>
+		<?define AppInternalName="$(var.ProductInternalName)"?>
+		<?define AppDirectory="APPLICATIONFOLDER"?>
+		<?define AppDescription="$(var.ProductDescription)"?>
+		<!--<?define AppFileName="$(var.AppInternalName).exe"?>-->
+		<?define AppFileName="hsall.exe"?>
+		<?define AppIcon="Product.ico"?>
+		<?define AppFileNameAliases="$(var.AppFileName)"?>
+
+		<?define AppRegKey="$(var.ProductRegKey)\$(var.AppInternalName)"?>
+
+		<?define AppUserModelId="$(var.ProductProgIdPrefix).$(var.AppInternalName).$(var.AppMajorVersion).$(var.AppMinorVersion)"?>
+
+		<Feature
+			Id="$(var.AppInternalName)"
+			Level="1"
+			Absent="disallow"
+			Display="2"
+			AllowAdvertise="yes"
+			InstallDefault="local"
+			TypicalDefault="install"
+			Title="$(var.AppShortName)"
+			Description="$(var.AppDescription)"
+			ConfigurableDirectory="$(var.AppDirectory)"
+		>
+			<ComponentRef Id="$(var.AppInternalName)" Primary="yes"/>
+			<ComponentRef Id="hscom.dll"/>
+			<ComponentRef Id="hsgps.dll"/>
+			<ComponentGroupRef Id="barcode.dll"/>
+			<MergeRef Id="BDE"/>
+		</Feature>
+
+		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">
+
+			<Component
+				Id="$(var.AppInternalName)"
+				Guid="{22840553-62E6-4613-B266-FF271E040598}"
+				Location="either"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					KeyPath="yes"
+					Vital="yes"
+					Checksum="yes"
+				>
+					<?foreach ShFolder in $(var.ShFolders)?>
+					<Shortcut
+						Id="$(var.AppInternalName).Shortcut.$(var.ShFolder)"
+						Directory="$(var.ShFolder)"
+						Name="$(var.AppShortName)"
+						Description="$(var.AppDescription)"
+						WorkingDirectory="$(var.AppDirectory)"
+						Show="normal"
+						Icon="$(var.AppIcon)"
+						Advertise="yes"
+					>
+						<!--<ShortcutProperty Key="System.AppUserModel.ID" Value="$(var.AppUserModelId)"/>-->
+					</Shortcut>
+					<?endforeach?>
+				</File>
+
+				<IsolateComponent Shared="barcode.dll"/>
+				
+				<?foreach ShFolder in $(var.ShFolders)?>
+				<RemoveFolder
+					Id="$(var.AppInternalName).ShFolder.$(var.ShFolder)"
+					Directory="$(var.ShFolder)"
+					On="uninstall"
+				/>
+				<?endforeach?>
+
+				<!-- http://msdn.microsoft.com/ru-RU/library/windows/desktop/ee872121(v=vs.85).aspx -->
+				<RegistryKey
+					Root="HKLM"
+					Key="SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths"
+				>
+					<?foreach AppFileNameAlias in $(var.AppFileNameAliases)?>
+					<RegistryKey Key="$(var.AppFileNameAlias)">
+						<RegistryValue Type="string" Value="[#$(var.AppFileName)]" />
+					</RegistryKey>
+					<?endforeach?>
+				</RegistryKey>
+				<RegistryKey
+					Root="HKCR"
+					Key="Applications"
+				>
+					<RegistryKey Key="$(var.AppFileName)">
+						<RegistryValue Type="string" Value="[#$(var.AppFileName)]" />
+						<RegistryValue Name="FriendlyAppName" Type="string" Value="$(var.AppShortName)" />
+						<RegistryValue Name="NoOpenWith" Type="integer" Value="0" />
+						<RegistryKey Key="SupportedTypes">
+						</RegistryKey>
+					</RegistryKey>
+				</RegistryKey>
+				<RegistryKey
+					Root="HKLM"
+					Key="SOFTWARE\RegisteredApplications"
+				>
+					<RegistryValue Name="$(var.AppUserModelId)" Type="string" Value="$(var.AppRegKey)\Capabilities" />
+				</RegistryKey>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.AppRegKey)\Capabilities"
+				>
+					<RegistryValue Name="ApplicationName" Type="string" Value="$(var.AppShortName)" />
+					<RegistryValue Name="ApplicationDescription" Type="string" Value="$(var.AppDescription)" />
+					<RegistryValue Name="Hidden" Type="integer" Value="0" />
+					<RegistryKey Key="FileAssociations">
+					</RegistryKey>
+					<RegistryKey Key="MIMEAssociations">
+					</RegistryKey>
+				</RegistryKey>
+			</Component>
+
+			<Component
+				Id="hscom.dll"
+				Guid="{1805CC61-655E-4356-B7DA-B87E241F2BD5}"
+				Location="either"
+			>
+				<File
+					Name="hscom.dll"
+					KeyPath="yes"
+					Vital="yes"
+					Checksum="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="hsgps.dll"
+				Guid="{255B6DE6-7AA4-4582-9F21-6C8430506C03}"
+				Location="either"
+			>
+				<File
+					Name="hsgps.dll"
+					KeyPath="yes"
+					Vital="yes"
+					Checksum="yes"
+				/>
+			</Component>
+
+		</DirectoryRef>
+
+	</Fragment>
+</Wix>
