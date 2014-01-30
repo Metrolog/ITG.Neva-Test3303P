@@ -45,6 +45,7 @@
 
 			<ComponentRef Id="test.ini"/>
 			<ComponentRef Id="OEMName.ini"/>
+			<ComponentRef Id="GridWidth.ini"/>
 		</Feature>
 
 		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">
@@ -204,10 +205,27 @@
 				Guid="{885C05B7-38F2-4296-BA9F-39851BC268BD}"
 				Location="either"
 			>
+				<!-- таблица соответствия брендов поставщиков реальной модели прибора -->
 				<File
 					Name="OEMName.ini"
 					KeyPath="yes"
 					Vital="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="GridWidth.ini"
+				Guid="{7E8FFBCB-B49E-4C85-B07B-80312CFAB344}"
+				Location="either"
+			>
+				<!-- сохранённые настройки интерфейса -->
+				<!-- вероятнее всего, продукт будет пытаться писать в этот файл, поэтому имеет смысл не устанавливать его, а дать
+				возможность продукту создать его в "песочнице". Либо придётся на него давать права на запись. -->
+				<File
+					Name="GridWidth.ini"
+					KeyPath="yes"
+					Vital="no"
+					Checksum="no"
 				/>
 			</Component>
 
