@@ -44,6 +44,7 @@
 			<MergeRef Id="BDE"/>
 
 			<ComponentRef Id="test.ini"/>
+			<ComponentRef Id="OEMName.ini"/>
 		</Feature>
 
 		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">
@@ -195,6 +196,18 @@
 					Key="DirectWriteDir"
 					Value="C:\SYTransition.txt"
 					Action="createLine"
+				/>
+			</Component>
+
+			<Component
+				Id="OEMName.ini"
+				Guid="{885C05B7-38F2-4296-BA9F-39851BC268BD}"
+				Location="either"
+			>
+				<File
+					Name="OEMName.ini"
+					KeyPath="yes"
+					Vital="yes"
 				/>
 			</Component>
 
