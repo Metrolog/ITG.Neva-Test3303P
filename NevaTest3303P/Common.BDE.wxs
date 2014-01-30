@@ -8,7 +8,7 @@
 			<Merge
 				Id="BDE"
 				SourceFile=".\MSM\BDE\BDE_PRO.msm"
-				Language="1033"
+				Language="0"
 				DiskId="1"
 			>
 			</Merge>
