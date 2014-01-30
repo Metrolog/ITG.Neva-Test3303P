@@ -42,6 +42,8 @@
 			<ComponentRef Id="line485.exe"/>
 			<ComponentGroupRef Id="barcode.dll"/>
 			<MergeRef Id="BDE"/>
+
+			<ComponentRef Id="test.ini"/>
 		</Feature>
 
 		<DirectoryRef Id="$(var.AppDirectory)" FileSource=".\SourceDir\ProgramFiles">
@@ -162,6 +164,37 @@
 					KeyPath="yes"
 					Vital="yes"
 					Checksum="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="test.ini"
+				Guid="{D5D14DAA-3F1A-4B59-B04D-5B7F4A83F839}"
+				Location="either"
+			>
+				<File
+					Name="test.ini"
+					KeyPath="yes"
+					Vital="yes"
+				/>
+				<!-- в дальнейшем необходимо разобраться с назначением данных параметров и оформить их должным образом -->
+				<IniFile
+					Id="SetTXTDir"
+					Directory="$(var.AppDirectory)"
+					Name="test.ini"
+					Section="DB_SAVE"
+					Key="TXTDir"
+					Value="C:\temp"
+					Action="createLine"
+				/>
+				<IniFile
+					Id="SetDirectWriteDir"
+					Directory="$(var.AppDirectory)"
+					Name="test.ini"
+					Section="AUTO_TEST"
+					Key="DirectWriteDir"
+					Value="C:\SYTransition.txt"
+					Action="createLine"
 				/>
 			</Component>
 
