@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<Fragment>
+
+		<ComponentGroup
+			Id="barcode.dll"
+			Directory="SystemFolder"
+			Source=".\SourceDir\System32"
+		>
+			<Component
+				Id="barcode.dll"
+				Guid="{28C1A2EF-3DDE-46C7-8317-B9CCBCD51BB7}"
+				Location="local"
+				SharedDllRefCount="yes"
+			>
+				<File
+					Name="barcode.dll"
+					KeyPath="yes"
+					Vital="yes"
+			/>
+			</Component>
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>
