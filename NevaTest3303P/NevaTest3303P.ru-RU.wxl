@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="ru-ru"
+>
+
+	<String Id="ProductShortName">Нева-Тест 3303П</String>
+	<String Id="ProductDescription">Переносная поверочная установка НЕВА-ТЕСТ 3303П.</String>
+	<String Id="Manufacturer">Тайпит-ИП</String>
+
+</WixLocalization>
