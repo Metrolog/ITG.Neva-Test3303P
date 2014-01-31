@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define PlatformPostfix="32" ?>
+	<?define SystemFolderId="SystemFolder" ?>
+	<?define SystemFolder="System32" ?>
+	<?define ProgramFilesFolderId="ProgramFilesFolder" ?>
+	<?define Win64="no" ?>
+	<?else?>
+	<?define PlatformPostfix="64" ?>
+	<?define SystemFolderId="System64Folder" ?>
+	<?define SystemFolder="System64" ?>
+	<?define ProgramFilesFolderId="ProgramFiles64Folder" ?>
+	<?define Win64="yes" ?>
+	<?endif?>
+
+	<Fragment Id="TARGETDIR">
+		<Directory Id="TARGETDIR" Name="SourceDir"/>
+	</Fragment>
+
+	<Fragment Id="ProgramFilesFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="$(var.ProgramFilesFolderId)" SourceName="Program Files" ShortSourceName="PrgFiles"/>
+		</DirectoryRef>
+	</Fragment>
+	
+	<Fragment Id="PRODUCTPROGRAMFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="$(var.ProgramFilesFolderId)">
+			<Directory Id="ManufacturerProgramFolder" Name="!(wix.ManufacturerId)">
+				<Directory Id="ProductProgramFolder" Name="!(wix.ProductInternalName)">
+					<Directory Id="ProductVersionProgramFolder" Name="!(wix.ProductMajorVersion).!(wix.ProductMinorVersion)">
+						<Directory Id="PRODUCTPROGRAMFOLDER">
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="WindowsFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="WindowsFolder" SourceName="Windows"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="SystemFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="$(var.SystemFolderId)" SourceName="System32"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="CommonAppDataFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="CommonAppDataFolder" SourceName="ProgramData"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTCOMMONAPPDATAFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="CommonAppDataFolder">
+			<Directory Id="ManufacturerCommonAppDataFolder" Name="!(wix.ManufacturerId)">
+				<Directory Id="ProductCommonAppDataFolder" Name="!(wix.ProductInternalName)">
+					<Directory Id="ProductVersionCommonAppDataFolder" Name="!(wix.ProductMajorVersion).!(wix.ProductMinorVersion)">
+						<Directory Id="PRODUCTCOMMONAPPDATAFOLDER"/>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="AppDataFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="AppDataFolder" SourceName="Application Data" ShortSourceName="AppData"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTAPPDATAFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="AppDataFolder">
+			<Directory Id="ManufacturerAppDataFolder" Name="!(wix.ManufacturerId)">
+				<Directory Id="ProductAppDataFolder" Name="!(wix.ProductInternalName)">
+					<Directory Id="ProductVersionAppDataFolder" Name="!(wix.ProductMajorVersion).!(wix.ProductMinorVersion)">
+						<Directory Id="PRODUCTAPPDATAFOLDER"/>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTMENUFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductShortName" Overridable="yes" Value="ProductShortName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramMenuFolder" SourceName="Programs">
+				<Directory Id="ManufacturerProgramMenuFolder">
+					<Directory Id="ProductProgramMenuFolder">
+						<Directory Id="ProductVersionProgramMenuFolder">
+							<Directory Id="PRODUCTMENUFOLDER" Name="!(wix.ProductShortName) !(wix.ProductMajorVersion).!(wix.ProductMinorVersion)"/>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTDESKTOPFOLDER">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="DesktopFolder" SourceName="Desktop">
+				<Directory Id="PRODUCTDESKTOPFOLDER"/>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTPERSONALFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="PersonalFolder" SourceName="Personal">
+				<Directory Id="ManufacturerPersonalFolder">
+					<Directory Id="ProductPersonalFolder" Name="!(wix.ProductInternalName)">
+						<Directory Id="ProductVersionPersonalFolder">
+							<Directory Id="PRODUCTPERSONALFOLDER"/>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="PRODUCTTEMPLATEFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="TemplateFolder" SourceName="Template">
+				<Directory Id="ManufacturerTemplateFolder">
+					<Directory Id="ProductTemplateFolder">
+						<Directory Id="ProductVersionTemplateFolder">
+							<Directory Id="PRODUCTTEMPLATEFOLDER"/>
+						</Directory>
+					</Directory>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="TempFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="TempFolder" SourceName="Temp"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="DATABASEDIR">
+		<?define PropertyId="DATABASEDIR"?>
+		
+		<Property Id="$(var.PropertyId)" Secure="yes"/>
+
+		<CustomAction
+			Id="Set$(var.PropertyId)"
+			Script="jscript"
+		><![CDATA[
+			var fso = new ActiveXObject( "Scripting.FileSystemObject" );
+			Session.Property( "$(var.PropertyId)" ) = fso.GetParentFolderName( Session.Property( "DATABASE" ) )	+ "\\" ;
+		]]></CustomAction>
+
+		<InstallExecuteSequence>
+			<Custom Action="Set$(var.PropertyId)" Before="InstallInitialize"/>
+		</InstallExecuteSequence>
+		<?undef PropertyId?>
+	</Fragment>
+</Wix>

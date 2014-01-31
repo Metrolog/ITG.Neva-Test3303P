@@ -14,6 +14,7 @@
 		Manufacturer="$(var.Manufacturer)"
 		UpgradeCode="$(var.UpgradeCode)"
 	>
+		
 		<Package
 			InstallerVersion="500"
 			InstallScope="perMachine"
@@ -28,6 +29,12 @@
 			Comments="!(loc.PackageDescription) $(var.ProductName)."
 			Keywords="Installer, $(var.ProductShortName)"
 		/>
+
+		<WixVariable Id="ManufacturerId"			Value="$(var.ManufacturerId)"/>
+		<WixVariable Id="ProductInternalName" Value="$(var.ProductInternalName)"/>
+		<WixVariable Id="ProductShortName"		Value="$(var.ProductShortName)"/>
+		<WixVariable Id="ProductMajorVersion" Value="$(var.ProductMajorVersion)"/>
+		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
 
 		<FeatureRef Id="$(var.ProductInternalName)"/>
 
@@ -96,40 +103,6 @@
 		<Property Id="INSTALLLEVEL" Value="3"/>
 
 		<MediaTemplate EmbedCab="$(var.Compressed)"/>
-
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="$(var.ProgramFilesFolderId)" SourceName="Program Files" ShortSourceName="PrgFiles">
-				<Directory Id="ManufacturerProgramFolder" Name="$(var.ManufacturerId)">
-					<Directory Id="ProductProgramFolder" Name="$(var.ProductInternalName)">
-						<Directory Id="ProductVersionProgramFolder" Name="$(var.ProductMajorVersion).$(var.ProductMinorVersion)">
-							<Directory Id="APPLICATIONFOLDER"
-								ComponentGuidGenerationSeed="{F7FCFA78-68A0-453E-96BB-2F9E6C674D96}"
-							>
-							</Directory>
-						</Directory>
-					</Directory>
-				</Directory>
-			</Directory>
-			<Directory Id="DesktopFolder" SourceName="Desktop">
-				<Directory Id="PRODUCTDESKTOPFOLDER"/>
-			</Directory>
-			<Directory Id="ProgramMenuFolder" SourceName="Programs">
-				<Directory Id="PRODUCTMENUFOLDER" Name="$(var.ProductShortName) $(var.ProductMajorVersion).$(var.ProductMinorVersion)"/>
-			</Directory>
-			<!--<Directory Id="PersonalFolder" SourceName="Personal"/>-->
-			<!--<Directory Id="AppDataFolder" SourceName="Application Data" ShortSourceName="AppData">
-				<Directory Id="ManufacturerAppDataFolder" Name="$(var.ManufacturerId)">
-					<Directory Id="ProductAppDataFolder" Name="$(var.ProductInternalName)">
-						<Directory Id="ProductVersionAppDataFolder" Name="$(var.ProductMajorVersion).$(var.ProductMinorVersion)">
-						</Directory>
-					</Directory>
-				</Directory>
-			</Directory>-->
-			<!--<Directory Id="TemplateFolder"/>-->
-			<Directory Id="TempFolder" SourceName="Temp"/>
-			<Directory Id="WindowsFolder" SourceName="Windows"/>
-			<Directory Id="$(var.SystemFolderId)" SourceName="$(var.SystemFolder)"/>
-		</Directory>
 
 		<!-- возможность отключения создания ярлыков -->
 		<InstallExecuteSequence>

@@ -8,4 +8,7 @@
 	<String Id="ProductDescription">Переносная поверочная установка НЕВА-ТЕСТ 3303П.</String>
 	<String Id="Manufacturer">Тайпит-ИП</String>
 
+	<String Id="Database">База данных</String>
+	<String Id="DatabaseDescription">База данных результатов поверок.</String>
+
 </WixLocalization>

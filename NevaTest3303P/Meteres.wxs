@@ -23,8 +23,8 @@
 
 	<Fragment>
 
-		<DirectoryRef Id="APPLICATIONFOLDER"/>
-		<?define MetersListIniDir="APPLICATIONFOLDER"?>
+		<DirectoryRef Id="PRODUCTPROGRAMFOLDER"/>
+		<?define MetersListIniDir="PRODUCTPROGRAMFOLDER"?>
 
 		<ComponentGroup
 			Id="MetersList" 

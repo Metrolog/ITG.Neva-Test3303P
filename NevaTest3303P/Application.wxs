@@ -12,7 +12,7 @@
 		<?define AppMinorVersion="0"?>
 		<?define AppShortName="$(var.ProductShortName)"?>
 		<?define AppInternalName="$(var.ProductInternalName)"?>
-		<?define AppDirectory="APPLICATIONFOLDER"?>
+		<?define AppDirectory="PRODUCTPROGRAMFOLDER"?>
 		<?define AppDescription="$(var.ProductDescription)"?>
 		<!--<?define AppFileName="$(var.AppInternalName).exe"?>-->
 		<?define AppFileName="hsall.exe"?>
@@ -81,7 +81,7 @@
 
 				<IsolateComponent Shared="barcode.dll"/>
 
-				<?foreach ShFolder in $(var.ShFolders)?>
+				<?foreach ShFolder in $(var.ShFolders2)?>
 				<RemoveFolder
 					Id="$(var.AppInternalName).ShFolder.$(var.ShFolder)"
 					Directory="$(var.ShFolder)"

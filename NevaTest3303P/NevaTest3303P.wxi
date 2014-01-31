@@ -25,7 +25,7 @@
 	<?define AppContentTypePrefix="application/vnd.taipit-nevatest"?>
 
 	<?define ProductIniFile="hyyb.ini"?>
-	<?define ProductIniDirectory="APPLICATIONFOLDER"?>
+	<?define ProductIniDirectory="PRODUCTPROGRAMFOLDER"?>
 
 	<?define ProductRepositoryURL="https://github.com/Metrolog/ITG.$(var.ProductInternalName)"?>
 
@@ -56,6 +56,7 @@
 	<?define ProductSettingsKey="$(var.Manufacturer)\$(var.ProductShortName)\$(var.ProductMajorVersion).$(var.ProductMinorVersion)" ?>
 
 	<?define ShFolders=PRODUCTMENUFOLDER;PRODUCTDESKTOPFOLDER?>
+	<?define ShFolders2=$(var.ShFolders);ManufacturerProgramMenuFolder;ProductProgramMenuFolder;ProductVersionProgramMenuFolder?>
 
 	<?define AppRegKeySddl="D:AI(A;CI;KA;;;BU)(A;;KR;;;BU)(A;CIIO;GR;;;BU)(A;;KA;;;BA)(A;CIIO;GA;;;BA)(A;;KA;;;SY)(A;CIIO;GA;;;SY)(A;CIIO;GA;;;CO)(A;;KR;;;AC)(A;CIIO;GR;;;AC)"?>
 
