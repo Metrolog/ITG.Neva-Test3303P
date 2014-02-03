@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ITG.WixUtils", "ITG.WixUtils\ITG.WixUtils.wixproj", "{A6247D3F-C713-46F7-876F-FABF05437B65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Admin image|x86 = Admin image|x86
@@ -18,6 +20,10 @@ Global
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Admin image|x86.Build.0 = Admin image|x86
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Single .msi file|x86.ActiveCfg = Single .msi file|x86
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Single .msi file|x86.Build.0 = Single .msi file|x86
+		{A6247D3F-C713-46F7-876F-FABF05437B65}.Admin image|x86.ActiveCfg = Release|x86
+		{A6247D3F-C713-46F7-876F-FABF05437B65}.Admin image|x86.Build.0 = Release|x86
+		{A6247D3F-C713-46F7-876F-FABF05437B65}.Single .msi file|x86.ActiveCfg = Release|x86
+		{A6247D3F-C713-46F7-876F-FABF05437B65}.Single .msi file|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

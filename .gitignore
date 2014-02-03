@@ -3,3 +3,5 @@ obj
 /_UpgradeReport_Files
 /UpgradeLog*.htm
 /UpgradeLog*.XML
+
+/ITG.WixUtils/bin

@@ -30,9 +30,9 @@
 			Keywords="Installer, $(var.ProductShortName)"
 		/>
 
-		<WixVariable Id="ManufacturerId"			Value="$(var.ManufacturerId)"/>
+		<WixVariable Id="ManufacturerId"      Value="$(var.ManufacturerId)"/>
 		<WixVariable Id="ProductInternalName" Value="$(var.ProductInternalName)"/>
-		<WixVariable Id="ProductShortName"		Value="$(var.ProductShortName)"/>
+		<WixVariable Id="ProductShortName"    Value="$(var.ProductShortName)"/>
 		<WixVariable Id="ProductMajorVersion" Value="$(var.ProductMajorVersion)"/>
 		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
 
@@ -59,8 +59,7 @@
 			<![CDATA[NOT WIX_DOWNGRADE_DETECTED]]>
 		</Condition>
 		<InstallExecuteSequence>
-			<RemoveExistingProducts After="InstallExecute">
-			</RemoveExistingProducts>
+			<RemoveExistingProducts After="InstallExecute"/>
 		</InstallExecuteSequence>
 
 		<CustomActionRef Id="UninstallOriginalOLDPackage"/>
@@ -84,13 +83,7 @@
 		<Icon Id="Product.ico" SourceFile=".\Icons\Product.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="Product.ico"/>
 		
-		<!--<Icon Id="Help.ico" SourceFile=".\Icons\Help.ico"/>-->
-
-		<Property Id="PRIMARYFOLDER" Value="APPLICATIONFOLDER" />
-		<SetProperty Id="ARPINSTALLLOCATION" Value="[APPLICATIONFOLDER]" Sequence="execute" Before="InstallInitialize">
-			<![CDATA[NOT Installed]]>
-		</SetProperty>
-		<Property Id="APPLICATIONFOLDER" Admin="yes" />
+		<Property Id="PRIMARYFOLDER" Value="PRODUCTPROGRAMFOLDER" />
 
 		<!--<Property Id="ARPSIZE" Value=""/>-->
 

@@ -18,6 +18,18 @@
 
 	<Fragment Id="TARGETDIR">
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
+
+		<PropertyRef Id="PRIMARYFOLDER"/>
+		<!--
+			продукт обязательно должен содержать определение свойства PRIMARYFOLDER,
+			указывающего на идентификатор каталога установки приложения
+			http://msdn.microsoft.com/en-us/library/aa370845.aspx
+		-->
+
+		<!-- http://msdn.microsoft.com/en-us/library/aa367589.aspx -->
+		<SetProperty Id="ARPINSTALLLOCATION" Value="[[PRIMARYFOLDER]]" Sequence="execute" Before="InstallInitialize">
+			<![CDATA[NOT Installed]]>
+		</SetProperty>
 	</Fragment>
 
 	<Fragment Id="ProgramFilesFolder">
@@ -36,12 +48,13 @@
 			<Directory Id="ManufacturerProgramFolder" Name="!(wix.ManufacturerId)">
 				<Directory Id="ProductProgramFolder" Name="!(wix.ProductInternalName)">
 					<Directory Id="ProductVersionProgramFolder" Name="!(wix.ProductMajorVersion).!(wix.ProductMinorVersion)">
-						<Directory Id="PRODUCTPROGRAMFOLDER">
-						</Directory>
+						<Directory Id="PRODUCTPROGRAMFOLDER"/>
 					</Directory>
 				</Directory>
 			</Directory>
 		</DirectoryRef>
+
+		<Property Id="PRODUCTPROGRAMFOLDER" Admin="yes" />
 	</Fragment>
 
 	<Fragment Id="WindowsFolder">
@@ -77,6 +90,8 @@
 				</Directory>
 			</Directory>
 		</DirectoryRef>
+
+		<Property Id="PRODUCTCOMMONAPPDATAFOLDER" Admin="yes" />
 	</Fragment>
 
 	<Fragment Id="AppDataFolder">
@@ -119,6 +134,12 @@
 					</Directory>
 				</Directory>
 			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="StartupFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="StartupFolder" SourceName="Startup"/>
 		</DirectoryRef>
 	</Fragment>
 
@@ -192,4 +213,5 @@
 		</InstallExecuteSequence>
 		<?undef PropertyId?>
 	</Fragment>
+
 </Wix>

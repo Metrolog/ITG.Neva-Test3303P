@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<Fragment Id="DISABLESHORTCUTS">
+		<!-- установка данного свойства "отключает" создание ярлыков полностью -->
+		<Property Id="DISABLESHORTCUTS" Admin="yes"/>
+
+		<InstallExecuteSequence>
+			<CreateShortcuts Sequence="4500">
+				<![CDATA[NOT DISABLESHORTCUTS]]>
+			</CreateShortcuts>
+		</InstallExecuteSequence>
+	</Fragment>
+
+	<?define ShFolders=PRODUCTMENUFOLDER;PRODUCTDESKTOPFOLDER;PRODUCTSTARTUPFOLDER?>
+	<?foreach ShFolder in $(var.ShFolders)?>
+	<Fragment Id="DISABLE$(var.ShFolder)SHORTCUTS">
+		<!-- возможность отключения создания ярлыков по одному -->
+		<DirectoryRef Id="$(var.ShFolder)"/>
+		<DirectoryRef Id="TempFolder"/>
+
+		<Property Id="DISABLE$(var.ShFolder)SHORTCUTS" Admin="yes"/>
+
+		<SetDirectory
+			Id="$(var.ShFolder)" 
+			Value="[TempFolder]"
+			Sequence="execute"
+		>
+			<![CDATA[DISABLE$(var.ShFolder)SHORTCUTS]]>
+		</SetDirectory>
+
+	</Fragment>
+	<?endforeach?>
+
+</Wix>
