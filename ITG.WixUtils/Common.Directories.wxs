@@ -71,7 +71,7 @@
 
 	<Fragment Id="CommonAppDataFolder">
 		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="CommonAppDataFolder" SourceName="ProgramData"/>
+			<Directory Id="CommonAppDataFolder" ShortSourceName="CAppData" SourceName="CommonAppData"/>
 		</DirectoryRef>
 	</Fragment>
 
