@@ -37,6 +37,7 @@
 		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
 
 		<FeatureRef Id="$(var.ProductInternalName)"/>
+		<FeatureRef Id="APPDATABASE"/>
 
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion
@@ -97,32 +98,14 @@
 
 		<MediaTemplate EmbedCab="$(var.Compressed)"/>
 
-		<!-- возможность отключения создания ярлыков -->
-		<InstallExecuteSequence>
-			<CreateShortcuts Sequence="4500">
-				<![CDATA[NOT DISABLESHORTCUTS]]>
-			</CreateShortcuts>
-		</InstallExecuteSequence>
-
-		<Property Id="DISABLESHORTCUTS" Admin="yes"/>
-		<!-- возможность отключения создания ярлыков - конец -->
-
-		<!-- возможность отключения создания ярлыков по одному -->
+		<PropertyRef Id="DISABLESHORTCUTS"/>
 		<?foreach ShFolder in $(var.ShFolders)?>
-		
-		<SetDirectory Id="$(var.ShFolder)" Value="[TempFolder]">
-			<![CDATA[DISABLE$(var.ShFolder)SHORTCUTS]]>
-		</SetDirectory>
-
-		<Property Id="DISABLE$(var.ShFolder)SHORTCUTS" Admin="yes"/>
-		
+		<PropertyRef Id="DISABLE$(var.ShFolder)SHORTCUTS"/>
 		<?endforeach?>
-		<!-- возможность отключения создания ярлыков по одному - конец -->
 
 		<?ifndef AdminImage ?>
 
 		<UI>
-			<!--<UIRef Id="WixUI_Mondo"/>-->
 			<UIRef Id="WixUI_MondoWithoutLicenseDlg"/>
 			<!--<UIRef Id="WixUI_ErrorProgressText" />-->
 		</UI>
