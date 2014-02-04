@@ -59,7 +59,7 @@
 
 	<Fragment Id="PRODUCTADMINTOOLSFOLDER">
 		<DirectoryRef Id="AdminToolsFolder">
-			<Directory Id="PRODUCTADMINTOOLSFOLDER" SourceName="Startup"/>
+			<Directory Id="PRODUCTADMINTOOLSFOLDER"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTADMINTOOLSFOLDERSHORTCUTS"/>
 		<IgnoreModularization Type="Directory" Name="PRODUCTADMINTOOLSFOLDER"/>
@@ -67,7 +67,7 @@
 
 	<Fragment Id="PRODUCTSTARTUPFOLDER">
 		<DirectoryRef Id="StartupFolder">
-			<Directory Id="PRODUCTSTARTUPFOLDER" SourceName="Startup"/>
+			<Directory Id="PRODUCTSTARTUPFOLDER"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTSTARTUPFOLDERSHORTCUTS"/>
 		<IgnoreModularization Type="Directory" Name="PRODUCTSTARTUPFOLDER"/>
