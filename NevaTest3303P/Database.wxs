@@ -30,6 +30,8 @@
 			<ComponentGroupRef Id="DBsFiles"/>
 		</Feature>
 
+		<Binary Id="bdemerge.ini" SourceFile=".\msm\bde\bdemerge.ini"/>
+
 		<DirectoryRef Id="PRODUCTCOMMONAPPDATAFOLDER">
 			<Directory
 				Id="$(var.DBsInternalName)FOLDER"

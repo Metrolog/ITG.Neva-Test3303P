@@ -10,15 +10,18 @@
     <OutputType>Library</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
+    <Name>ITGWixUtils</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <SuppressSpecificWarnings>1086;1085</SuppressSpecificWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <SuppressSpecificWarnings>1086;1085</SuppressSpecificWarnings>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common.Directories.wxs" />

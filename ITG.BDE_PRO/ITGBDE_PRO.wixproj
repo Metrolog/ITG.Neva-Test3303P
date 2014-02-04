@@ -10,19 +10,23 @@
     <OutputType>Module</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
+    <Name>ITGBDE_PRO</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <SuppressIces>ICEM09</SuppressIces>
+    <SuppressSpecificWarnings>1085;1101</SuppressSpecificWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <SuppressSpecificWarnings>1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1085;1101</SuppressSpecificWarnings>
+    <SuppressIces>ICEM09</SuppressIces>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BDE_PRO.wxs" />
+    <Compile Include="BDE.wxs" />
     <Compile Include="BDEInstall.wxs" />
     <Compile Include="BDEAdmin.wxs" />
     <Compile Include="BdeMTSDispenser.wxs" />
@@ -44,16 +48,6 @@
     <Compile Include="FormatLanguageLibs.wxs" />
     <Compile Include="idapi32.wxs" />
     <Compile Include="InterbaseDrivers.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ITG.WixUtils\ITG.WixUtils.wixproj">
-      <Name>ITG.WixUtils</Name>
-      <Project>{a6247d3f-c713-46f7-876f-fabf05437b65}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Icons" />
@@ -96,6 +90,16 @@
     <Content Include="SourceDir\sqlint32.dll" />
     <Content Include="SourceDir\sql_int.cnf" />
     <Content Include="SourceDir\usa.btl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ITG.WixUtils\ITGWixUtils.wixproj">
+      <Name>ITGWixUtils</Name>
+      <Project>{a6247d3f-c713-46f7-876f-fabf05437b65}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

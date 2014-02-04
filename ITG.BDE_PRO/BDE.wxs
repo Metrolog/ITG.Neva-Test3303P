@@ -9,7 +9,7 @@
 		Language="0"
 	>
 		<Package
-			Id="{E966F0CB-76B3-11D3-945B-00C04FB1760A}"
+			Id="{957A8D99-1535-4692-A1D4-A0A70B28FE41}"
 			InstallerVersion="500"
 			InstallScope="perMachine"
 			InstallPrivileges="elevated"
@@ -24,17 +24,32 @@
 			SummaryCodepage="1252"
 		/>
 
-		<!--<Configuration />-->
+		<!-- указываем на несовместимость с "родным" BDE_PRO.msm -->
+		<Exclusion 
+			ExcludedId="BDE_PRO.E966F0CB_76B3_11D3_945B_00C04FB1760A"
+		/>
+
+		<Configuration
+			Name="BDEPath"
+			DisplayName="BDE directory"
+			Description="BDE root directory id"
+			Format="Key"
+			NonNullable="yes"
+			DefaultValue="BDE"
+		/>
+		<Substitution
+			Table="Directory"
+			Column="Directory_Parent"
+			Row="BDE_INSTALL_PATH"
+			Value="[=BDEPath]"
+		/>
 
 		<DirectoryRef Id="CommonFilesFolder">
 			<Directory Id="BorlandSharedFolder" Name="Borland Shared">
-				<Directory Id="BDE_INSTALL_PATH" Name="BDE">
-
+				<Directory Id="BDE" Name="BDE">
+					<Directory Id="BDE_INSTALL_PATH"/>
 				</Directory>
 			</Directory>
-			<!--<Directory Id="Dir26" Name="Borland Shared" ShortName="BORLAN~1">
-				<Directory Id="INSTALLDIR" Name="BDE" />
-			</Directory>-->
 		</DirectoryRef>
 
 		<ComponentGroupRef Id="Idapi32"/>

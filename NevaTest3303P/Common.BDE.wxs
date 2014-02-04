@@ -7,10 +7,11 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Merge
 				Id="BDE"
-				SourceFile=".\MSM\BDE\BDE_PRO.msm"
+				SourceFile="$(var.ITGBDE_PRO.TargetPath)"
 				Language="0"
 				DiskId="1"
 			>
+				<!--<ConfigurationData Name="BDEPath" Value="SystemFolder"/>-->
 			</Merge>
 		</DirectoryRef>
 

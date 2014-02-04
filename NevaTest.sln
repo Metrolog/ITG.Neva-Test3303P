@@ -2,15 +2,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NevaTest3303P", "NevaTest3303P\NevaTest3303P.wixproj", "{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC} = {F7A27587-3B39-4E07-99BB-3FFA7727E0AC}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4078C122-7570-4C69-AA4F-6CCF5CA79EB5}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
 	EndProjectSection
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ITG.WixUtils", "ITG.WixUtils\ITG.WixUtils.wixproj", "{A6247D3F-C713-46F7-876F-FABF05437B65}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ITGWixUtils", "ITG.WixUtils\ITGWixUtils.wixproj", "{A6247D3F-C713-46F7-876F-FABF05437B65}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ITG.BDE_PRO", "ITG.BDE_PRO\ITG.BDE_PRO.wixproj", "{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ITGBDE_PRO", "ITG.BDE_PRO\ITGBDE_PRO.wixproj", "{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

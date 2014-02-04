@@ -5,7 +5,11 @@
 
 	<Fragment Id="DISABLESHORTCUTS">
 		<!-- установка данного свойства "отключает" создание ярлыков полностью -->
-		<Property Id="DISABLESHORTCUTS" Admin="yes"/>
+		<Property
+			Id="DISABLESHORTCUTS"
+			Admin="yes"
+			SuppressModularization="yes"
+		/>
 
 		<InstallExecuteSequence>
 			<CreateShortcuts Sequence="4500">
@@ -21,7 +25,11 @@
 		<DirectoryRef Id="$(var.ShFolder)"/>
 		<DirectoryRef Id="TempFolder"/>
 
-		<Property Id="DISABLE$(var.ShFolder)SHORTCUTS" Admin="yes"/>
+		<Property
+			Id="DISABLE$(var.ShFolder)SHORTCUTS"
+			Admin="yes"
+			SuppressModularization="yes"
+		/>
 
 		<SetDirectory
 			Id="$(var.ShFolder)" 
@@ -30,6 +38,7 @@
 		>
 			<![CDATA[DISABLE$(var.ShFolder)SHORTCUTS]]>
 		</SetDirectory>
+		<IgnoreModularization Type="Action" Name="Set$(var.ShFolder)"/>
 
 	</Fragment>
 	<?endforeach?>
@@ -45,6 +54,7 @@
 			<Directory Id="PRODUCTMENUFOLDER" Name="!(wix.ProductShortName) !(wix.ProductMajorVersion).!(wix.ProductMinorVersion)"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTMENUFOLDERSHORTCUTS"/>
+		<IgnoreModularization Type="Directory" Name="PRODUCTMENUFOLDER"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTADMINTOOLSFOLDER">
@@ -52,6 +62,7 @@
 			<Directory Id="PRODUCTADMINTOOLSFOLDER" SourceName="Startup"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTADMINTOOLSFOLDERSHORTCUTS"/>
+		<IgnoreModularization Type="Directory" Name="PRODUCTADMINTOOLSFOLDER"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTSTARTUPFOLDER">
@@ -59,6 +70,7 @@
 			<Directory Id="PRODUCTSTARTUPFOLDER" SourceName="Startup"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTSTARTUPFOLDERSHORTCUTS"/>
+		<IgnoreModularization Type="Directory" Name="PRODUCTSTARTUPFOLDER"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTDESKTOPFOLDER">
@@ -66,7 +78,7 @@
 			<Directory Id="PRODUCTDESKTOPFOLDER"/>
 		</DirectoryRef>
 		<PropertyRef Id="DISABLEPRODUCTDESKTOPFOLDERSHORTCUTS"/>
+		<IgnoreModularization Type="Directory" Name="PRODUCTDESKTOPFOLDER"/>
 	</Fragment>
-
 
 </Wix>

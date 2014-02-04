@@ -35,6 +35,7 @@
 		<WixVariable Id="ProductShortName"    Value="$(var.ProductShortName)"/>
 		<WixVariable Id="ProductMajorVersion" Value="$(var.ProductMajorVersion)"/>
 		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
+		<WixVariable Id="PRIMARYFOLDER"       Value="PRODUCTPROGRAMFOLDER"/>
 
 		<FeatureRef Id="$(var.ProductInternalName)"/>
 		<FeatureRef Id="APPDATABASE"/>
@@ -84,7 +85,7 @@
 		<Icon Id="Product.ico" SourceFile=".\Icons\Product.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="Product.ico"/>
 		
-		<Property Id="PRIMARYFOLDER" Value="PRODUCTPROGRAMFOLDER" />
+		<PropertyRef Id="PRIMARYFOLDER"/>
 
 		<!--<Property Id="ARPSIZE" Value=""/>-->
 

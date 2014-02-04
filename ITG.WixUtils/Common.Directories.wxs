@@ -40,6 +40,7 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="$(var.ProgramFilesFolderId)" SourceName="Program Files" ShortSourceName="PrgFiles"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="$(var.ProgramFilesFolderId)"/>
 	</Fragment>
 	
 	<Fragment Id="PRODUCTPROGRAMFOLDER">
@@ -65,24 +66,28 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="WindowsFolder" SourceName="Windows"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="WindowsFolder"/>
 	</Fragment>
 
 	<Fragment Id="SystemFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="$(var.SystemFolderId)" SourceName="System32"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="$(var.SystemFolderId)"/>
 	</Fragment>
 
 	<Fragment Id="CommonFilesFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="CommonFilesFolder" SourceName="Common"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="CommonFilesFolder"/>
 	</Fragment>
 
 	<Fragment Id="CommonAppDataFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="CommonAppDataFolder" ShortSourceName="CAppData" SourceName="CommonAppData"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="CommonAppDataFolder"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTCOMMONAPPDATAFOLDER">
@@ -108,6 +113,7 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="AppDataFolder" SourceName="Application Data" ShortSourceName="AppData"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="AppDataFolder"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTAPPDATAFOLDER">
@@ -131,6 +137,7 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="ProgramMenuFolder" SourceName="Programs"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="ProgramMenuFolder"/>
 	</Fragment>
 
 	<Fragment Id="ProductVersionProgramMenuFolder">
@@ -153,18 +160,28 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="AdminToolsFolder" SourceName="AdminTools"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="AdminToolsFolder"/>
 	</Fragment>
 
 	<Fragment Id="StartupFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="StartupFolder" SourceName="Startup"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="StartupFolder"/>
 	</Fragment>
 
 	<Fragment Id="DesktopFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="DesktopFolder" SourceName="Desktop"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="DesktopFolder"/>
+	</Fragment>
+
+	<Fragment Id="PersonalFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="PersonalFolder" SourceName="Personal"/>
+		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="PersonalFolder"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTPERSONALFOLDER">
@@ -173,17 +190,22 @@
 		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
 		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
 
-		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="PersonalFolder" SourceName="Personal">
-				<Directory Id="ManufacturerPersonalFolder">
-					<Directory Id="ProductPersonalFolder" Name="!(wix.ProductInternalName)">
-						<Directory Id="ProductVersionPersonalFolder">
-							<Directory Id="PRODUCTPERSONALFOLDER"/>
-						</Directory>
+		<DirectoryRef Id="PersonalFolder">
+			<Directory Id="ManufacturerPersonalFolder">
+				<Directory Id="ProductPersonalFolder" Name="!(wix.ProductInternalName)">
+					<Directory Id="ProductVersionPersonalFolder">
+						<Directory Id="PRODUCTPERSONALFOLDER"/>
 					</Directory>
 				</Directory>
 			</Directory>
 		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="TemplateFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="TemplateFolder" SourceName="Template"/>
+		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="TemplateFolder"/>
 	</Fragment>
 
 	<Fragment Id="PRODUCTTEMPLATEFOLDER">
@@ -192,13 +214,11 @@
 		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
 		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
 
-		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="TemplateFolder" SourceName="Template">
-				<Directory Id="ManufacturerTemplateFolder">
-					<Directory Id="ProductTemplateFolder">
-						<Directory Id="ProductVersionTemplateFolder">
-							<Directory Id="PRODUCTTEMPLATEFOLDER"/>
-						</Directory>
+		<DirectoryRef Id="TemplateFolder">
+			<Directory Id="ManufacturerTemplateFolder">
+				<Directory Id="ProductTemplateFolder">
+					<Directory Id="ProductVersionTemplateFolder">
+						<Directory Id="PRODUCTTEMPLATEFOLDER"/>
 					</Directory>
 				</Directory>
 			</Directory>
@@ -209,12 +229,13 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="TempFolder" SourceName="Temp"/>
 		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="TempFolder"/>
 	</Fragment>
 
 	<Fragment Id="DATABASEDIR">
 		<?define PropertyId="DATABASEDIR"?>
 		
-		<Property Id="$(var.PropertyId)" Secure="yes"/>
+		<Property Id="$(var.PropertyId)" Secure="yes" SuppressModularization="yes"/>
 
 		<CustomAction
 			Id="Set$(var.PropertyId)"
