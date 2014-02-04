@@ -18,33 +18,19 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Admin image|x86 = Admin image|x86
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
 		Single .msi file|x86 = Single .msi file|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Admin image|x86.ActiveCfg = Admin image|x86
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Admin image|x86.Build.0 = Admin image|x86
-		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Debug|x86.ActiveCfg = Single .msi file|x86
-		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Debug|x86.Build.0 = Single .msi file|x86
-		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Release|x86.ActiveCfg = Single .msi file|x86
-		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Release|x86.Build.0 = Single .msi file|x86
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Single .msi file|x86.ActiveCfg = Single .msi file|x86
 		{CF2C7577-DCAB-42FC-9C71-6BFCBC6146C2}.Single .msi file|x86.Build.0 = Single .msi file|x86
 		{A6247D3F-C713-46F7-876F-FABF05437B65}.Admin image|x86.ActiveCfg = Release|x86
 		{A6247D3F-C713-46F7-876F-FABF05437B65}.Admin image|x86.Build.0 = Release|x86
-		{A6247D3F-C713-46F7-876F-FABF05437B65}.Debug|x86.ActiveCfg = Debug|x86
-		{A6247D3F-C713-46F7-876F-FABF05437B65}.Debug|x86.Build.0 = Debug|x86
-		{A6247D3F-C713-46F7-876F-FABF05437B65}.Release|x86.ActiveCfg = Release|x86
-		{A6247D3F-C713-46F7-876F-FABF05437B65}.Release|x86.Build.0 = Release|x86
 		{A6247D3F-C713-46F7-876F-FABF05437B65}.Single .msi file|x86.ActiveCfg = Release|x86
 		{A6247D3F-C713-46F7-876F-FABF05437B65}.Single .msi file|x86.Build.0 = Release|x86
 		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Admin image|x86.ActiveCfg = Release|x86
 		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Admin image|x86.Build.0 = Release|x86
-		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Debug|x86.ActiveCfg = Debug|x86
-		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Debug|x86.Build.0 = Debug|x86
-		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Release|x86.ActiveCfg = Release|x86
-		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Release|x86.Build.0 = Release|x86
 		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Single .msi file|x86.ActiveCfg = Release|x86
 		{F7A27587-3B39-4E07-99BB-3FFA7727E0AC}.Single .msi file|x86.Build.0 = Release|x86
 	EndGlobalSection

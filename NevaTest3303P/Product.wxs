@@ -32,7 +32,7 @@
 
 		<WixVariable Id="ManufacturerId"      Value="$(var.ManufacturerId)"/>
 		<WixVariable Id="ProductInternalName" Value="$(var.ProductInternalName)"/>
-		<WixVariable Id="ProductShortName"    Value="$(var.ProductShortName)"/>
+		<WixVariable Id="ProductShortName"    Value="$(var.ProductMenuGroupName)"/>
 		<WixVariable Id="ProductMajorVersion" Value="$(var.ProductMajorVersion)"/>
 		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
 		<WixVariable Id="PRIMARYFOLDER"       Value="PRODUCTPROGRAMFOLDER"/>

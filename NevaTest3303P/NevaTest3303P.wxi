@@ -8,6 +8,7 @@
 	<!--<?define ProductVersion="$(fun.AutoVersion($(var.ProductMajorVersion).$(var.ProductMinorVersion)))"?>-->
 	<?define ProductVersion="01.00.0000.0000"?>
 	<?define ProductShortName="!(loc.ProductShortName)"?>
+	<?define ProductMenuGroupName="Нева-Тест 3303П"?>
 	<?define ProductInternalName="NevaTest3303P"?>
 	<?define ProductDescription="!(loc.ProductDescription)"?>
 	<?define ProductName="$(var.ProductShortName) v$(var.ProductVersion)"?>
