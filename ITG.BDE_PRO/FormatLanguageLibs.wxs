@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="FormatLanguageLibs"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<Component
+				Id="ceeurope.btl"
+				Guid="{AC406FD0-6830-48CA-81D8-456A6001D0E8}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="ceeurope.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="europe.btl"
+				Guid="{EF1DCDEA-C42C-419E-A9F4-CEE42B48F261}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="europe.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="fareast.btl"
+				Guid="{0A458E34-3007-4967-8002-CB731451087B}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="fareast.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="japan.btl"
+				Guid="{5C11466D-ED4D-40E1-A6E8-A49141962C16}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="japan.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="usa.btl"
+				Guid="{5809F13E-D248-42F5-AE2E-07BA1BF8681A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="usa.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="other.btl"
+				Guid="{D19B32F3-04B7-4905-A793-BB8576124E44}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="other.btl"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

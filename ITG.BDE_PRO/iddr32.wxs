@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="iddr32.dll"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<?define AppFileName="iddr32.dll"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0E8-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="yes"
+					DefaultLanguage="0"
+					KeyPath="yes"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
+				>
+					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
+				</RegistryKey>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

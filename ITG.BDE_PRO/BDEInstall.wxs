@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<Binary
+			Id="bdesetup.dll"
+			SourceFile=".\Binary\bdesetup.dll"
+		/>
+		
+		<CustomAction Id="BDERunning" BinaryKey="bdesetup.dll" DllEntry="BDERunning" />
+		<CustomAction Id="BDESetSQLLinks" BinaryKey="bdesetup.dll" DllEntry="BDESetSQLLinks" />
+		<CustomAction Id="BDEConfig" BinaryKey="bdesetup.dll" DllEntry="BDEConfig" />
+		<CustomAction Id="BDEBumpUseCount" BinaryKey="bdesetup.dll" DllEntry="BDEBumpUseCount" />
+		<CustomAction Id="BDERecordUseCount" BinaryKey="bdesetup.dll" DllEntry="BDERecordUseCount" />
+		<CustomAction Id="BDEReduceUseCount" BinaryKey="bdesetup.dll" DllEntry="BDEReduceUseCount" />
+
+		<InstallExecuteSequence>
+			<Custom Action="BDEConfig" After="InstallFinalize" />
+			<Custom Action="BDEBumpUseCount" After="BDEConfig"><![CDATA[( ?idapi32.dll <> 3 ) AND ( $idapi32.dll = 3 )]]></Custom>
+			<Custom Action="BDERecordUseCount" After="CostFinalize" />
+			<Custom Action="BDEReduceUseCount" After="BDEBumpUseCount" />
+		</InstallExecuteSequence>
+		<InstallUISequence>
+			<Custom Action="BDERunning" Before="AppSearch" />
+			<Custom Action="BDESetSQLLinks" Before="FileCost">NOT REMOVE</Custom>
+		</InstallUISequence>
+
+		<DirectoryRef Id="TempFolder"/>
+
+		<Component
+			Id="TempFolderFiles"
+			Guid="{315BD88B-0C03-11D4-9521-00C04FB1760A}"
+			KeyPath="yes"
+			Directory="TempFolder"
+		>
+			<File
+				Name="idapi.cnf"
+				Vital="no"
+				Source=".\SourceDir\idapi.cnf"
+			/>
+		</Component>
+
+	</Fragment>
+</Wix>

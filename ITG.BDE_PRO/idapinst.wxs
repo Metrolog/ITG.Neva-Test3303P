@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="Idapinst"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<Component
+				Id="idapinst.dll"
+				Guid="{B0FD9123-B272-11D3-94D3-00C04FB1760A}"
+				Location="local"
+			>
+				<File
+					Name="idapinst.dll"
+					KeyPath="yes"
+					DefaultLanguage="0"
+					Vital="no"
+				/>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

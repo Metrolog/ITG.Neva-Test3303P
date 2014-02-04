@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Module
+		Id="BDE_PRO"
+		Codepage="1252"
+		Version="5.1.1"
+		Language="0"
+	>
+		<Package
+			Id="{E966F0CB-76B3-11D3-945B-00C04FB1760A}"
+			InstallerVersion="500"
+			InstallScope="perMachine"
+			InstallPrivileges="elevated"
+			AdminImage="no"
+			Manufacturer="IT-Service"
+			Comments="The Installation database contains the logic and data required to install Borland Database Engine"
+			Description="BDE_PRO"
+			Keywords="MergeModule; MSI; Database; Borland; BDE"
+			Languages="1033"
+			Platform="x86"
+			ShortNames="no"
+			SummaryCodepage="1252"
+		/>
+
+		<!--<Configuration />-->
+
+		<DirectoryRef Id="CommonFilesFolder">
+			<Directory Id="BorlandSharedFolder" Name="Borland Shared">
+				<Directory Id="BDE_INSTALL_PATH" Name="BDE">
+
+				</Directory>
+			</Directory>
+			<!--<Directory Id="Dir26" Name="Borland Shared" ShortName="BORLAN~1">
+				<Directory Id="INSTALLDIR" Name="BDE" />
+			</Directory>-->
+		</DirectoryRef>
+
+		<ComponentGroupRef Id="Idapi32"/>
+		<ComponentGroupRef Id="bantam.dll"/>
+		<ComponentGroupRef Id="blw32.dll"/>
+		<ComponentGroupRef Id="idasci32.dll"/>
+		<ComponentGroupRef Id="idbat32.dll"/>
+		<ComponentGroupRef Id="idda3532.dll"/>
+		<ComponentGroupRef Id="iddao32.dll"/>
+		<ComponentGroupRef Id="iddbas32.dll"/>
+		<ComponentGroupRef Id="iddr32.dll"/>
+		<ComponentGroupRef Id="idpdx32.dll"/>
+		<ComponentGroupRef Id="idqbe32.dll"/>
+		<ComponentGroupRef Id="ODBC32"/>
+		<ComponentGroupRef Id="charset.cvb"/>
+		<ComponentGroupRef Id="FormatLanguageLibs"/>
+		<ComponentGroupRef Id="idr20009.dll"/>
+		<ComponentGroupRef Id="Idapinst"/>
+		<ComponentGroupRef Id="BdeAdmin"/>
+		<ComponentGroupRef Id="QueryEditor"/>
+		<ComponentGroupRef Id="InterbaseDrivers"/>
+		<ComponentGroupRef Id="BdeMTSDispenser"/>
+
+	</Module>
+</Wix>

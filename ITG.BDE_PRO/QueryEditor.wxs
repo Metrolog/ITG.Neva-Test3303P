@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="QueryEditor"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<?define AppFileName="idsql32.dll"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0ED-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="yes"
+					DefaultLanguage="0"
+					KeyPath="yes"
+				/>
+				<Class
+					Id="{FB99D700-18B9-11D0-A4CF-00A024C91936}"
+					Context="InprocServer32"
+					Description="Borland Database Engine, Query Edit Object"
+					Programmable="yes"
+					Control="yes"
+					Insertable="yes"
+					Advertise="yes"
+					ThreadingModel="apartment"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
+				>
+					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
+				</RegistryKey>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

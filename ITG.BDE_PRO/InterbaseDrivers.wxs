@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<Property Id="INTRBASE" Admin="yes"/>
+
+		<ComponentGroup
+			Id="InterbaseDrivers"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<?define AppFileName="sqlint32.dll"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0F3-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<Condition><![CDATA[INTRBASE]]></Condition>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="yes"
+					DefaultLanguage="0"
+					KeyPath="yes"
+				/>
+				<File
+					Name="sql_int.cnf"
+					Vital="yes"
+					CompanionFile="$(var.AppFileName)"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
+				>
+					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
+				</RegistryKey>
+			</Component>
+
+			<!--<Component
+				Id="sql_int.cnf"
+				Guid="{14917531-2550-4EB6-9A6A-A2C3601F5C4A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<Condition>INTRBASE</Condition>
+				<File
+					Name="sql_int.cnf"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>-->
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

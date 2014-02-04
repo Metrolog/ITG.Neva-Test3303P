@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="Idapi32"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<?define AppFileName="idapi32.dll"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0E2-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="yes"
+					DefaultLanguage="0"
+					KeyPath="yes"
+				/>
+				<Class
+					Id="{FB99D710-18B9-11D0-A4CF-00A024C91936}"
+					Context="InprocServer32"
+					Description="Borland Database Engine"
+					Programmable="yes"
+					Control="no"
+					Insertable="no"
+					Advertise="yes"
+					ThreadingModel="apartment"
+					>
+					<ProgId
+						Id="Borland.Database_Engine.4"
+						Description="Borland Database Engine"
+						NoOpen=""
+						Advertise="yes"
+					>
+						<ProgId
+							Id="Borland.Database_Engine"
+							Description="Borland Database Engine"
+							NoOpen=""
+							Advertise="yes"
+						/>
+					</ProgId>
+				</Class>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
+				>
+					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
+				</RegistryKey>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Borland\Database Engine"
+				>
+					<RegistryValue Name="DLLPath" Value="[$$$(var.AppFileName)]" Type="string"/>
+					<!-- возможно, потребуется дать права на запись в этот ключ из-за "особенностей" BDE -->
+				</RegistryKey>
+			</Component>
+
+			<!--<Component Id="idapi32.cfg" Guid="{1428AFD2-B0B4-4BBE-BAB5-510A74CC018F}" KeyPath="yes" SharedDllRefCount="yes">
+				<File Id="F2143_idapi32.cfg" Name="idapi32.cfg" Vital="no" Source="X:\AMF\DSL\Taipit\Neva-Test\3303P\Prj\NevaTest3303P\MSM\BDE\files\File\F2143_idapi32.cfg.E966F0CB_76B3_11D3_945B_00C04FB1760A" />
+			</Component>-->
+
+			<Component
+				Id="idapi32.cfg"
+				Guid="{1428AFD2-B0B4-4BBE-BAB5-510A74CC018F}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+				NeverOverwrite="yes"
+			>
+				<File
+					Name="idapi32.cfg"
+					Vital="yes"
+					KeyPath="yes"
+				/>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

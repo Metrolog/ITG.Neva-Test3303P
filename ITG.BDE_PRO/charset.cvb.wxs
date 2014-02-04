@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+
+		<ComponentGroup
+			Id="charset.cvb"
+			Directory="BDE_INSTALL_PATH"
+			Source=".\SourceDir"
+		>
+
+			<?define AppFileName="charset.cvb"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0DB-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="yes"
+					KeyPath="yes"
+				/>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

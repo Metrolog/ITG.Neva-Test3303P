@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.8</ProductVersion>
+    <ProjectGuid>f7a27587-3b39-4e07-99bb-3ffa7727e0ac</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>ITG.BDE_PRO</OutputName>
+    <OutputType>Module</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\WiX Toolset\v4\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <SuppressSpecificWarnings>1101</SuppressSpecificWarnings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BDE_PRO.wxs" />
+    <Compile Include="BDEInstall.wxs" />
+    <Compile Include="BDEAdmin.wxs" />
+    <Compile Include="BdeMTSDispenser.wxs" />
+    <Compile Include="bantam.wxs" />
+    <Compile Include="charset.cvb.wxs" />
+    <Compile Include="blw32.wxs" />
+    <Compile Include="idqbe32.wxs" />
+    <Compile Include="idr20009.wxs" />
+    <Compile Include="ODBC32.wxs" />
+    <Compile Include="idpdx32.wxs" />
+    <Compile Include="iddbas32.wxs" />
+    <Compile Include="iddr32.wxs" />
+    <Compile Include="idda3532.wxs" />
+    <Compile Include="iddao32.wxs" />
+    <Compile Include="idasci32.wxs" />
+    <Compile Include="idbat32.wxs" />
+    <Compile Include="QueryEditor.wxs" />
+    <Compile Include="idapinst.wxs" />
+    <Compile Include="FormatLanguageLibs.wxs" />
+    <Compile Include="idapi32.wxs" />
+    <Compile Include="InterbaseDrivers.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ITG.WixUtils\ITG.WixUtils.wixproj">
+      <Name>ITG.WixUtils</Name>
+      <Project>{a6247d3f-c713-46f7-876f-fabf05437b65}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Icons" />
+    <Folder Include="Binary" />
+    <Folder Include="SourceDir" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Binary\bdesetup.dll" />
+    <Content Include="Icons\bdeadmin.ico" />
+    <Content Include="SourceDir\bantam.dll" />
+    <Content Include="SourceDir\BDEADMIN.CNT" />
+    <Content Include="SourceDir\bdeadmin.cpl" />
+    <Content Include="SourceDir\bdeadmin.exe" />
+    <Content Include="SourceDir\BDEADMIN.HLP" />
+    <Content Include="SourceDir\BDEADMIN.TOC" />
+    <Content Include="SourceDir\blw32.dll" />
+    <Content Include="SourceDir\ceeurope.btl" />
+    <Content Include="SourceDir\charset.cvb" />
+    <Content Include="SourceDir\disp.dll" />
+    <Content Include="SourceDir\disp.pak" />
+    <Content Include="SourceDir\europe.btl" />
+    <Content Include="SourceDir\fareast.btl" />
+    <Content Include="SourceDir\idapi.cnf" />
+    <Content Include="SourceDir\idapi32.cfg" />
+    <Content Include="SourceDir\idapi32.dll" />
+    <Content Include="SourceDir\idapinst.dll" />
+    <Content Include="SourceDir\idasci32.dll" />
+    <Content Include="SourceDir\idbat32.dll" />
+    <Content Include="SourceDir\idda3532.dll" />
+    <Content Include="SourceDir\iddao32.dll" />
+    <Content Include="SourceDir\iddbas32.dll" />
+    <Content Include="SourceDir\iddr32.dll" />
+    <Content Include="SourceDir\idodbc32.dll" />
+    <Content Include="SourceDir\idpdx32.dll" />
+    <Content Include="SourceDir\idqbe32.dll" />
+    <Content Include="SourceDir\idr20009.dll" />
+    <Content Include="SourceDir\idsql32.dll" />
+    <Content Include="SourceDir\japan.btl" />
+    <Content Include="SourceDir\other.btl" />
+    <Content Include="SourceDir\sqlint32.dll" />
+    <Content Include="SourceDir\sql_int.cnf" />
+    <Content Include="SourceDir\usa.btl" />
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

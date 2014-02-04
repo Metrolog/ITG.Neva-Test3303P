@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<DirectoryRef Id="SystemFolder" />
+		<DirectoryRef Id="BDE_INSTALL_PATH" />
+		<DirectoryRef Id="PRODUCTADMINTOOLSFOLDER" />
+
+		<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>
+
+		<ComponentGroup
+			Id="BdeAdmin"
+			Source=".\SourceDir"
+		>
+			<Component
+				Id="bdeadmin.cpl"
+				Guid="{C3EE3466-7A54-4B2E-ACAA-AE98E4C07373}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+				Directory="SystemFolder"
+			>
+				<File
+					Name="bdeadmin.cpl"
+					KeyPath="yes"
+					DefaultLanguage="1033"
+					Vital="no"
+				/>
+			</Component>
+
+			<?define AppFileName="bdeadmin.exe"?>
+			
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{E966F0DD-76B3-11D3-945B-00C04FB1760A}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+				Directory="BDE_INSTALL_PATH"
+			>
+				<File
+					Name="$(var.AppFileName)"
+					Vital="no"
+					KeyPath="yes"
+				>
+					<Shortcut
+						Id="$(var.AppFileName).Shortcut"
+						Directory="PRODUCTADMINTOOLSFOLDER"
+						Name="BDE Administrator"
+						WorkingDirectory="BDE_INSTALL_PATH"
+						Show="normal"
+						Icon="bdeadmin.ico"
+						Advertise="yes"
+					>
+					</Shortcut>
+				</File>
+				<RemoveFolder
+					Id="$(var.AppFileName).ShFolder"
+					Directory="PRODUCTADMINTOOLSFOLDER"
+					On="uninstall"
+				/>
+				<!-- http://www.sevenforums.com/tutorials/316-compatibility-mode.html -->
+				<RegistryKey
+					Root="HKLM"
+					Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
+				>
+					<RegistryValue Name="[#$(var.AppFileName)]" Type="string" Value="RUNASADMIN" />
+				</RegistryKey>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
+				>
+					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
+				</RegistryKey>
+
+				<RegistryKey
+					Root="HKCR"
+					Key="Applications"
+				>
+					<RegistryKey Key="$(var.AppFileName)">
+						<RegistryValue Type="string" Value="[#$(var.AppFileName)]" />
+						<RegistryValue Name="FriendlyAppName" Type="string" Value="BDE Administrator" />
+						<RegistryValue Name="NoOpenWith" Type="integer" Value="0" />
+						<RegistryKey Key="SupportedTypes">
+						</RegistryKey>
+					</RegistryKey>
+				</RegistryKey>
+			</Component>
+
+			<Component
+				Id="bdeadmin.hlp"
+				Guid="{E966F0DC-76B3-11D3-945B-00C04FB1760A}"
+				SharedDllRefCount="yes"
+				Shared="yes"
+				Directory="BDE_INSTALL_PATH"
+			>
+				<File
+					Name="bdeadmin.hlp"
+					Vital="no"
+					KeyPath="yes"
+				/>
+				<File
+					Name="bdeadmin.cnt"
+					Vital="no"
+					CompanionFile="bdeadmin.hlp"
+				/>
+				<File
+					Name="bdeadmin.toc"
+					Vital="no"
+					CompanionFile="bdeadmin.hlp"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\bdeadmin.hlp"
+				>
+					<RegistryValue Value="[#bdeadmin.hlp]" Type="string"/>
+					<RegistryValue Name="Path" Value="[$bdeadmin.hlp]" Type="string"/>
+				</RegistryKey>
+
+				<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/bb776786.aspx -->
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\Help"
+				>
+					<RegistryValue Name="bdeadmin.hlp" Value="[$bdeadmin.hlp]" Type="string" />
+				</RegistryKey>
+			</Component>
+
+			<!--<Component
+				Id="bdeadmin.cnt"
+				Guid="{83913B03-D9A6-4B6E-89C7-0C4E9D298364}"
+				SharedDllRefCount="yes"
+				Shared="yes"
+			>
+				<File
+					Name="bdeadmin.cnt"
+					Vital="no"
+					KeyPath="yes"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\Help"
+				>
+					<RegistryValue Name="bdeadmin.cnt" Value="[$bdeadmin.cnt]" Type="string" />
+				</RegistryKey>
+			</Component>
+			
+			<Component
+				Id="bdeadmin.toc"
+				Guid="{7A52D040-5661-4F93-ACA8-FF98CDD3E676}"
+				SharedDllRefCount="yes"
+				Shared="yes"
+			>
+				<File
+					Name="bdeadmin.toc"
+					Vital="no"
+					KeyPath="yes"
+				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\Help"
+				>
+					<RegistryValue Name="bdeadmin.toc" Value="[$bdeadmin.toc]" Type="string" />
+				</RegistryKey>
+			</Component>-->
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>
