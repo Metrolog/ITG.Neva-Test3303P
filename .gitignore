@@ -5,3 +5,5 @@ obj
 /UpgradeLog*.XML
 
 /ITG.WixUtils/bin
+
+*.wixpdb
