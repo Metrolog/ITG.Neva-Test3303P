@@ -18,8 +18,12 @@
 
 	<Fragment Id="TARGETDIR">
 		<Directory Id="TARGETDIR" Name="SourceDir"/>
+	</Fragment>
 
-		<PropertyRef Id="PRIMARYFOLDER"/>
+	<Fragment Id="PRIMARYFOLDER">
+		<WixVariable Id="PRIMARYFOLDER" Overridable="yes" Value="PRODUCTPROGRAMFOLDER"/>
+
+		<Property Id="PRIMARYFOLDER" Value="!(wix.ManufacturerId)"/>
 		<!--
 			продукт обязательно должен содержать определение свойства PRIMARYFOLDER,
 			указывающего на идентификатор каталога установки приложения
@@ -66,6 +70,12 @@
 	<Fragment Id="SystemFolder">
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id="$(var.SystemFolderId)" SourceName="System32"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="CommonFilesFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="CommonFilesFolder" SourceName="Common"/>
 		</DirectoryRef>
 	</Fragment>
 
@@ -117,23 +127,31 @@
 		</DirectoryRef>
 	</Fragment>
 
-	<Fragment Id="PRODUCTMENUFOLDER">
+	<Fragment Id="ProgramMenuFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="ProgramMenuFolder" SourceName="Programs"/>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="ProductVersionProgramMenuFolder">
 		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
 		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
 		<WixVariable Id="ProductShortName" Overridable="yes" Value="ProductShortName"/>
 		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
 		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
 
-		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="ProgramMenuFolder" SourceName="Programs">
-				<Directory Id="ManufacturerProgramMenuFolder">
-					<Directory Id="ProductProgramMenuFolder">
-						<Directory Id="ProductVersionProgramMenuFolder">
-							<Directory Id="PRODUCTMENUFOLDER" Name="!(wix.ProductShortName) !(wix.ProductMajorVersion).!(wix.ProductMinorVersion)"/>
-						</Directory>
-					</Directory>
+		<DirectoryRef Id="ProgramMenuFolder">
+			<Directory Id="ManufacturerProgramMenuFolder">
+				<Directory Id="ProductProgramMenuFolder">
+					<Directory Id="ProductVersionProgramMenuFolder"/>
 				</Directory>
 			</Directory>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment Id="AdminToolsFolder">
+		<DirectoryRef Id="TARGETDIR">
+			<Directory Id="AdminToolsFolder" SourceName="AdminTools"/>
 		</DirectoryRef>
 	</Fragment>
 
@@ -143,11 +161,9 @@
 		</DirectoryRef>
 	</Fragment>
 
-	<Fragment Id="PRODUCTDESKTOPFOLDER">
+	<Fragment Id="DesktopFolder">
 		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="DesktopFolder" SourceName="Desktop">
-				<Directory Id="PRODUCTDESKTOPFOLDER"/>
-			</Directory>
+			<Directory Id="DesktopFolder" SourceName="Desktop"/>
 		</DirectoryRef>
 	</Fragment>
 

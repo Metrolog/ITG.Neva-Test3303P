@@ -14,7 +14,7 @@
 		</InstallExecuteSequence>
 	</Fragment>
 
-	<?define ShFolders=PRODUCTMENUFOLDER;PRODUCTDESKTOPFOLDER;PRODUCTSTARTUPFOLDER?>
+	<?define ShFolders=PRODUCTMENUFOLDER;PRODUCTDESKTOPFOLDER;PRODUCTSTARTUPFOLDER;PRODUCTADMINTOOLSFOLDER?>
 	<?foreach ShFolder in $(var.ShFolders)?>
 	<Fragment Id="DISABLE$(var.ShFolder)SHORTCUTS">
 		<!-- возможность отключения создания ярлыков по одному -->
@@ -33,5 +33,40 @@
 
 	</Fragment>
 	<?endforeach?>
+
+	<Fragment Id="PRODUCTMENUFOLDER">
+		<WixVariable Id="ManufacturerId" Overridable="yes" Value="ManufacturerId"/>
+		<WixVariable Id="ProductInternalName" Overridable="yes" Value="ProductInternalName"/>
+		<WixVariable Id="ProductShortName" Overridable="yes" Value="ProductShortName"/>
+		<WixVariable Id="ProductMajorVersion" Overridable="yes" Value="ProductMajorVersion"/>
+		<WixVariable Id="ProductMinorVersion" Overridable="yes" Value="ProductMinorVersion"/>
+
+		<DirectoryRef Id="ProductVersionProgramMenuFolder">
+			<Directory Id="PRODUCTMENUFOLDER" Name="!(wix.ProductShortName) !(wix.ProductMajorVersion).!(wix.ProductMinorVersion)"/>
+		</DirectoryRef>
+		<PropertyRef Id="DISABLEPRODUCTMENUFOLDERSHORTCUTS"/>
+	</Fragment>
+
+	<Fragment Id="PRODUCTADMINTOOLSFOLDER">
+		<DirectoryRef Id="AdminToolsFolder">
+			<Directory Id="PRODUCTADMINTOOLSFOLDER" SourceName="Startup"/>
+		</DirectoryRef>
+		<PropertyRef Id="DISABLEPRODUCTADMINTOOLSFOLDERSHORTCUTS"/>
+	</Fragment>
+
+	<Fragment Id="PRODUCTSTARTUPFOLDER">
+		<DirectoryRef Id="StartupFolder">
+			<Directory Id="PRODUCTSTARTUPFOLDER" SourceName="Startup"/>
+		</DirectoryRef>
+		<PropertyRef Id="DISABLEPRODUCTSTARTUPFOLDERSHORTCUTS"/>
+	</Fragment>
+
+	<Fragment Id="PRODUCTDESKTOPFOLDER">
+		<DirectoryRef Id="DesktopFolder">
+			<Directory Id="PRODUCTDESKTOPFOLDER"/>
+		</DirectoryRef>
+		<PropertyRef Id="DISABLEPRODUCTDESKTOPFOLDERSHORTCUTS"/>
+	</Fragment>
+
 
 </Wix>
