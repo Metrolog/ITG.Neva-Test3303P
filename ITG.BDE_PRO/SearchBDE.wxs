@@ -4,7 +4,9 @@
 >
 	<Fragment>
 
-		<Property Id="BDE_INSTALL_PATH">
+		<DirectoryRef Id="BDE_INSTALL_PATH"/>
+
+		<Property Id="BDE_INSTALL_PATH" SuppressModularization="yes">
 			<RegistrySearch
 				Id="SearchBDEDir"
 				Root="HKLM"
