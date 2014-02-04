@@ -17,12 +17,12 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
     <SuppressIces>ICEM09</SuppressIces>
-    <SuppressSpecificWarnings>1085;1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1085;1086;1101</SuppressSpecificWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <SuppressSpecificWarnings>1085;1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1085;1086;1101</SuppressSpecificWarnings>
     <SuppressIces>ICEM09</SuppressIces>
   </PropertyGroup>
   <ItemGroup>

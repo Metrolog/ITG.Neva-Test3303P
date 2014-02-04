@@ -84,6 +84,14 @@
 					Vital="yes"
 					KeyPath="yes"
 				/>
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Borland\Database Engine"
+				>
+					<RegistryValue Name="CONFIGFILE01" Value="[#idapi32.cfg]" Type="string"/>
+					<!-- возможно, потребуется дать права на запись в этот ключ из-за "особенностей" BDE -->
+				</RegistryKey>
+				
 			</Component>
 
 		</ComponentGroup>
