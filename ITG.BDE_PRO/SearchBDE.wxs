@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<Property Id="BDE_INSTALL_PATH">
+			<RegistrySearch
+				Id="SearchBDEDir"
+				Root="HKLM"
+				Key="Software\Borland\Database Engine"
+				Name="DLLPath"
+				Type="directory"
+			>
+				<DirectorySearch Id="BDE_INSTALL_PATH" AssignToProperty="yes">
+					<FileSearch Id="idapi32.dll" Name="idapi32.dll"/>
+				</DirectorySearch>
+			</RegistrySearch>
+		</Property>
+		
+	</Fragment>
+</Wix>

@@ -33,6 +33,7 @@
     <Compile Include="bantam.wxs" />
     <Compile Include="charset.cvb.wxs" />
     <Compile Include="blw32.wxs" />
+    <Compile Include="SearchBDE.wxs" />
     <Compile Include="idqbe32.wxs" />
     <Compile Include="idr20009.wxs" />
     <Compile Include="ODBC32.wxs" />

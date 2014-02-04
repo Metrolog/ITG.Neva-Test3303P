@@ -43,6 +43,7 @@
 			Row="BDE_INSTALL_PATH"
 			Value="[=BDEPath]"
 		/>
+		<PropertyRef Id="BDE_INSTALL_PATH"/>
 
 		<DirectoryRef Id="CommonFilesFolder">
 			<Directory Id="BorlandSharedFolder" Name="Borland Shared">
