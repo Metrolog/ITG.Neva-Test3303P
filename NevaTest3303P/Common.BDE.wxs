@@ -7,7 +7,7 @@
 		<DirectoryRef Id="TARGETDIR">
 			<Merge
 				Id="BDE"
-				SourceFile="$(var.ITGBDE_PRO.TargetPath)"
+				SourceFile="$(var.ITGBDE_PRO.ru-ru.TargetPath)"
 				Language="0"
 				DiskId="1"
 			>

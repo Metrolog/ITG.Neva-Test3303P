@@ -2,6 +2,8 @@
 <WixLocalization
 	xmlns="http://wixtoolset.org/schemas/v4/wxl"
 	Culture="en-us"
+	Codepage="1252"
+	Language="1033"
 >
 	<String Id="Manufacturer">IT-Service</String>
 	<String Id="Comments">The Installation database contains the logic and data required to install Borland Database Engine.</String>

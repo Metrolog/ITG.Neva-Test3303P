@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="ru-ru"
+	Codepage="1251"
+	Language="1049"
+>
+	<String Id="Manufacturer">ИТ-Сервис</String>
+	<String Id="Comments">Инсталляционный пакет содержит Borland Database Engine.</String>
+	<String Id="Description">Borland Database Engine msm модуль (на базе BDE_PRO.msm)</String>
+	<String Id="Keywords">MergeModule; MSI; Database; Borland; BDE</String>
+
+	<String Id="BDEPath.DisplayName">Каталог BDE</String>
+	<String Id="BDEPath.Description">Идентификатор корневого каталога BDE в таблице Directory.</String>
+
+	<String Id="BDEAdmin.DisplayName">Администратор BDE</String>
+	<String Id="BDEAdmin.Description">Средства администрирования для Borland Database Engine: создание и удаление псевдонимов (alias), настройка параметров драйверов баз данных.</String>
+
+</WixLocalization>

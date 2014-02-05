@@ -18,10 +18,8 @@
 			Comments="!(loc.Comments)"
 			Description="!(loc.Description)"
 			Keywords="!(loc.Keywords)"
-			Languages="1033"
 			Platform="x86"
 			ShortNames="no"
-			SummaryCodepage="1252"
 		/>
 
 		<!-- указываем на несовместимость с "родным" BDE_PRO.msm -->
@@ -31,8 +29,8 @@
 
 		<Configuration
 			Name="BDEPath"
-			DisplayName="$(loc.BDEPath.DisplayName)"
-			Description="$(loc.BDEPath.Description)"
+			DisplayName="!(loc.BDEPath.DisplayName)"
+			Description="!(loc.BDEPath.Description)"
 			Format="Key"
 			NonNullable="yes"
 			DefaultValue="BDE"
