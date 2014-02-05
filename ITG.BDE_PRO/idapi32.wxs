@@ -67,10 +67,6 @@
 				</RegistryKey>
 			</Component>
 
-			<!--<Component Id="idapi32.cfg" Guid="{1428AFD2-B0B4-4BBE-BAB5-510A74CC018F}" KeyPath="yes" SharedDllRefCount="yes">
-				<File Id="F2143_idapi32.cfg" Name="idapi32.cfg" Vital="no" Source="X:\AMF\DSL\Taipit\Neva-Test\3303P\Prj\NevaTest3303P\MSM\BDE\files\File\F2143_idapi32.cfg.E966F0CB_76B3_11D3_945B_00C04FB1760A" />
-			</Component>-->
-
 			<Component
 				Id="idapi32.cfg"
 				Guid="{1428AFD2-B0B4-4BBE-BAB5-510A74CC018F}"
@@ -82,13 +78,17 @@
 				<File
 					Name="idapi32.cfg"
 					Vital="yes"
-					KeyPath="yes"
 				/>
 				<RegistryKey
 					Root="HKLM"
 					Key="Software\Borland\Database Engine"
 				>
-					<RegistryValue Name="CONFIGFILE01" Value="[#idapi32.cfg]" Type="string"/>
+					<RegistryValue
+						Name="CONFIGFILE01"
+						Value="[#idapi32.cfg]"
+						Type="string"
+						KeyPath="yes"
+					/>
 					<!-- возможно, потребуется дать права на запись в этот ключ из-за "особенностей" BDE -->
 				</RegistryKey>
 				
