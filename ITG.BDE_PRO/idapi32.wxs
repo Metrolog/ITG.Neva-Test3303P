@@ -96,5 +96,76 @@
 
 		</ComponentGroup>
 
+		<CustomAction
+			Id="IncBDEUsageCount"
+			Script="jscript"
+			Return="asyncWait"
+			Execute="commit"
+			Impersonate="no" 
+		>
+	<![CDATA[
+var Sh=new ActiveXObject("WScript.Shell");
+var Rk="HKLM\\Software\\Borland\\Database Engine\\UseCount";
+var UseCount = 0;
+try{ UseCount = Sh.RegRead(Rk) } catch(e) {};
+UseCount++;
+Sh.RegWrite(Rk, UseCount, "REG_DWORD");
+			]]>
+		</CustomAction>
+
+		<InstallExecuteSequence>
+			<Custom Action="IncBDEUsageCount" Before="InstallFinalize">
+				<![CDATA[($idapi32.dll = 3) AND (?idapi32.dll = 2)]]>
+			</Custom>
+		</InstallExecuteSequence>
+
+		<CustomAction
+			Id="DecBDEUsageCount"
+			Script="jscript"
+			Return="asyncWait"
+			Execute="deferred"
+			Impersonate="no"
+		>
+			<![CDATA[
+var Sh=new ActiveXObject("WScript.Shell");
+var Rk="HKLM\\Software\\Borland\\Database Engine\\UseCount";
+var UseCount=1;
+try{
+UseCount=Sh.RegRead(Rk) 
+if(--UseCount){ Sh.RegWrite(Rk, UseCount, "REG_DWORD")
+}else{ Sh.RegDelete(Rk) };
+}catch(e){};
+			]]>
+		</CustomAction>
+
+		<InstallExecuteSequence>
+			<Custom Action="DecBDEUsageCount" After="InstallInitialize">
+				<![CDATA[(?idapi32.dll = 3) AND ($idapi32.dll = 2)]]>
+			</Custom>
+		</InstallExecuteSequence>
+
+		<CustomAction
+			Id="RollbackDecBDEUsageCount"
+			Script="jscript"
+			Return="asyncWait"
+			Execute="rollback"
+			Impersonate="no"
+		>
+			<![CDATA[
+var Sh=new ActiveXObject("WScript.Shell");
+var Rk="HKLM\\Software\\Borland\\Database Engine\\UseCount";
+var UseCount = 0;
+try{ UseCount = Sh.RegRead(Rk) } catch(e) {};
+UseCount++;
+Sh.RegWrite(Rk, UseCount, "REG_DWORD");
+			]]>
+		</CustomAction>
+
+		<InstallExecuteSequence>
+			<Custom Action="RollbackDecBDEUsageCount" Before="InstallFinalize">
+				<![CDATA[(?idapi32.dll = 3) AND ($idapi32.dll = 2)]]>
+			</Custom>
+		</InstallExecuteSequence>
+
 	</Fragment>
 </Wix>
