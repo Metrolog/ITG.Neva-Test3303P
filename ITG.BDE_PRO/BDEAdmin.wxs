@@ -56,7 +56,8 @@
 					<Shortcut
 						Id="$(var.AppFileName).Shortcut"
 						Directory="PRODUCTADMINTOOLSFOLDER"
-						Name="BDE Administrator"
+						Name="!(loc.BDEAdmin.DisplayName)"
+						Description="!(loc.BDEAdmin.Description)"
 						WorkingDirectory="BDE_INSTALL_PATH"
 						Show="normal"
 						Icon="bdeadmin.ico"
@@ -90,7 +91,7 @@
 				>
 					<RegistryKey Key="$(var.AppFileName)">
 						<RegistryValue Type="string" Value="[#$(var.AppFileName)]" />
-						<RegistryValue Name="FriendlyAppName" Type="string" Value="BDE Administrator" />
+						<RegistryValue Name="FriendlyAppName" Type="string" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" />
 						<RegistryValue Name="NoOpenWith" Type="integer" Value="0" />
 						<RegistryKey Key="SupportedTypes">
 						</RegistryKey>
@@ -104,7 +105,7 @@
 					Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\Namespace\$(var.CplId)"
 					ForceDeleteOnUninstall="yes"
 				>
-					<RegistryValue Value="BDE Administrator" Type="string"/>
+					<RegistryValue Value="!(loc.BDEAdmin.DisplayName)" Type="string"/>
 				</RegistryKey>
 				<File
 					Name="bdeadmin.tasks.xml"
@@ -116,10 +117,10 @@
 					Key="CLSID\$(var.CplId)"
 					ForceDeleteOnUninstall="yes"
 				>
-					<RegistryValue Value="BDE Administrator" Type="string"/>
+					<RegistryValue Value="!(loc.BDEAdmin.DisplayName)" Type="string"/>
 					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/dd374120.aspx -->
 					<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
-					<RegistryValue Name="InfoTip" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<RegistryValue Name="InfoTip" Value="!(loc.BDEAdmin.Description)" Type="string"/>
 					<RegistryKey Key="DefaultIcon">
 						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
 					</RegistryKey>
@@ -151,29 +152,7 @@
 					Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\Namespace\$(var.CplId)"
 					ForceDeleteOnUninstall="yes"
 				>
-					<RegistryValue Value="BDE Administrator" Type="string"/>
-				</RegistryKey>
-				<RegistryKey
-					Root="HKCR"
-					Key="CLSID\$(var.CplId)"
-					ForceDeleteOnUninstall="yes"
-				>
-					<RegistryValue Value="BDE Administrator" Type="string"/>
-					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/dd374120.aspx -->
-					<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
-					<RegistryValue Name="InfoTip" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
-					<RegistryKey Key="DefaultIcon">
-						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
-					</RegistryKey>
-					<RegistryKey Key="Shell\RunAs\Command">
-						<RegistryValue Value="[#$(var.AppFileName)]" Type="string" KeyPath="yes"/>
-					</RegistryKey>
-					<RegistryValue Name="System.ApplicationName" Value="Borland.BDEAdministrator" Type="string"/>
-					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144183.aspx -->
-					<RegistryValue Name="System.ControlPanel.Category" Value="8" Type="integer"/>
-					<RegistryValue Name="System.Software.TasksFileUrl" Value="[#bdeadmin.tasks.xml]" Type="string"/>
-					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144181.aspx -->
-					<!--<RegistryValue Name="System.ControlPanel.EnableInSafeMode" Value="3" Type="integer"/>-->
+					<RegistryValue Value="!(loc.BDEAdmin.DisplayName)" Type="string"/>
 				</RegistryKey>
 			</Component>
 
@@ -216,43 +195,6 @@
 				</RegistryKey>
 			</Component>
 
-			<!--<Component
-				Id="bdeadmin.cnt"
-				Guid="{83913B03-D9A6-4B6E-89C7-0C4E9D298364}"
-				SharedDllRefCount="yes"
-				Shared="yes"
-			>
-				<File
-					Name="bdeadmin.cnt"
-					Vital="no"
-					KeyPath="yes"
-				/>
-				<RegistryKey
-					Root="HKLM"
-					Key="Software\Microsoft\Windows\Help"
-				>
-					<RegistryValue Name="bdeadmin.cnt" Value="[$bdeadmin.cnt]" Type="string" />
-				</RegistryKey>
-			</Component>
-			
-			<Component
-				Id="bdeadmin.toc"
-				Guid="{7A52D040-5661-4F93-ACA8-FF98CDD3E676}"
-				SharedDllRefCount="yes"
-				Shared="yes"
-			>
-				<File
-					Name="bdeadmin.toc"
-					Vital="no"
-					KeyPath="yes"
-				/>
-				<RegistryKey
-					Root="HKLM"
-					Key="Software\Microsoft\Windows\Help"
-				>
-					<RegistryValue Name="bdeadmin.toc" Value="[$bdeadmin.toc]" Type="string" />
-				</RegistryKey>
-			</Component>-->
 		</ComponentGroup>
 
 	</Fragment>

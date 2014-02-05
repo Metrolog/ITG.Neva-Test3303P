@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="en-us"
+>
+	<String Id="Manufacturer">IT-Service</String>
+	<String Id="Comments">The Installation database contains the logic and data required to install Borland Database Engine.</String>
+	<String Id="Description">Borland Database Engine merge module (based on BDE_PRO)</String>
+	<String Id="Keywords">MergeModule; MSI; Database; Borland; BDE</String>
+
+	<String Id="BDEPath.DisplayName">BDE directory</String>
+	<String Id="BDEPath.Description">BDE root directory id</String>
+
+	<String Id="BDEAdmin.DisplayName">BDE Administrator</String>
+	<String Id="BDEAdmin.Description">Administator tools for Borland Database Engine: create and delete aliases, setup database drivers parameters.</String>
+
+</WixLocalization>
