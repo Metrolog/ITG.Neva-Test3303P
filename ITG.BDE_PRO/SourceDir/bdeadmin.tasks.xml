@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<applications
+	xmlns="http://schemas.microsoft.com/windows/cpltasks/v1"
+  xmlns:sh="http://schemas.microsoft.com/windows/tasks/v1"
+>
+	<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144188.aspx -->
+	
+	<application id="{0507740D-0DB7-4BB0-BD6A-A3B18C3D3FDB}">
+
+		<sh:task id="{D6B79EE1-780D-4A28-BF31-4E10D3ABAB84}">
+			<sh:name><![CDATA[New BDE Alias]]></sh:name>
+			<sh:keywords>BDE;alias;database</sh:keywords>
+			<sh:controlpanel name="Borland.BDEAdministrator"/>
+		</sh:task>
+
+		<sh:task id="{5D943F59-960D-4E89-8F55-366972BB3D1C}">
+			<sh:name><![CDATA[Delete BDE Alias]]></sh:name>
+			<sh:keywords>BDE;alias;database</sh:keywords>
+			<sh:controlpanel name="Borland.BDEAdministrator"/>
+		</sh:task>
+
+		<sh:task id="{7DD9C65C-7490-4A38-9137-B710B1FDE82A}">
+			<sh:name>Set BDE drivers parameters</sh:name>
+			<sh:keywords>BDE;drivers;database</sh:keywords>
+			<sh:controlpanel name="Borland.BDEAdministrator"/>
+		</sh:task>
+
+		<!-- Programs -->
+		<category id="8">
+			<sh:task idref="{D6B79EE1-780D-4A28-BF31-4E10D3ABAB84}">
+				<sh:name><![CDATA[New alias]]></sh:name>
+			</sh:task>
+			<sh:task idref="{5D943F59-960D-4E89-8F55-366972BB3D1C}">
+				<sh:name><![CDATA[Delete alias]]></sh:name>
+			</sh:task>
+			<sh:task idref="{7DD9C65C-7490-4A38-9137-B710B1FDE82A}"/>
+		</category>
+	</application>
+</applications>

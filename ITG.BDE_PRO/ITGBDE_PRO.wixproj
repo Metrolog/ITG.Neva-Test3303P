@@ -63,6 +63,7 @@
     <Content Include="SourceDir\bdeadmin.cpl" />
     <Content Include="SourceDir\bdeadmin.exe" />
     <Content Include="SourceDir\BDEADMIN.HLP" />
+    <Content Include="SourceDir\bdeadmin.tasks.xml" />
     <Content Include="SourceDir\BDEADMIN.TOC" />
     <Content Include="SourceDir\blw32.dll" />
     <Content Include="SourceDir\ceeurope.btl" />

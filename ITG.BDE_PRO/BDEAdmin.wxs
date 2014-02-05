@@ -5,6 +5,7 @@
 	<Fragment>
 
 		<DirectoryRef Id="SystemFolder" />
+		<DirectoryRef Id="System64Folder" />
 		<DirectoryRef Id="BDE_INSTALL_PATH" />
 		<DirectoryRef Id="PRODUCTADMINTOOLSFOLDER" />
 
@@ -25,31 +26,20 @@
 				Location="local"
 				Directory="SystemFolder"
 			>
+				<!-- устанавливаем только для ОС ниже Windows Vista -->
+				<Condition><![CDATA[VersionNT < 600]]></Condition>
 				<File
 					Name="$(var.AppFileName)"
 					KeyPath="yes"
 					DefaultLanguage="1033"
 					Vital="no"
 				/>
-				<!-- http://www.sevenforums.com/tutorials/316-compatibility-mode.html -->
-				<RegistryKey
-					Root="HKLM"
-					Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
-				>
-					<RegistryValue Name="[#$(var.AppFileName)]" Type="string" Value="RUNASADMIN" />
-				</RegistryKey>
-				<RegistryKey
-					Root="HKLM"
-					Key="Software\Microsoft\Windows\CurrentVersion\App Paths\$(var.AppFileName)"
-				>
-					<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
-					<RegistryValue Name="Path" Value="[$$$(var.AppFileName)]" Type="string"/>
-				</RegistryKey>
 			</Component>
 
 			<?undef AppFileName?>
 			<?define AppFileName="bdeadmin.exe"?>
-
+			<?define CplId="{0507740D-0DB7-4BB0-BD6A-A3B18C3D3FDB}"?>
+			
 			<Component
 				Id="$(var.AppFileName)"
 				Guid="{E966F0DD-76B3-11D3-945B-00C04FB1760A}"
@@ -82,7 +72,7 @@
 				<!-- http://www.sevenforums.com/tutorials/316-compatibility-mode.html -->
 				<RegistryKey
 					Root="HKLM"
-					Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
+					Key="Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
 				>
 					<RegistryValue Name="[#$(var.AppFileName)]" Type="string" Value="RUNASADMIN" />
 				</RegistryKey>
@@ -105,6 +95,85 @@
 						<RegistryKey Key="SupportedTypes">
 						</RegistryKey>
 					</RegistryKey>
+				</RegistryKey>
+				
+				<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/hh127450.aspx -->
+				<!-- регистрируем как аплет в панели управления для ОС от Windows Vista -->
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\Namespace\$(var.CplId)"
+					ForceDeleteOnUninstall="yes"
+				>
+					<RegistryValue Value="BDE Administrator" Type="string"/>
+				</RegistryKey>
+				<File
+					Name="bdeadmin.tasks.xml"
+					CompanionFile="$(var.AppFileName)"
+					Vital="no"
+				/>
+				<RegistryKey
+					Root="HKCR"
+					Key="CLSID\$(var.CplId)"
+					ForceDeleteOnUninstall="yes"
+				>
+					<RegistryValue Value="BDE Administrator" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/dd374120.aspx -->
+					<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<RegistryValue Name="InfoTip" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<RegistryKey Key="DefaultIcon">
+						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					</RegistryKey>
+					<RegistryKey Key="Shell\RunAs\Command">
+						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					</RegistryKey>
+					<RegistryValue Name="System.ApplicationName" Value="Borland.BDEAdministrator" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144183.aspx -->
+					<RegistryValue Name="System.ControlPanel.Category" Value="8" Type="integer"/>
+					<RegistryValue Name="System.Software.TasksFileUrl" Value="[#bdeadmin.tasks.xml]" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144181.aspx -->
+					<!--<RegistryValue Name="System.ControlPanel.EnableInSafeMode" Value="3" Type="integer"/>-->
+				</RegistryKey>
+			</Component>
+
+			<Component
+				Id="$(var.AppFileName)_x64"
+				Guid="{7F24B1C2-A0FC-4E15-B827-046A155A4A34}"
+				Shared="yes"
+				Location="local"
+				Directory="System64Folder"
+				Win64="yes"
+			>
+				<Condition><![CDATA[VersionNT]]></Condition>
+				<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/hh127450.aspx -->
+				<!-- регистрируем как аплет в панели управления для ОС от Windows Vista -->
+				<RegistryKey
+					Root="HKLM"
+					Key="Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel\Namespace\$(var.CplId)"
+					ForceDeleteOnUninstall="yes"
+				>
+					<RegistryValue Value="BDE Administrator" Type="string"/>
+				</RegistryKey>
+				<RegistryKey
+					Root="HKCR"
+					Key="CLSID\$(var.CplId)"
+					ForceDeleteOnUninstall="yes"
+				>
+					<RegistryValue Value="BDE Administrator" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/dd374120.aspx -->
+					<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<RegistryValue Name="InfoTip" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<RegistryKey Key="DefaultIcon">
+						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+					</RegistryKey>
+					<RegistryKey Key="Shell\RunAs\Command">
+						<RegistryValue Value="[#$(var.AppFileName)]" Type="string" KeyPath="yes"/>
+					</RegistryKey>
+					<RegistryValue Name="System.ApplicationName" Value="Borland.BDEAdministrator" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144183.aspx -->
+					<RegistryValue Name="System.ControlPanel.Category" Value="8" Type="integer"/>
+					<RegistryValue Name="System.Software.TasksFileUrl" Value="[#bdeadmin.tasks.xml]" Type="string"/>
+					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144181.aspx -->
+					<!--<RegistryValue Name="System.ControlPanel.EnableInSafeMode" Value="3" Type="integer"/>-->
 				</RegistryKey>
 			</Component>
 
