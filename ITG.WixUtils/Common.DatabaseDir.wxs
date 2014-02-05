@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<Fragment Id="DATABASEDIR">
+		<?define PropertyId="DATABASEDIR"?>
+		
+		<Property Id="$(var.PropertyId)" Secure="yes" SuppressModularization="yes"/>
+
+		<CustomAction
+			Id="Set$(var.PropertyId)"
+			Script="jscript"
+		><![CDATA[
+			var fso = new ActiveXObject( "Scripting.FileSystemObject" );
+			Session.Property( "$(var.PropertyId)" ) = fso.GetParentFolderName( Session.Property( "DATABASE" ) )	+ "\\" ;
+		]]></CustomAction>
+
+		<InstallExecuteSequence>
+			<Custom Action="Set$(var.PropertyId)" Before="InstallInitialize"/>
+		</InstallExecuteSequence>
+		<?undef PropertyId?>
+	</Fragment>
+
+</Wix>

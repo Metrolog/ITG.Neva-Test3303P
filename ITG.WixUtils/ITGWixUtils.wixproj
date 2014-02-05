@@ -26,6 +26,7 @@
   <ItemGroup>
     <Compile Include="Common.Directories.wxs" />
     <Compile Include="Common.Shortcuts.wxs" />
+    <Compile Include="Common.DatabaseDir.wxs" />
     <Compile Include="WixUI_MondoWithoutLicenseDlg.wxs" />
   </ItemGroup>
   <ItemGroup>
