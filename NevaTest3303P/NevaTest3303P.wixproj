@@ -42,6 +42,7 @@
   <ItemGroup>
     <Folder Include="MSM" />
     <Folder Include="MSM\BDE" />
+    <Folder Include="ru-ru" />
     <Folder Include="SourceDir" />
     <Folder Include="Icons" />
     <Folder Include="SourceDir\Database" />
@@ -120,7 +121,7 @@
     <Content Include="SourceDir\System32\barcode.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NevaTest3303P.ru-RU.wxl" />
+    <EmbeddedResource Include="ru-ru\NevaTest3303P.wxl" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

@@ -28,8 +28,6 @@
 	<?define ProductIniFile="hyyb.ini"?>
 	<?define ProductIniDirectory="PRODUCTPROGRAMFOLDER"?>
 
-	<?define ProductRepositoryURL="https://github.com/Metrolog/ITG.$(var.ProductInternalName)"?>
-
 	<?ifdef SingleMSIFile ?>
 	<?define Compressed="yes" ?>
 	<?define IsAdminImage="no" ?>

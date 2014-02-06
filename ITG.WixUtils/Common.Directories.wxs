@@ -23,7 +23,7 @@
 	<Fragment Id="PRIMARYFOLDER">
 		<WixVariable Id="PRIMARYFOLDER" Overridable="yes" Value="PRODUCTPROGRAMFOLDER"/>
 
-		<Property Id="PRIMARYFOLDER" Value="!(wix.ManufacturerId)"/>
+		<Property Id="PRIMARYFOLDER" Value="!(wix.PRIMARYFOLDER)"/>
 		<!--
 			продукт обязательно должен содержать определение свойства PRIMARYFOLDER,
 			указывающего на идентификатор каталога установки приложения
@@ -31,8 +31,13 @@
 		-->
 
 		<!-- http://msdn.microsoft.com/en-us/library/aa367589.aspx -->
-		<SetProperty Id="ARPINSTALLLOCATION" Value="[[PRIMARYFOLDER]]" Sequence="execute" Before="InstallInitialize">
-			<![CDATA[NOT Installed]]>
+		<SetProperty
+			Id="ARPINSTALLLOCATION"
+			Value="[[PRIMARYFOLDER]]"
+			Sequence="execute"
+			After="InstallValidate"
+		>
+			<![CDATA[Not Installed]]>
 		</SetProperty>
 	</Fragment>
 

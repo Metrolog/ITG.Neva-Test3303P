@@ -28,10 +28,15 @@
 		/>
 
 		<WixVariable Id="ManufacturerId"      Value="$(var.ManufacturerId)"/>
+		<WixVariable Id="Manufacturer"        Value="$(var.Manufacturer)"/>
 		<WixVariable Id="ProductInternalName" Value="$(var.ProductInternalName)"/>
+		<WixVariable Id="ProductDescription"  Value="$(var.ProductDescription)"/>
 		<WixVariable Id="ProductShortName"    Value="$(var.ProductMenuGroupName)"/>
+		<WixVariable Id="ProductVersion"      Value="$(var.ProductVersion)"/>
 		<WixVariable Id="ProductMajorVersion" Value="$(var.ProductMajorVersion)"/>
 		<WixVariable Id="ProductMinorVersion" Value="$(var.ProductMinorVersion)"/>
+		<WixVariable Id="GitHubAccount"       Value="Metrolog"/>
+		<WixVariable Id="GitHubRepository"    Value="ITG.$(var.ProductInternalName)"/>
 		<WixVariable Id="PRIMARYFOLDER"       Value="PRODUCTPROGRAMFOLDER"/>
 
 		<FeatureRef Id="$(var.ProductInternalName)"/>
@@ -63,21 +68,19 @@
 
 		<CustomActionRef Id="UninstallOriginalOLDPackage"/>
 
-		<Property Id="ARPREADME" Value="$(var.ProductRepositoryURL)/blob/master/readme.md"/>
+		<PropertyRef Id="ITGPACKAGE"/>
 		<Property Id="ARPCOMMENTS" Value="$(var.ProductDescription)"/>
-		<Property Id="ARPURLINFOABOUT" Value="$(var.ProductRepositoryURL)/blob/master/readme.md"/>
-		<Property Id="ARPURLUPDATEINFO" Value="$(var.ProductRepositoryURL)/releases"/>
-		<Property Id="ARPHELPLINK" Value="$(var.ProductRepositoryURL)/wiki"/>
-		<Property Id="ARPCONTACT" Value="ИТ-Сервис"/>
+		<Property Id="ARPCONTACT" Value="IT-Service"/>
 
 		<?ifdef AdminImage ?>
 		<Property Id="ARPNOMODIFY" Value="1"/>
 		<?endif?>
-		<!--<Property Id="ARPNOREMOVE" Value=""/>-->
-		<!--<Property Id="ARPNOREPAIR" Value=""/>-->
-		<!--<Property Id="ARPSYSTEMCOMPONENT" Value=""/>-->
+		<!--<Property Id="ARPNOREMOVE" Value="1"/>-->
+		<!--<Property Id="ARPNOREPAIR" Value="1"/>-->
+		<!--<Property Id="ARPSYSTEMCOMPONENT" Value="1"/>-->
 
 		<Property Id="MSIARPSETTINGSIDENTIFIER" Value="$(var.ProductSettingsKey)"/>
+		<PropertyRef Id="MSIDEPLOYMENTCOMPLIANT"/>
 
 		<Icon Id="Product.ico" SourceFile=".\Icons\Product.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="Product.ico"/>

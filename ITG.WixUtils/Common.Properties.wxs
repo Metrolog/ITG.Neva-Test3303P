@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<Fragment Id="MSIDEPLOYMENTCOMPLIANT">
+		<!-- http://msdn.microsoft.com/en-us/library/bb736313.aspx -->
+		<Property Id="MSIDEPLOYMENTCOMPLIANT" SuppressModularization="yes" Value="1"/>
+	</Fragment>
+
+	<Fragment Id="GitHubRepositoryRefs">
+		<WixVariable Id="GitHubAccount" Overridable="yes" Value="Account"/>
+		<WixVariable Id="GitHubRepository" Overridable="yes" Value="Repository"/>
+
+		<?define ProductRepositoryURL="https://github.com/!(wix.GitHubAccount)/!(wix.GitHubRepository)"?>
+		<Property Id="GITHUBREPOSITORYURL" Value="$(var.ProductRepositoryURL)"/>
+		<Property Id="ARPREADME" Value="$(var.ProductRepositoryURL)/blob/master/readme.md"/>
+		<Property Id="ARPURLINFOABOUT" Value="$(var.ProductRepositoryURL)/blob/master/readme.md"/>
+		<Property Id="ARPURLUPDATEINFO" Value="$(var.ProductRepositoryURL)/releases"/>
+		<Property Id="ARPHELPLINK" Value="$(var.ProductRepositoryURL)/wiki"/>
+		<!--<Property Id="ARPAUTHORIZEDCDFPREFIX" Value="$(var.ProductRepositoryURL)/????"/>-->
+		<?undef ProductRepositoryURL?>
+	</Fragment>
+
+	<Fragment Id="ITGPACKAGE">
+		<Property Id="ITGPACKAGE" Secure="yes"/>
+
+		<PropertyRef Id="GITHUBREPOSITORYURL"/>
+	</Fragment>
+
+</Wix>
