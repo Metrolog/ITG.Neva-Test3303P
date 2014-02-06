@@ -30,7 +30,12 @@
     <Compile Include="WixUI_MondoWithoutLicenseDlg.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Common.ru-RU.wxl" />
+    <EmbeddedResource Include="en-us\Common.wxl" />
+    <EmbeddedResource Include="ru-ru\Common.wxl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="en-us" />
+    <Folder Include="ru-ru" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

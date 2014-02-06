@@ -5,9 +5,9 @@
 	Codepage="1251"
 	Language="1049"
 >
-	<String Id="Culture">ru-ru</String>
-	<String Id="LCID">1049</String>
-	<String Id="CodePage">1251</String>
+	<String Id="Culture" Overridable="no">ru-ru</String>
+	<String Id="LCID" Overridable="no">1049</String>
+	<String Id="CodePage" Overridable="no">1251</String>
 
 	<String Id="PackageDescription">Установочный пакет продукта</String>
 	<String Id="NewProductVersionExists">Более новая версия продукта [ProductName] уже установлена.</String>

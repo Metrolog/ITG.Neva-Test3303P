@@ -5,6 +5,7 @@
 	Codepage="1251"
 	Language="1049"
 >
+
 	<String Id="Manufacturer">ИТ-Сервис</String>
 	<String Id="Comments">Инсталляционный пакет содержит Borland Database Engine.</String>
 	<String Id="Description">Borland Database Engine msm модуль (на базе BDE_PRO.msm)</String>

@@ -109,6 +109,7 @@
 				</RegistryKey>
 				<File
 					Name="bdeadmin.tasks.xml"
+					Source=".\SourceDir\!(loc.Culture)\bdeadmin.tasks.xml"
 					CompanionFile="$(var.AppFileName)"
 					Vital="no"
 				/>
@@ -119,7 +120,8 @@
 				>
 					<RegistryValue Value="!(loc.BDEAdmin.DisplayName)" Type="string"/>
 					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/dd374120.aspx -->
-					<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>
+					<!--<RegistryValue Name="LocalizedString" Value="@[#$(var.AppFileName)],-65146;BDE Administrator" Type="string"/>-->
+					<RegistryValue Name="LocalizedString" Value="!(loc.BDEAdmin.DisplayName)" Type="string"/>
 					<RegistryValue Name="InfoTip" Value="!(loc.BDEAdmin.Description)" Type="string"/>
 					<RegistryKey Key="DefaultIcon">
 						<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>

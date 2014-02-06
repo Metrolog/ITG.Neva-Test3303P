@@ -5,6 +5,7 @@
 	Codepage="1252"
 	Language="1033"
 >
+
 	<String Id="Manufacturer">IT-Service</String>
 	<String Id="Comments">The Installation database contains the logic and data required to install Borland Database Engine.</String>
 	<String Id="Description">Borland Database Engine merge module (based on BDE_PRO)</String>

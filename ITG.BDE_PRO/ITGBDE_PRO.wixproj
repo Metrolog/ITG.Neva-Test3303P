@@ -53,7 +53,11 @@
   <ItemGroup>
     <Folder Include="Icons" />
     <Folder Include="Binary" />
+    <Folder Include="en-us" />
+    <Folder Include="ru-ru" />
     <Folder Include="SourceDir" />
+    <Folder Include="SourceDir\en-us" />
+    <Folder Include="SourceDir\ru-ru" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Binary\bdesetup.dll" />
@@ -63,13 +67,13 @@
     <Content Include="SourceDir\bdeadmin.cpl" />
     <Content Include="SourceDir\bdeadmin.exe" />
     <Content Include="SourceDir\BDEADMIN.HLP" />
-    <Content Include="SourceDir\bdeadmin.tasks.xml" />
     <Content Include="SourceDir\BDEADMIN.TOC" />
     <Content Include="SourceDir\blw32.dll" />
     <Content Include="SourceDir\ceeurope.btl" />
     <Content Include="SourceDir\charset.cvb" />
     <Content Include="SourceDir\disp.dll" />
     <Content Include="SourceDir\disp.pak" />
+    <Content Include="SourceDir\en-us\bdeadmin.tasks.xml" />
     <Content Include="SourceDir\europe.btl" />
     <Content Include="SourceDir\fareast.btl" />
     <Content Include="SourceDir\idapi.cnf" />
@@ -89,6 +93,7 @@
     <Content Include="SourceDir\idsql32.dll" />
     <Content Include="SourceDir\japan.btl" />
     <Content Include="SourceDir\other.btl" />
+    <Content Include="SourceDir\ru-ru\bdeadmin.tasks.xml" />
     <Content Include="SourceDir\sqlint32.dll" />
     <Content Include="SourceDir\sql_int.cnf" />
     <Content Include="SourceDir\usa.btl" />
@@ -104,8 +109,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BDE.en-US.wxl" />
-    <EmbeddedResource Include="BDE.ru-RU.wxl" />
+    <EmbeddedResource Include="en-us\BDE.wxl" />
+    <EmbeddedResource Include="ru-ru\BDE.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
