@@ -147,7 +147,7 @@ if(--UseCount){ Sh.RegWrite(Rk, UseCount, "REG_DWORD")
 		<CustomAction
 			Id="RollbackDecBDEUsageCount"
 			Script="jscript"
-			Return="asyncWait"
+			Return="ignore"
 			Execute="rollback"
 			Impersonate="no"
 		>
@@ -162,7 +162,7 @@ Sh.RegWrite(Rk, UseCount, "REG_DWORD");
 		</CustomAction>
 
 		<InstallExecuteSequence>
-			<Custom Action="RollbackDecBDEUsageCount" Before="InstallFinalize">
+			<Custom Action="RollbackDecBDEUsageCount" Before="DecBDEUsageCount">
 				<![CDATA[(?idapi32.dll = 3) AND ($idapi32.dll = 2)]]>
 			</Custom>
 		</InstallExecuteSequence>
