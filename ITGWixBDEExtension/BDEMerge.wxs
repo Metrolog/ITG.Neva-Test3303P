@@ -2,12 +2,12 @@
 <Wix
 	xmlns="http://wixtoolset.org/schemas/v4/wxs"
 >
-	<Fragment>
+	<Fragment Id="BDEMergeModule">
 
 		<DirectoryRef Id="TARGETDIR">
 			<Merge
 				Id="BDE"
-				SourceFile="$(var.ITGBDE_PRO.ru-ru.TargetPath)"
+				SourceFile="$(var.ITGBDE_PRO.TargetDir)\!(loc.Culture)\$(var.ITGBDE_PRO.TargetFileName)"
 				Language="0"
 				DiskId="1"
 			>
