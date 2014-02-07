@@ -8,6 +8,7 @@
 		<DirectoryRef Id="System64Folder" />
 		<DirectoryRef Id="BDE_INSTALL_PATH" />
 		<DirectoryRef Id="PRODUCTADMINTOOLSFOLDER" />
+		<PropertyRef Id="DISABLESHORTCUTS"/>
 
 		<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>
 
