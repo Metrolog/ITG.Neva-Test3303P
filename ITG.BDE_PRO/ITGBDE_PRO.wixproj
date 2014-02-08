@@ -33,6 +33,7 @@
     <Compile Include="bantam.wxs" />
     <Compile Include="charset.cvb.wxs" />
     <Compile Include="blw32.wxs" />
+    <Compile Include="ControlUseCount.wxs" />
     <Compile Include="SearchBDE.wxs" />
     <Compile Include="idqbe32.wxs" />
     <Compile Include="idr20009.wxs" />
@@ -61,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Binary\bdesetup.dll" />
+    <Content Include="ControlUseCount.js" />
     <Content Include="Icons\bdeadmin.ico" />
     <Content Include="SourceDir\bantam.dll" />
     <Content Include="SourceDir\BDEADMIN.CNT" />

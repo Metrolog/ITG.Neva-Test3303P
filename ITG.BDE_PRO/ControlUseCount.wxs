@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment Id="ControlUseCount">
+
+		<Binary Id="ControlUseCount" SourceFile="ControlUseCount.js"/>
+
+		<CustomAction
+			Id="IncBDEUsageCount"
+			BinaryKey="ControlUseCount"
+			JScriptCall="IncBDEUsageCount_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+		/>
+		<CustomAction
+			Id="IncBDEUsageCountDeferred"
+			BinaryKey="ControlUseCount"
+			JScriptCall="IncBDEUsageCountDeferred_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+		/>
+		<CustomAction
+			Id="IncBDEUsageCountRollback"
+			BinaryKey="ControlUseCount"
+			JScriptCall="IncBDEUsageCountRollback_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+		/>
+
+		<CustomAction
+			Id="DecBDEUsageCount"
+			BinaryKey="ControlUseCount"
+			JScriptCall="DecBDEUsageCount_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+		/>
+		<CustomAction
+			Id="DecBDEUsageCountDeferred"
+			BinaryKey="ControlUseCount"
+			JScriptCall="DecBDEUsageCountDeferred_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+		/>
+		<CustomAction
+			Id="DecBDEUsageCountRollback"
+			BinaryKey="ControlUseCount"
+			JScriptCall="DecBDEUsageCountRollback_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+		/>
+		
+		<InstallExecuteSequence>
+			<Custom Action="IncBDEUsageCount" Before="InstallFinalize">
+				<![CDATA[($idapi32.dll = 3) AND (?idapi32.dll = 2)]]>
+			</Custom>
+			<Custom Action="DecBDEUsageCount" After="InstallInitialize">
+				<![CDATA[($idapi32.dll = 2) AND (?idapi32.dll = 3)]]>
+			</Custom>
+		</InstallExecuteSequence>
+		
+	</Fragment>
+</Wix>
