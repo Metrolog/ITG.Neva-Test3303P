@@ -10,7 +10,7 @@
 		<DirectoryRef Id="PRODUCTADMINTOOLSFOLDER" />
 		<PropertyRef Id="DISABLESHORTCUTS"/>
 
-		<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>
+		<!--<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>-->
 
 		<ComponentGroup
 			Id="BdeAdmin"
@@ -54,7 +54,7 @@
 					Vital="no"
 					KeyPath="yes"
 				>
-					<Shortcut
+					<!--<Shortcut
 						Id="$(var.AppFileName).Shortcut"
 						Directory="PRODUCTADMINTOOLSFOLDER"
 						Name="!(loc.BDEAdmin.DisplayName)"
@@ -63,8 +63,7 @@
 						Show="normal"
 						Icon="bdeadmin.ico"
 						Advertise="yes"
-					>
-					</Shortcut>
+					/>-->
 				</File>
 				<RemoveFolder
 					Id="$(var.AppFileName).ShFolder"
@@ -74,7 +73,7 @@
 				<!-- http://www.sevenforums.com/tutorials/316-compatibility-mode.html -->
 				<RegistryKey
 					Root="HKLM"
-					Key="Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
+					Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
 				>
 					<RegistryValue Name="[#$(var.AppFileName)]" Type="string" Value="RUNASADMIN" />
 				</RegistryKey>
@@ -132,7 +131,7 @@
 					</RegistryKey>
 					<RegistryValue Name="System.ApplicationName" Value="Borland.BDEAdministrator" Type="string"/>
 					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144183.aspx -->
-					<RegistryValue Name="System.ControlPanel.Category" Value="8" Type="integer"/>
+					<RegistryValue Name="System.ControlPanel.Category" Value="5" Type="integer"/>
 					<RegistryValue Name="System.Software.TasksFileUrl" Value="[#bdeadmin.tasks.xml]" Type="string"/>
 					<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/cc144181.aspx -->
 					<!--<RegistryValue Name="System.ControlPanel.EnableInSafeMode" Value="3" Type="integer"/>-->

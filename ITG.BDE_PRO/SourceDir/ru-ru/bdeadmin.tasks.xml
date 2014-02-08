@@ -26,7 +26,7 @@
 		</sh:task>
 
 		<!-- Programs -->
-		<category id="8">
+		<category id="5">
 			<sh:task idref="{D6B79EE1-780D-4A28-BF31-4E10D3ABAB84}">
 				<sh:name><![CDATA[Создать псевдоним]]></sh:name>
 			</sh:task>

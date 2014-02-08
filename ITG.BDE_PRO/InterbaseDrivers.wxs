@@ -6,7 +6,8 @@
 
 		<DirectoryRef Id="BDE_INSTALL_PATH" />
 
-		<Property Id="INTRBASE" Admin="yes"/>
+		<!-- это свойство следует включить в AdminProperties, но в конечном пакете -->
+		<Property Id="INTRBASE" Admin="yes" SuppressModularization="yes"/>
 
 		<ComponentGroup
 			Id="InterbaseDrivers"
