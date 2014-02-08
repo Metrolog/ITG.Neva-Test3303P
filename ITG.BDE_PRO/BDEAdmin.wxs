@@ -10,7 +10,7 @@
 		<DirectoryRef Id="PRODUCTADMINTOOLSFOLDER" />
 		<PropertyRef Id="DISABLESHORTCUTS"/>
 
-		<!--<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>-->
+		<Icon Id="bdeadmin.ico" SourceFile=".\Icons\bdeadmin.ico"/>
 
 		<ComponentGroup
 			Id="BdeAdmin"
@@ -54,7 +54,7 @@
 					Vital="no"
 					KeyPath="yes"
 				>
-					<!--<Shortcut
+					<Shortcut
 						Id="$(var.AppFileName).Shortcut"
 						Directory="PRODUCTADMINTOOLSFOLDER"
 						Name="!(loc.BDEAdmin.DisplayName)"
@@ -63,7 +63,7 @@
 						Show="normal"
 						Icon="bdeadmin.ico"
 						Advertise="yes"
-					/>-->
+					/>
 				</File>
 				<RemoveFolder
 					Id="$(var.AppFileName).ShFolder"
@@ -146,7 +146,14 @@
 				Directory="System64Folder"
 				Win64="yes"
 			>
-				<Condition><![CDATA[VersionNT]]></Condition>
+				<Condition><![CDATA[VersionNT64]]></Condition>
+				<!-- http://www.sevenforums.com/tutorials/316-compatibility-mode.html -->
+				<RegistryKey
+					Root="HKLM"
+					Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers"
+				>
+					<RegistryValue Name="[#$(var.AppFileName)]" Type="string" Value="RUNASADMIN" />
+				</RegistryKey>
 				<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/hh127450.aspx -->
 				<!-- регистрируем как аплет в панели управления для ОС от Windows Vista -->
 				<RegistryKey
