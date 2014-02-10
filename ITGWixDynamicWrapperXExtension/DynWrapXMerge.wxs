@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?include DynWrapX.wxi?>
+
+	<Fragment Id="DynWrapXMergeModule">
+
+		<DirectoryRef Id="TARGETDIR">
+			<Merge
+				Id="DynWrapX"
+				SourceFile="$(var.DynWrapX.TargetDir)\!(loc.Culture)\$(var.DynWrapX.TargetFileName)"
+				Language="0"
+				DiskId="1"
+			>
+				<!--<ConfigurationData Name="InstallPath" Value="$(var.SystemFolderId)"/>-->
+			</Merge>
+		</DirectoryRef>
+
+	</Fragment>
+</Wix>

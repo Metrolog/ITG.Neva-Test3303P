@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Include
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?define ProductMajorVersion="2"?>
+	<?define ProductMinorVersion="0"?>
+	<?define ProductVersion="02.00.0000.0000"?>
+	<?define ProductShortName="!(loc.ProductShortName)"?>
+	<?define ProductInternalName="DynWrapX"?>
+	<?define ProductDescription="!(loc.ProductDescription)"?>
+	<?define ProductName="$(var.ProductShortName) v$(var.ProductVersion)"?>
+	<?define Manufacturer="!(loc.Manufacturer)"?>
+	<?define ProductCode="{28B8F0C1-023B-45F8-86E9-6C28E7299382}"?>
+
+	<?define ProductRegKey="SOFTWARE\$(var.Manufacturer)\$(var.ProductShortName)\$(var.ProductMajorVersion).$(var.ProductMinorVersion)"?>
+	<?define ProductProgId="DynamicWrapperX"?>
+	<?define ProductProgIdDescription="!(loc.Product.Description)"?>
+
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define PlatformPostfix="32" ?>
+	<?define SystemFolderId="SystemFolder" ?>
+	<?define Win64="no" ?>
+	<?define DllCompId="{D351B411-C1DD-46F7-8039-6489CEA8803E}"?>
+	<?else?>
+	<?define PlatformPostfix="64" ?>
+	<?define SystemFolderId="System64Folder" ?>
+	<?define Win64="yes" ?>
+	<?define DllCompId="{0B0488A1-A2AB-4E4D-B6B5-2B29803B9E5A}"?>
+	<?endif?>
+
+</Include>

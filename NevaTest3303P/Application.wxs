@@ -42,6 +42,7 @@
 			<ComponentRef Id="line485.exe"/>
 			<ComponentGroupRef Id="barcode.dll"/>
 			<MergeRef Id="BDE"/>
+			<MergeRef Id="DynWrapX"/>
 
 			<ComponentRef Id="test.ini"/>
 			<ComponentRef Id="OEMName.ini"/>
