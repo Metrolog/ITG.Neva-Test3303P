@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?include DynWrapX.wxi?>
+
+	<Module
+		Id="$(var.ProductInternalName)"
+		Codepage="1252"
+		Version="$(var.ProductVersion)"
+		Language="0"
+	>
+		<Package
+			Id="$(var.ProductCode)"
+			InstallerVersion="500"
+			AdminImage="no"
+			Manufacturer="!(loc.Manufacturer)"
+			Comments="!(loc.Comments)"
+			Description="!(loc.Description)"
+			Keywords="!(loc.Keywords)"
+			ShortNames="no"
+		/>
+
+		<Configuration
+			Name="InstallPath"
+			DisplayName="!(loc.InstallPath.DisplayName)"
+			Description="!(loc.InstallPath.Description)"
+			Format="Key"
+			NonNullable="yes"
+			DefaultValue="$(var.SystemFolderId)"
+		/>
+		<Substitution
+			Table="Directory"
+			Column="Directory_Parent"
+			Row="DynWrapX"
+			Value="[=InstallPath]"
+		/>
+
+		<DirectoryRef Id="$(var.SystemFolderId)">
+			<Directory Id="DynWrapX"/>
+		</DirectoryRef>
+
+		<ComponentGroupRef Id="DynWrapX.dll"/>
+
+	</Module>
+</Wix>

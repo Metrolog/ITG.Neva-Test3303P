@@ -1,0 +1,623 @@
+<html>
+<head>
+  <meta charset="windows-1252">
+  <meta name="keywords" content="DynwrapX.dll Dynwrap.dll library COM ActiveX scripts vbscript jscript win32 api">
+  <meta name="description" content="DynwrapX.dll library for scripting">
+  <title>DynamicWrapperX Help</title>
+  <style type="text/css">
+    body {background:#dfdfdf; margin-top:0}
+    div.text {margin:0 5%; padding:1px 1%; background:#e2e2e2; font:9pt/11pt Verdana} 
+    pre {background:#eaeaea; color:navy; padding:3px; margin:4px 0 8px 0; font:10pt/12pt; overflow:auto}
+    pre span {color:black}
+    p {margin:5px 0; text-align:justify}
+    span.cmd {color:navy}
+    #top {margin-top:8px; font:14pt/17pt; font-weight:700; text-align:center}
+    h3 {font:12pt/14pt; font-weight:700}
+    a {color:#00a}
+    a:Visited {color:#00a}
+    a:Hover {color:#0a0}
+    ul {margin-top:0}
+    ol {margin-top:0; margin-bottom:0}
+  </style>
+</head>
+
+<body>
+<div class="text">
+    <h2 id="top">DynamicWrapperX 2.0</h2>
+    <p>
+    Author: <a href="mailto:yurip42@gmail.com">Yuri Popov</a><br>
+    License: freeware
+    <h3 id="contents">Contents</h3>
+    <ul>
+      <li><a href="#intro">Introduction</a>
+      <li><a href="#regsvr">Registration in the system</a>
+      <li><a href="#methods">Built-in methods</a>
+      <li><a href="#inparams">Types of input parameters and return values</a>
+      <li><a href="#outparams">Output parameters</a>
+      <li><a href="#strings">Strings</a>
+    </ul>
+  
+    <h3 id="intro">Introduction</h3>
+<p>
+<u>DynamicWrapperX</u> is an ActiveX component (COM server) inspired by <a href="http://www.borncity.com/web/WSHBazaar1/WSHDynaCall.htm">DynamicWrapper</a>, which I wrote as an attempt to better implement the idea. With it you can register functions exported by DLL libraries, in particular Windows API functions, as object methods and then call them from scripts written in JScript, VBScript, or similar scripting languages. Starting with version 2, you can also register a function using its address in memory or its machine code represented in the form of a hex string. This component is not a modification of the original DynamicWrapper, it was written from scratch in the GoAsm assembly language. Version 2 has been tested under Windows XP SP3, Windows 7 SP1, and Windows 8.1.
+<p>
+New features of version 1 as compared with DynamicWrapper:
+<ul>
+  <li>Registration for the current user. This can be useful if the user does not have administrator privileges.
+  <li>An expanded set of input parameter and return value types.
+  <li>Output parameters.
+  <li>Unified the way strings are passed in JScript and VBScript.
+  <li>Added callback, which enables API functions to call script functions. This is necessary for using APIs such as EnumWindows (see examples below).
+  <li>On Windows 98 it is no longer necessary to create a separate object instance for each registered function. 
+  <li>Several useful built-in methods: NumGet, NumPut, StrPtr, StrGet, Space.
+</ul>
+<p>
+Changes in version 2:
+<ul>
+  <li>Windows 98 is not officially supported (I have not tested version 2 on it).
+  <li>The component is now available in two variants: x86 and x64.
+  <li>Its CLSID has been changed.
+  <li>During registration a check is made to see if version 1 is registered. What follows depends on the result of the check (see Registration in the system below).
+  <li>New parameter and return value types: <b>m</b> (Int64), <b>q</b> (UInt64), <b>v</b> (a pointer to a VARIANT structure).
+  <li>The number of callback functions is unlimited. 
+  <li>The Register method is now capable of registering a function by its ordinal or under a different name. The flag parameter (f=...) is useful again.
+  <li>New built-in methods: RegisterAddr, RegisterCode, StrPut, ObjPtr, ObjGet, ArrPtr, VarPtr, MemAlloc, MemFree, Bitness, Version.
+  <li>For the StrPtr, StrGet, and StrPut methods you can specify the string's codepage instead of its type.
+</ul>
+<p>
+---------------------------------------------------------------------------<br>
+<p>
+P.S. Though I have tried to test DynamicWrapperX in various situations, I cannot guarantee its faultless work. Use it at your own risk.
+<p>
+<a href="#contents">Top</a>
+ 
+   <h3 id="regsvr">Registration in the system</h3>
+<p>
+<u>Register</u> the component in one of these two ways:<br>
+<span class="cmd">regsvr32.exe path-to-the-component\dynwrapx.dll</span> — for all users.<br>
+<span class="cmd">regsvr32.exe /i path-to-the-component\dynwrapx.dll</span> — for the current user.<br>
+<p>
+If dynwrapx.dll is located in the System32, System, Windows directory, the current directory or one of those listed in the PATH environment variable, the path is optional. After registering  dynwrapx.dll for the current user, the DynamicWrapperX object will only be available to this user. Besides, under Windows Vista, Windows 7, and Windows 8 it will be unavailable to applications running with administrator rights.
+<p>
+On a 64-bit system both variants, x86 and x64, should be registered so that both 32-bit and 64-bit applications can use the component.
+<p>
+In the process of registration, version 2 will check whether version 1 is already registered. If so, version 2 will be installed in parallel with version 1 and will be available in scripts only by its version-dependent name DynamicWrapperX.2. To replace version 1 with version 2, you have to unregister it first. In this case version 2 will also be available by its generic name DynamicWrapperX.
+<p>
+<u>Unregister</u> the component as follows:<br>
+<span class="cmd">regsvr32.exe /u path-to-the-component\dynwrapx.dll</span> — for all users.<br>
+<span class="cmd">regsvr32.exe /u /i path-to-the-component\dynwrapx.dll</span> — for the current user.<br>
+<p>
+If version 1 is also installed, unregistering version 2 will leave its registration intact (and vice versa).
+<p>
+<a href="#contents">Top</a>
+  
+  <h3 id="methods">Built-in methods</h3>
+  (click the number for a more detailed description)
+<p>
+<a href="#register">[1]</a> &nbsp<span class="cmd">Register( DllName, FuncName [, i=ParamTypes] [, r=RetValType] [, f=Flags] )</span> — registers a function from a DLL as an object method.<br>
+<a href="#regaddr">[2]</a> &nbsp<span class="cmd">RegisterAddr( Addr, FuncName, [, i=ParamTypes] [, r=RetValType] [, f=Flags] )</span> — registers a function by its address in memory.<br>
+<a href="#regcode">[3]</a> &nbsp<span class="cmd">RegisterCode( HexStr [, FuncName] [, i=ParamTypes] [, r=RetValType] [, f=Flags] )</span> — registers the machine code of a function represented in the form of a hex string.<br>
+<a href="#callback">[4]</a> &nbsp<span class="cmd">RegisterCallback( FuncRef [, i=ParamTypes] [, r=RetValType] )</span> — registers a script function as a callback function.<br>
+<a href="#addons">[5]</a> &nbsp<span class="cmd">NumGet( Address [, Offset] [, Type] )</span> — reads a number from memory.<br>
+<a href="#addons">[6]</a> &nbsp<span class="cmd">NumPut( Var, Address [, Offset] [, Type] )</span> — writes a number to memory.<br>
+<a href="#addons">[7]</a> &nbsp<span class="cmd">StrPtr( Var [, Type/Codepage] )</span> — returns a pointer to a string.<br>
+<a href="#addons">[8]</a> &nbsp<span class="cmd">StrGet( Address [, Type/Codepage] )</span> — reads the string at the specified address.<br>
+<a href="#addons">[9]</a> &nbsp<span class="cmd">StrPut( Str, Address [, Type/Codepage] )</span> — writes a string to memory at the specified address.<br>
+<a href="#addons">[10]</a> &nbsp<span class="cmd">Space( Count [, Char] )</span> — creates a string of the specified length.<br>
+<a href="#addons">[11]</a> &nbsp<span class="cmd">ObjPtr( Object )</span> — returns a poiter to an object.<br>
+<a href="#addons">[12]</a> &nbsp<span class="cmd">ObjGet( ObjPtr )</span> — retrieves an object by its pointer.<br>
+<a href="#addons">[13]</a> &nbsp<span class="cmd">ArrPtr( Array )</span> — returns a pointer to the SAFEARRAY structure of the specified array.<br>
+<a href="#addons">[14]</a> &nbsp<span class="cmd">VarPtr( Variable )</span> — returns a pointer to the VARIANT structure of a script variable.<br>
+<a href="#addons">[15]</a> &nbsp<span class="cmd">MemAlloc( Bytes [, ZeroMem] )</span> — allocates memory.<br>
+<a href="#addons">[16]</a> &nbsp<span class="cmd">MemFree( MemPtr )</span> — frees memory.<br>
+<a href="#addons">[17]</a> &nbsp<span class="cmd">Bitness()</span> — returns the bitness (32 or 64) of the DynamicWrapperX object.<br>
+<a href="#addons">[18]</a> &nbsp<span class="cmd">Version( [Field] )</span> — returns the specified field(s) of the four-part version number of DynamicWrapperX.<br>
+<p>
+<a href="#contents">Top</a>
+  
+    <h3 id="register">Register method</h3>
+<p>
+This method registers a function exported by the specified DLL as an object method. After that you can call the function in the same way as the built-in methods, i.e. by its name after a point. The 1st parameter is the name of the DLL, the 2nd is the name of the function. The other three parameters may or may not be present, depending of the function, and their order is arbitrary because they are distinguished by their prefixes. The <b>i=</b> prefix denotes the types of the function's parameters, <b>r=</b> specifies the type of the return value, and <b>f=</b> sets flags that affect the way the function is called.
+<p>
+<b>JScript</b>
+<pre>
+DWX = new ActiveXObject("DynamicWrapperX");                  <span>// Create an object instance.</span>
+DWX.Register("user32.dll", "MessageBoxW", "i=hwwu", "r=l");  <span>// Register a dll function.</span>
+res = DWX.MessageBoxW(0, "Hello, world!", "Test", 4);        <span>// Call the function.</span>
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+Set DWX = CreateObject("DynamicWrapperX")                    <span>' Create an object instance.</span>
+DWX.Register "user32.dll", "MessageBoxW", "i=hwwu", "r=l"    <span>' Register a dll function.</span>
+res = DWX.MessageBoxW(0, "Hello, world!", "Test", 4)         <span>' Call the function.</span>
+</pre>
+<p>
+<u>The library name</u> without a path causes searching by name.  The search starts with the libraries already loaded for the process and continues on disk. Here is the default disk search order under Windows XP:
+<ol>
+  <li>The application's directory (in this case the application is either wscript.exe or cscript.exe).
+  <li>The current directory.
+  <li>System32.
+  <li>System.
+  <li>Windows.
+  <li>The directories listed in the PATH environment variable.
+</ol>
+<p>
+If the library resides in a file with a ".dll" extension, the extension is optional, i.e. in the above example we could have written just "user32". If the file that contains the library has no extension, you should put a point after the name. For example, "mylib."
+<p>
+If the function is registered by its ordinal, the number is placed after the library name and separated from it with a colon. The same applies to registration under a different name. The latter may be useful if the function's name contains characters illegal for method names.
+<p>
+Remember that ordinal numbers are not guaranteed to be the same across different versions of a DLL and between the x86 and x64 variants of the same version.
+<p>
+The ordinal number can be decimal or hexadecimal with a "0x" prefix. If the library name has no extension, ".dll" is assumed.
+<p>
+<b>JScript</b>
+<pre>
+DWX.Register("user32:110", "MethodName", "i=hwwu", "r=l");  <span>// Register by ordinal.</span>
+DWX.Register("user32:BadName", "GoodName", "i=hwwu", "r=l"; <span>// Register under a different name.</span>
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+DWX.Register "user32:110", "MethodName", "i=hwwu", "r=l"  <span> ' Register by ordinal.</span>
+DWX.Register "user32:BadName", "GoodName", "i=hwwu", "r=l" <span>' Register under a different name.</span>
+</pre>
+<p>
+<u>The function name</u> in Windows API may vary depending on whether you need the Unicode version of a function or its ANSI counterpart. This normally applies only to the functions having string parameters or return values. For example, the function named MessageBox in Windows API documentation actually exists in two variants: MessageBoxW (for Unicode strings) and MessageBoxA (for ANSI ones). I left the traditional search logic unchanged. That is, if you specified MessageBox and such a function has not been found in user32.dll, the search will be automatically repeated for MessageBoxA. The names of Unicode functions should be specified accurately, with a 'W' at the end of them.
+<p>
+<u>The parameter list</u> can be omitted only if the function takes no parameters (by design).
+<p>
+<u>The return value</u> can be omitted whenever you don't need it, regardless of whether the function returns any value or not.
+<p>
+<b>JScript</b>
+<pre>
+DWX = new ActiveXObject("DynamicWrapperX");
+DWX.Register("kernel32", "GetCommandLine", "r=s");      <span>// This function has no parameters.</span>
+CmdLine = DWX.GetCommandLine();                         <span>// The command that started the process.</span>
+WScript.Echo(CmdLine);
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+Set DWX = CreateObject("DynamicWrapperX")
+DWX.Register "kernel32", "Beep", "i=uu"      <span>' Beep returns a value but it is not needed.</span>
+DWX.Beep 800, 1000                           <span>' A sound through the PC speaker (beeper).</span>
+</pre>
+<p>
+<u>The flag parameter</u> currently has only one possible value "t" meaning the function's calling convention is "thiscall". It is only used by the 32-bit version of DynamicWrapperX and is ignored by the 64-bit one.
+<p>
+<b>JScript</b>
+<pre>
+DWX.Register("SomeLib", "SomeFunc", "i=hwwu", "r=l", "f=t");  <span>// Use thiscall when calling the function.</span>
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+DWX.Register "SomeLib", "SomeFunc", "i=hwwu", "r=l", "f=t"  <span>' Use thiscall when calling the function.</span>
+</pre>
+<p>
+<a href="#contents">Top</a>
+
+    <h3 id="regaddr">RegisterAddr method</h3>
+<p>
+This method registers a function by its memory address. The other parameters are the same as those of Register.
+<p>
+<b>JScript</b>
+<pre>
+DWX.RegisterAddr(Address, "FuncName", "i=hwwu", "r=l");
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+DWX.RegisterAddr Address, "FuncName", "i=hwwu", "r=l"
+</pre>
+<p>
+<a href="#contents">Top</a>
+
+    <h3 id="regcode">RegisterCode method</h3>
+<p>
+The 1st parameter of this method takes the machine code of a function in the form of a hex string. Memory is allocated and the code is written to it in binary form. After that, you can call it by the name specified in the 2nd parameter. The method returns the address of the code. Machine code is different for x86 and x64, hence the need to check the bitness of the process (via checking the DynamicWrapperX object's bitness) to figure out which version of the code to use. One possible application for machine code functions is processing large amounts of data, where machine code may run tens or even hundreds of times faster than script code.
+<p>
+If you want to use the code by its address, without creating a new method, you can omit all arguments except the 1st one. But keep in mind that the memory allocated for the code is still connected with the object and will be freed if the object is released.
+<p>
+The hex string can be continuous or divided into parts by spaces, tabs, or newlines.
+<p>
+<b>JScript</b>
+<pre>
+DWX = new ActiveXObject("DynamicWrapperX");
+
+if (DWX.Bitness == 32) {
+    Code = "8B442404F76C2408C3"  <span>// The function multiplies its arguments and returns the result.</span>
+}
+else {
+    Code = "4889C8 48F7EA C3"    <span>// mov rax,rcx; imul rdx; ret</span>
+}
+CodeAddr = DWX.RegisterCode(Code, "Multiply", "i=ll", "r=l");
+
+WScript.Echo(DWX.Multiply(5, 4));
+</pre>
+<p>
+<b>VBScript</b>
+<pre>
+Set DWX = CreateObject("DynamicWrapperX")
+
+If DWX.Bitness = 32 Then
+    Code = "8B442404F76C2408C3"  <span>' The function multiplies its arguments and returns the result.</span>
+Else
+    Code = "4889C8 48F7EA C3"    <span>' mov rax,rcx; imul rdx; ret</span>
+End If
+CodeAddr = DWX.RegisterCode(Code, "Multiply", "i=ll", "r=l")
+
+WScript.Echo(DWX.Multiply(5, 4))
+</pre>
+<p>
+You can also insert comments right in the hex string, surrounding them with parentheses.
+<pre>
+Code = "4889C8 (mov rax,rcx) 48F7EA (imul rdx) C3 (ret)"
+</pre>
+If the hex string is multiline, you can mark comments with a semicolon.
+<p>
+<b>JScript</b>
+<pre>
+Code = "4889C8  ; mov rax,rcx \n" +
+       "48F7EA  ; imul rdx \n" +
+       "C3      ; ret"
+</pre>
+<b>VBScript</b>
+<pre>
+Code = "4889C8  ; mov rax,rcx" & vbCrLf & _
+       "48F7EA  ; imul rdx" & vbCrLf & _
+       "C3      ; ret"
+</pre>
+<p>
+But note that in this case each line (except the last one) must have a newline character or characters at the end because they are used as the end-of-comment marker.
+<p>
+<a href="#contents">Top</a>
+
+    <h3 id="inparams">Types of input parameters and return values</h3>
+<p>
+<b>m</b> — signed 64-bit integer — INT64, LONGLONG, ...<br>
+<b>q</b> — unsigned 64-bit integer — UINT64, ULONGLONG, ...<br>
+<b>l</b> — signed 32-bit integer — LONG, INT, LRESULT, BOOL, ...<br>
+<b>u</b> — unsigned 32-bit integer — ULONG, UINT, DWORD, ...<br>
+<b>h</b> — handle — HANDLE, HWND, HMODULE, HINSTANCE, HICON, ... — 32-bit (x86) or 64-bit (x64) integer.<br>
+<b>p</b> — pointer; for numbers it is the same as <b>u</b> (x86) or <b>q</b> (x64) but can also be used to pass an object (IDispatch *) or a string.<br>
+<b>n</b> — signed 16-bit integer — SHORT<br>
+<b>t</b> — unsigned 16-bit integer — USHORT, WORD, WCHAR, OLECHAR, ...<br>
+<b>c</b> — signed 8-bit integer — CHAR<br>
+<b>b</b> — unsigned 8-bit integer — UCHAR, BYTE, ...<br>
+<b>f</b> — single-precision floating-point number (32 bits) — FLOAT<br>
+<b>d</b> — double-precision floating-point number (64 bits) — DOUBLE<br>
+<b>w</b> — Unicode string — BSTR, LPWSTR, LPOLESTR, OLECHAR *, WCHAR *, ...<br>
+<b>s</b> — ANSI/Windows string (default codepage) — LPSTR, LPCSTR, CHAR *, ...<br>
+<b>z</b> — OEM/DOS string (default codepage) — LPSTR, LPCSTR, CHAR *, ...<br>
+<b>v</b> — pointer to a VARIANT structure.
+<p>
+Besides handles and pointers, there are other types that change their bitness with the bitness of the process. For example: LPARAM, WPARAM, SIZE_T. They should also be passed and returned as type <b>h</b> or <b>p</b> so your code can work correctly regardless of the bitness of the script interpreter.
+<p>
+The script types corresponding to <b>m</b> and <b>q</b> would be VT_I8 and VT_UI8, but they are not supported by JScript and VBScript, which limits what you can do with 64-bit integers in scripts. As long as the value returned by the function allows this, DynamicWrapperX converts it to type VT_I4 (32-bit signed integer) or VT_R8 (double-precision floating-point number). Since the mantissa of VT_R8 has only 53 bits, it cannot represent every number in the range of the 64-bit integer. In that case VT_I8 or VT_UI8 is returned. All you can do with these types is pass them as arguments to some other method or display their values via WScript.Echo or MsgBox. No calculations are possible.
+<p>
+When a large integer is returned as VT_R8 and you want to see its value in a message box, it may not be displayed correctly because the number of digits after the decimal point in string representation of a floating-point number is limited. So if, for example, the number is 9223372036854775808, in the message box you may see 9,22337203685478E+18 instead of 9,223372036854775808E+18. However, the actual numeric value in the variable is not rounded and remains accurate.
+<p>
+If the value of a 64-bit integer does not fit in any numeric type available, you can specify it in string format, decimal or hexadecimal (with a 0x prefix).
+<pre>
+DWX.Register("lib.dll", "func", "i=m")
+DWX.func("0xFFFFFFFFFFFFFFFF")
+DWX.func("-0x7FFFFFFFFFFFFFFF")
+DWX.func("18446744073709551615")
+DWX.func("-9223372036854775807")
+</pre>
+<p>
+<a href="#contents">Top</a>
+  
+    <h3 id="outparams">Output parameters</h3>
+<p>
+<b>M</b> — pointer to the specified number (its address in memory) — LONGLONG *, PLONGLONG, ...<br>
+<b>Q</b> — same as above — ULONGLONG *, PULONGLONG, ...<br>
+<b>L</b> — same as above — LONG *, LPLONG, ...<br>
+<b>H</b> — same as above — HANDLE *, PHANDLE, LPHANDLE, ...<br>
+<b>U</b> — same as above — ULONG *, LPDWORD, ...<br>
+<b>P</b> — same as above<br>
+<b>N</b> — same as above — SHORT *<br>
+<b>T</b> — same as above — USHORT *, LPWORD, WCHAR *, OLECHAR *, ...<br>
+<b>C</b> — same as above — CHAR *, ...<br>
+<b>B</b> — same as above — UCHAR *, LPBYTE, ...<br>
+<b>F</b> — same as above — FLOAT *, PFLOAT<br>
+<b>D</b> — same as above — DOUBLE *, PDOUBLE<br>
+<b>W</b> — output Unicode string<br>
+<b>S</b> — output ANSI string<br>
+<b>Z</b> — output OEM string
+<p>
+The output types above can be used in scripting languages that pass arguments to methods by reference as VBScript does. In that case DynamicWrapperX can obtain a pointer to the argument's value, which it then passes to the registered function so the function can change the value at that address. If arguments are passed by value, like in JScript, they are copied, so there is no way to find and change the original. In this case you can allocate a buffer in memory by means of MemAlloc, give the returned pointer to the function (as the <b>p</b> type) and after calling the function read the number it put in the buffer with NumGet.
+<p>
+Some scripting engines also copy strings before passing them to methods, in which case the use of output types for strings makes no sense either. The solution to this is similar to the above: a memory buffer passed as type <b>p</b> and reading the resulting string from it via StrGet.
+<p>
+<a href="#contents">Top</a>
+  
+    <h3 id="strings">Strings</h3>
+<p>
+Strings in JScript and VBScript are of the BSTR type. These are Unicode strings, i.e. the code of each character takes 2 bytes. The last character is followed by a terminator (two zero bytes), and the first character is preceded by a 4-byte number that contains the length of the string in bytes (excluding zero bytes at the end of the string). A script string variable holds a pointer to such a string, which is the address of the string's first character (i.e. the bytes that contain the string length remain "behind-the-scenes").
+<p>
+<u>To pass a string</u> you have the following three ways:
+<p>
+1) An input string: <b>w</b>, <b>s</b>, <b>z</b>. Strings passed as <b>s</b> or <b>z</b> are copied and converted into the relevant encoding. The API function receives a pointer to such a copy. As soon as the function returns, the memory used for the copy is released. In the case of <b>w</b> the function receives a pointer to the original (Unicode) string. 
+<p>
+2) An output string: <b>W</b>, <b>S</b>, <b>Z</b>. Here with all three types you pass a pointer to the original location of the string. <b>S</b> and <b>Z</b> strings are previously converted into the relevant encoding but without copying. When the function returns, the contents of <b>S</b> and <b>Z</b> strings are converted back into Unicode and their length is measured. <b>W</b> strings only have their length measured. The length (in bytes) is recorded in front of the string. The last operation is needed to avoid glitches while, for example, this and other strings will be concatenated further in the script. Since the output string, like all output parameters, is intended to be written to by the called function, make sure its length is sufficient.
+<p>
+3) A pointer: <b>p</b>. This is the simplest way. Here you pass a pointer to the original string, without conversion. After the function returns, no conversion or length correction is made. So if the function has written something to this string, that data will remain there unchanged.
+<p>
+This might look the same as <b>w</b>, but there is a difference. Parameters declared as <b>p</b> accept not only string variables but also numeric ones.
+<p>
+<u>Returning a string</u> as <b>p</b>, we get a numeric variable holding a pointer to the string returned by the API function. Returning a string as <b>w</b>, <b>s</b> or <b>z</b>, we get a string variable holding a pointer to a copy of the string returned by the API function. Strings returned as <b>s</b> and <b>z</b> are copied with conversion. The original strings are not freed. This is because DynamicWrapperX has no idea how memory for the string was allocated. If you are concerned about memory leak caused by that, consider using the <b>p</b> type for strings returned by API functions wherever possible.
+<p>
+API functions that take string arguments typically exist in two variants — for example, MessageBoxA and MessageBoxW. It appears more reasonable in scripts to use the Unicode versions (those having a 'W' at the end of the name) because this way you avoid conversion to and from Unicode.
+<p>
+<u>Use of strings as memory buffers</u> may or may not be a reliable technique depending on how the script engine treats strings internally. So I recommend using MemAlloc instead of Space for that purpose.
+
+<p> <a href="#contents">Top</a>
+  
+    <h3 id="callback">RegisterCallback method</h3>
+<p>
+This method takes a reference to a script function and transforms it into a pointer that can be passed to an API function. Then that API function can use this pointer to call the script function. EnumWindows, for example, requires such a pointer to a callback procedure for its work. For each window that it finds, it calls the callback procedure, passing it the window handle. Then if the callback procedure returns 1, enumeration continues, and if 0, it stops.
+<p>
+A script function reference by itself cannot serve this purpose because functions in JScript and VBScript are objects and their references are pointers to IDispatch interfaces. So the reference is passed to RegisterCallback, and the API function receives a pointer to one of the intermediary procedures inside dynwrapx.dll, which will translate calls to the script function and transfer its return values back to the API function.
+<p>
+In JScript the name of a function (without parentheses) will serve as its reference, and in VBScript you will have to use GetRef beforehand. In addition to the function's reference, you may have to specify the types of its parameters (if any) and its return value — just as with the Register method (but only small letters can be used).
+<p>
+<b>JScript</b>
+<pre>
+DWX = new ActiveXObject("DynamicWrapperX");
+
+DWX.Register("user32", "EnumWindows",    "i=ph");
+DWX.Register("user32", "GetWindowTextW", "i=hpl");          <span>// Unicode variant.</span>
+// DWX.Register("user32", "GetWindowText", "i=hpl");        <span>// ANSI variant.</span>
+
+pCbkFunc = DWX.RegisterCallback(CbkEnumWin, "i=hh", "r=l"); <span>// Register CbkEnumWin</span>
+                                                            <span>// as a callback procedure</span>
+                                                            <span>// and get its pointer.</span>
+n=0, m=0, WinList="";
+
+Buf = DWX.MemAlloc(256);             <span>// Buffer for the window titles (an output string).</span>
+
+DWX.EnumWindows(pCbkFunc, 0);        <span>// Call EnumWindows and pass it the pointer</span>
+                                     <span>// to the callback procedure.</span>
+DWX.MemFree(Buf);
+
+WScript.Echo("Windows in total: " + m + "\nWith a title: " + n + "\n\n" + WinList);
+
+
+// ............... The callback function itself ....................
+
+function CbkEnumWin(hwnd, lparam)
+{
+    var Title;
+    DWX.GetWindowTextW(hwnd, Buf, 128);     <span>// Unicode</span>
+    Title = DWX.StrGet(Buf, "w");
+    //DWX.GetWindowText(hwnd, Buf, 256);    <span>// ANSI</span>
+    //Title = DWX.StrGet(Buf, "s");
+    if(Title.length > 0) {  <span>// Add the title to the list if its length is greater than 0.</span>
+        WinList += hwnd + "\t" + Title + "\n";
+        ++n;
+    }
+    ++m;
+    return 1;               <span>// Returning 0 will stop the calls.</span>
+}
+</pre>
+<p>
+<a href="#contents">Top</a>
+<p>
+&nbsp;
+<p>
+<b>VBScript</b>
+<pre>
+Set DWX = CreateObject("DynamicWrapperX")
+
+DWX.Register "user32", "EnumWindows",    "i=ph"
+DWX.Register "user32", "GetWindowTextW", "i=hpl"     <span>' Unicode variant.</span>
+'DWX.Register "user32", "GetWindowText", "i=hpl"     <span>' ANSI variant.</span>
+
+Set Ref = GetRef("CbkEnumWin")  ' Get a reference to the function.
+
+pCbkFunc = DWX.RegisterCallback(Ref, "i=hh", "r=l")  <span>' Register CbkEnumWin</span>
+                                                     <span>' as a callback procedure</span>
+                                                     <span>' and get its pointer.</span>
+n = 0 : m = 0 : WinList = ""
+Buf = DWX.MemAlloc(256)        <span>' Buffer for the window titles (an output string).</span>
+
+DWX.EnumWindows pCbkFunc, 0    <span>' Call EnumWindows and pass it the pointer</span>
+                               <span>' to the callback procedure.</span>
+DWX.MemFree Buf
+
+WScript.Echo "Windows in total: " & m & vbCrLf & "With a title: " & n & _
+              vbCrLf & vbCrLf & WinList
+
+
+' ................ The callback function itself .......................
+
+Function CbkEnumWin(hwnd, lparam)
+    DWX.GetWindowTextW hwnd, Buf, 128   <span>' Unicode</span>
+    Title = DWX.StrGet(Buf, "w")
+    'DWX.GetWindowText hwnd, Buf, 256   <span>' ANSI</span>
+    'Title = DWX.StrGet(Buf, "s")
+    If Len(Title) > 0 Then  <span>' Add the title to the list if its length is greater than 0.</span>
+        WinList = WinList & hwnd & vbTab & Title & vbCrLf
+        n = n+1
+    End If
+    m = m+1
+    CbkEnumWin = 1          <span>' Returning 0 will stop the calls.</span>
+End Function
+</pre>
+<p>
+<a href="#contents">Top</a>
+  
+    <h3 id="addons">Other methods</h3>
+<p>
+<u>Note</u>: parameters in brackets are optional, but you can't omit a parameter if the one following it is present.
+<p>
+<span class="cmd">NumGet( Address [, Offset] [, Type] )</span> — reads a number from memory. <span class="cmd">Address</span> — a base address. <span class="cmd">Offset</span> — a displacement (in bytes) from the base, positive or negative (0 by default): it can be used in loops for reading/writing sequences of numbers. <span class="cmd">Type</span> — the type of the retrieved number ("<b>l</b>" by default). Only small letters can be used. The number is put in the value returned by the method.
+<p>
+<span class="cmd">NumPut( Var, Address [, Offset] [, Type] )</span> — writes a number to memory. <span class="cmd">Var</span> — either a literal number or the name of a variable holding it. The rest is similar to NumGet. The return value of the method will be the address just after the last written byte.
+<p>
+With both methods above, <span class="cmd">Address</span> can be either a number or a string, in the latter case the string pointer will serve as the base address. This allows to use strings as memory buffers for storing any data — structures, arrays, etc.
+<p>
+<span class="cmd">StrPtr( Var [, Type/Codepage] )</span> — returns a pointer to a string. <span class="cmd">Var</span> — a string variable or constant. <span class="cmd">Type/Codepage</span> — the type or encoding of the destination string. Can be: <b>w</b> (by default), <b>s</b>, <b>z</b>, or a codepage, e.g. "cp65001" (UTF-8) or "cp1201" (UTF-16 Big Endian). For <b>s</b>, <b>z</b>, or a codepage the string is previously converted in place. If the resulting string does not fit in the original string's buffer, it will be truncated. Since the original is in Unicode, where each character takes two bytes, there will be more than enough space in most cases. Maybe some East-Asian text can be longer in an ANSI or UTF-8 encoding than it is in UTF-16, but I am just guessing.
+<p>
+<span class="cmd">StrGet( Address [, Type/Codepage] )</span> — reads the string at the specified address. Returns a copy of the string. <span class="cmd">Address</span> can be either a numeric variable or a string one. <span class="cmd">Type/Codepage</span> — the type or encoding of the source string. For options see StrPtr.
+<p>
+<span class="cmd">StrPut( String, Address [, Type/Codepage] )</span> — writes a string to the specified address. <span class="cmd">Type/Codepage</span> — the type or encoding of the destination string. For options see StrPtr. The method returns the address after the string's null terminator. If you set <span class="cmd">Address</span> to 0, the method will return the size of the buffer required for the destination string, including the terminating null character.
+<p>
+<span class="cmd">Space( Count [, Char] )</span> — creates a string (BSTR) of the specified length. Returns a string variable. <span class="cmd">Count</span> — the number of Unicode (two-byte) characters in the string. <span class="cmd">Char</span> — a character to fill the string with. By default the string is filled with spaces, just as the Space function in VBScript does. To use nulls instead of spaces, specify <span class="cmd">Char</span> as an empty string ("").
+<p>
+<u>Note</u>: This method was originally designed for creating strings that would serve as memory buffers — for numbers, structures, or output strings. However, practice has revealed that this technique is generally unsafe. You never know how the script engine will treat the memory allocated for a string; in other words, you do not have full control over it and your data stored in there may get lost or damaged. For this reason I recommend using MemAlloc to allocate memory (see below).
+<p>
+<span class="cmd">ObjPtr( Object )</span> — returns a pointer to an object.
+<p>
+<span class="cmd">ObjGet( ObjPtr )</span> — retrieves an object by a pointer to it. If the object supports the IDispatch interface, a VT_DISPATCH variable is returned, otherwise VT_UNKNOWN. The reference counter of the object is incremented.
+<p>
+<span class="cmd">ArrPtr( Array )</span> — returns a pointer to the SAFEARRAY structure of the specified array. Does not work for JScript arrays because they are actually objects.
+<p>
+<span class="cmd">VarPtr( Variable )</span> — in languages that pass variables to methods by reference, like VBScript, this method can retrieve a pointer to the VARIANT structure of the variable.
+<p>
+<span class="cmd">MemAlloc( Bytes [, ZeroMem] )</span> — allocates memory and returns a pointer to it. If the 2nd argument is 1, the memory will be filled with binary zeros.
+<p>
+<span class="cmd">MemFree( MemPtr )</span> — frees allocated memory.
+<p>
+<span class="cmd">Bitness()</span> — retrieves the bitness of DynamicWrapperX (and thereby the bitness of the process that is using it). Returns number 32 or 64.
+<p>
+<span class="cmd">Version( [Field] )</span> — returns the specified field(s) of DynamicWrapperX's four-part version number. Set <span class="cmd">Field</span> to the appropriate value according to the table below. If <span class="cmd">Field</span> is omitted, it equals 0.
+<p>
+Suppose the full version is 2.5.7.10.
+<p>
+&nbsp;&nbsp;0 — version string: "2.5.7.10"<br>
+&nbsp;&nbsp;1 — major version number: 2<br>
+&nbsp;&nbsp;2 — minor version number: 5<br>
+&nbsp;&nbsp;3 — build number: 7<br>
+&nbsp;&nbsp;4 — revision number: 10 (0xA)<br>
+&nbsp;&nbsp;5 — major + minor number: 0x20005<br>
+&nbsp;&nbsp;6 — build + revision number: 0x7000A<br>
+&nbsp;&nbsp;7 — full version number: 0x200050007000A<br>
+<p>
+As you can see, each field is a 16-bit integer and occupies two bytes.
+<p>
+<a href="#contents">Top</a>
+
+    <h3 id="addons">Examples of usage</h3>
+<p>
+<b>JScript</b>
+<pre>
+DWX = new ActiveXObject("DynamicWrapperX");
+str = "Hello, world! It's me.";
+
+<span>// Reading from memory. Read the character codes of the string.</span>
+
+codes = "";
+
+for(i=0; i < str.length; ++i)
+  codes += DWX.NumGet(str, i*2, "t") + " "; <span>// i is multiplied by 2 because the offset</span>
+                                            <span>// must be in bytes and "t" is a two—byte type.</span>
+WScript.Echo("Character codes:\n" + codes);
+
+<span>// Reading from and writing to memory. The string is read and then written in reverse order.</span>
+
+len = str.length;
+buf = DWX.MemAlloc(len * 2 + 2);        <span>// Buffer for writing. Each Unicode char = 2 bytes.</span>
+DWX.NumPut(0, buf, len * 2, "t");       <span>// Put 2 zero bytes at the end (null terminator).</span>
+
+for(i=0, j=len-1; i < len; ++i, --j) {  <span>// len—1 is the index of the last character.</span>
+  code = DWX.NumGet(str, i*2, "t");     <span>// Read from left to right (the offset grows).</span>
+  DWX.NumPut(code, buf, j*2, "t");      <span>// Write from right to left (the offset decreases).</span>
+}
+str1 = DWX.StrGet(buf);
+DWX.MemFree(buf);
+WScript.Echo("Reversed string:\n" + str1);
+
+// Manipulating strings.
+
+ptr = DWX.StrPtr(str);                  <span>// Get a string pointer into a numeric</span>
+                                        <span>// variable, the string remains in Unicode.</span>
+WScript.Echo("Address of the string: " + ptr);
+
+ptr = DWX.StrPtr(str, "z");             <span>// Get a pointer to the same string</span>
+                                        <span>// previously converted to OEM/DOS.</span>
+str1 = DWX.StrGet(ptr, "z");            <span>// Read that string with</span>
+                                        <span>// conversion back to Unicode.</span>
+WScript.Echo("Restored string:\n" + str1);
+
+<span>// Create a UTF-8 copy of the string.</span>
+
+bufsize = DWX.StrPut(str1, 0, "cp65001");
+buf = DWX.MemAlloc(bufsize);
+DWX.StrPut(str1, buf, "cp65001");
+
+<span>// Read it back into Unicode.</span>
+
+str2 = DWX.StrGet(buf, "cp65001");
+DWX.MemFree(buf);
+WScript.Echo("Converted from UTF-8:\n" + str2);
+</pre>
+<p>
+<a href="#contents">Top</a>
+<p>
+&nbsp;
+<p>
+<b>VBScript</b>
+<pre>
+Set DWX = CreateObject("DynamicWrapperX")
+str = "Hello, world! It's me."
+
+<span>' Reading from memory. Read the character codes of the string.</span>
+
+strlen = Len(str)
+codes = ""
+
+For i=0 To strlen-1
+  codes = codes & DWX.NumGet(str, i*2, "t") & " "  <span>' i is multiplied by 2 because the offset must</span>
+Next                                               <span>' be in bytes and "t" is a two—byte type.</span>
+
+WScript.Echo "Character codes:" & vbCrLf & codes
+
+<span>' Reading from and writing to memory. The string is read and then written in reverse order.</span>
+
+buf = DWX.MemAlloc(strlen * 2 + 2)  <span>' Buffer for writing. Each Unicode char = 2 bytes.</span>
+DWX.NumPut 0, buf, strlen * 2, "t"  <span>' Put 2 zero bytes at the end (null terminator).</span>
+j = strlen-1                        <span>' strlen-1 is the index of the last character.</span>
+
+For i=0 To strlen-1
+  code = DWX.NumGet(str, i*2, "t")   <span>' Read from left to right (the offset grows).</span>
+  DWX.NumPut code, buf, j*2, "t"     <span>' Write from right to left (the offset decreases).</span>
+  j = j-1
+Next
+
+str1 = DWX.StrGet(buf)
+DWX.MemFree buf
+WScript.Echo "Reversed string:" & vbCrLf & str1
+
+<span>' Manipulating strings.</span>
+
+ptr = DWX.StrPtr(str)                 <span>' Get a string pointer into a numeric</span>
+                                      <span>' variable, the string remains in Unicode.</span>   
+WScript.Echo "Address of the string: " & ptr
+
+ptr = DWX.StrPtr(str, "z")            <span>' Get a pointer to the same string</span>
+                                      <span>' previously converted to OEM/DOS.</span>
+str1 = DWX.StrGet(ptr, "z")           <span>' Read that string with conversion back to Unicode.</span>
+
+WScript.Echo "Restored string:" & vbCrLf & str1
+
+<span>' Create a UTF-8 copy of the string.</span>
+
+bufsize = DWX.StrPut(str1, 0, "cp65001")
+buf = DWX.MemAlloc(bufsize)
+DWX.StrPut str1, buf, "cp65001"
+
+<span>' Read it back into Unicode.</span>
+
+str2 = DWX.StrGet(buf, "cp65001")
+DWX.MemFree buf
+WScript.Echo "Converted from UTF-8:" & vbCrLf & str2
+</pre>
+<p>
+<a href="#contents">Top</a>
+</div>
+</body>
+</html>

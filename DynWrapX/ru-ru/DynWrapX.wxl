@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="ru-ru"
+	Codepage="1251"
+	Language="1049"
+>
+
+	<String Id="Manufacturer">Юрий Попов</String>
+	<String Id="Comments">Инсталляционный пакет содержит DynamicWrapperX.</String>
+	<String Id="Description">DynamicWrapperX msm модуль</String>
+	<String Id="Keywords">MergeModule; MSI; DynamicWrapperX</String>
+
+	<String Id="Product.DisplayName">DynamicWrapperX</String>
+	<String Id="Product.Description">ActiveX обёртка DynamicWrapperX для динамических вызовов функций dll из скриптовых сценариев.</String>
+
+	<String Id="InstallPath.DisplayName">Каталог DynamicWrapperX</String>
+	<String Id="InstallPath.Description">Идентификатор каталога для установки файлов DynamicWrapperX.</String>
+
+</WixLocalization>

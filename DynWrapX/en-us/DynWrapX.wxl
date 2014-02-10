@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="en-us"
+	Codepage="1252"
+	Language="1033"
+>
+
+	<String Id="Manufacturer">Yurii Popov</String>
+	<String Id="Comments">The Installation database contains the logic and data required to install DynamicWrapperX.</String>
+	<String Id="Description">DynamicWrapperX merge module</String>
+	<String Id="Keywords">MergeModule; MSI; DynamicWrapperX</String>
+
+	<String Id="Product.DisplayName">DynamicWrapperX</String>
+	<String Id="Product.Description">ActiveX wrapper DynamicWrapperX for dynamic call dll functions from scripts.</String>
+
+	<String Id="InstallPath.DisplayName">DynamicWrapperX dll install path</String>
+	<String Id="InstallPath.Description">Directory Id for DynamicWrapperX dll install path.</String>
+
+</WixLocalization>

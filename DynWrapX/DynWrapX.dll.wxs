@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?include DynWrapX.wxi?>
+
+	<Fragment>
+
+		<DirectoryRef Id="DynWrapX" />
+
+		<ComponentGroup
+			Id="DynWrapX.dll"
+			Directory="DynWrapX"
+			Source=".\SourceDir\$(sys.BUILDARCH)"
+		>
+
+			<Component
+				Id="DynWrapX.dll"
+				Guid="$(var.DllCompId)"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<File
+					Name="DynWrapX.dll"
+					Vital="yes"
+					KeyPath="yes"
+				/>
+				<Class
+					Id="{89565276-A714-4A43-912E-978B935EDCCC}"
+					Context="InprocServer32"
+					Description="$(var.ProductProgIdDescription)"
+					Programmable="yes"
+					Control="no"
+					Insertable="no"
+					Advertise="yes"
+					ThreadingModel="both"
+					Version="$(var.ProductMajorVersion)"
+				>
+					<ProgId
+						Id="$(var.ProductProgId).$(var.ProductMajorVersion)"
+						Description="$(var.ProductProgIdDescription)"
+						NoOpen=""
+						Advertise="yes"
+					>
+						<ProgId
+							Id="$(var.ProductProgId)"
+							Description="$(var.ProductProgIdDescription)"
+							NoOpen=""
+							Advertise="yes"
+						/>
+					</ProgId>
+				</Class>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>
