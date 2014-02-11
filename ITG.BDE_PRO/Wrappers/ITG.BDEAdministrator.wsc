@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!-- http://msdn.microsoft.com/en-us/library/30f5bff1(v=vs.84).aspx -->
+<component id="ITG.BDEAdministrator">
+
+	<comment>
+		Данный компонент представляет собой ActiveX обёртку для
+		API BDE adminitrator (idapi32.dll).
+	</comment>
+
+	<?component error="true" debug="false"?>
+
+	<registration
+		progid="ITG.BDEAdministrator"
+		classid="{1FCBCD5F-438D-4C76-9A97-B3A6144B36A9}"
+		description="BDE Administrator API ActiveX wrapper"
+		version="1.0"
+		remotable="false"
+	/>
+
+	<public>
+		<!-- обязательный "конструктор" - должен быть вызван до использования методов BDE -->
+		<method name="Init"/>
+		<!-- обязательный "деструктор" - должен быть вызван до завершения работы -->
+		<!-- всё это необходимо из-за отсутствия поддержки деструкторов в скриплетах -->
+		<method name="Done"/>
+
+		<property name="SysVersion">
+			<get internalName="getSysVersion"/>
+		</property>
+		<property name="IntLevel">
+			<get internalName="getIntLevel"/>
+		</property>
+		<property name="Version">
+			<get internalName="getVersion"/>
+		</property>
+
+		<method name="AddAlias">
+			<parameter name="AliasName"/>
+			<parameter name="AliasDriver"/>
+			<parameter name="Params"/>
+		</method>
+		<method name="SaveConfigFile"/>
+	</public>
+
+	<object id="IDAPI" progid="DynamicWrapperX.2"/>
+	<object id="WshShell" progid="WScript.Shell"/>
+
+	<script language="JScript">
+		<![CDATA[
+
+// "подключаем" idapi32.dll
+var IDAPI32DllPath = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" ) + "idapi32.dll";
+
+IDAPI.Register( IDAPI32DllPath, "DbiInitFn", "i=p", "r=l" );
+
+function Init() {
+	return IDAPI.DbiInitFn( null );
+};
+
+/*
+	DBIResult DBIFN DbiGetSysVersion ( SYSVersion *psysVersion );
+	typedef struct tagSYSVersion {
+		UINT16   iVersion;  // DBE Version
+		UINT16   iIntLevel; // Client Interface version
+		DBIDATE  dateVer;   // version date (int)
+		TIME     timeVer;   // version time (int)
+	} SYSVersion;
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiGetSysVersion", "i=p", "r=l" );
+
+function getSysVersion() {
+	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	try {
+		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( dbiResult != 0 ) { throw dbiResult; };
+		return IDAPI.NumGet( pSYSVersion, 0, "t" );
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+function getIntLevel() {
+	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	try {
+		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( dbiResult != 0 ) { throw dbiResult; };
+		return IDAPI.NumGet( pSYSVersion, 2, "t" );
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+function getVersion() {
+	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	try {
+		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( dbiResult != 0 ) { throw dbiResult; };
+		var Version = IDAPI.NumGet( pSYSVersion, 0, "t" );
+		var Release = IDAPI.NumGet( pSYSVersion, 4, "t" );
+		var Build   = IDAPI.NumGet( pSYSVersion, 6, "t" );
+		return "" + ( ~~( Version / 100 ) ) + "." + ( Version % 100 ) + "." + Release + "." + Build;
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=l" );
+
+function Done() {
+	return IDAPI.DbiExit();
+};
+
+IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=psssl", "r=l" );
+
+function AddAlias( alias, driver, params ) {
+	return IDAPI.DbiAddAlias( null, alias, driver, params, true );
+};
+
+IDAPI.Register( IDAPI32DllPath, "DbiCfgSave", "i=ppl", "r=l" );
+
+function SaveConfigFile() {
+	return IDAPI.DbiCfgSave( null, null, true );
+};
+
+		]]>
+	</script>
+</component> 
