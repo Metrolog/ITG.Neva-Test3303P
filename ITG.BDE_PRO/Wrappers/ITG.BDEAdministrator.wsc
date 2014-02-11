@@ -7,7 +7,7 @@
 		API BDE adminitrator (idapi32.dll).
 	</comment>
 
-	<?component error="true" debug="false"?>
+	<?component error="false" debug="false"?>
 
 	<registration
 		progid="ITG.BDEAdministrator"
