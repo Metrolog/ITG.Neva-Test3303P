@@ -25,10 +25,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="en-us\" />
+    <Folder Include="Help" />
+    <Folder Include="Help\en-us\" />
+    <Folder Include="Help\ru-ru\" />
     <Folder Include="ru-ru\" />
     <Folder Include="SourceDir\" />
-    <Folder Include="SourceDir\en-us" />
-    <Folder Include="SourceDir\ru-ru" />
     <Folder Include="SourceDir\x86" />
     <Folder Include="SourceDir\x64" />
   </ItemGroup>
@@ -38,8 +39,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DynWrapX.wxi" />
-    <Content Include="SourceDir\en-us\Help_En.html" />
-    <Content Include="SourceDir\ru-ru\Help_Ru.html" />
+    <Content Include="Help\en-us\DynWrapX.chm" />
+    <Content Include="Help\en-us\DynWrapX.hhp" />
+    <Content Include="Help\en-us\Help.html" />
+    <Content Include="Help\en-us\Index.hhk" />
+    <Content Include="Help\en-us\toc.hhc" />
+    <Content Include="Help\ru-ru\DynWrapX.chm" />
+    <Content Include="Help\ru-ru\DynWrapX.hhp" />
+    <Content Include="Help\ru-ru\Help.html" />
+    <Content Include="Help\ru-ru\Index.hhk" />
+    <Content Include="Help\ru-ru\toc.hhc" />
     <Content Include="SourceDir\x64\dynwrapx.dll" />
     <Content Include="SourceDir\x86\dynwrapx.dll" />
   </ItemGroup>

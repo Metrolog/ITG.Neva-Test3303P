@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="ArrPtr">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Bitness">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="MemAlloc">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="MemFree">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="NumGet">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="NumPut">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="ObjGet">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="ObjPtr">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Register">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#register">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="RegisterAddr">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#regaddr">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="RegisterCallback">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#callback">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="RegisterCode">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#regcode">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Space">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="StrGet">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="StrPtr">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="StrPut">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="VarPtr">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Version">
+		<param name="Name" value="DynamicWrapperX Help">
+		<param name="Local" value="Help.html#addons">
+		</OBJECT>
+</UL>
+</BODY></HTML>

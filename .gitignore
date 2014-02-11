@@ -7,3 +7,5 @@ obj
 /ITG.WixUtils/bin
 
 *.wixpdb
+
+*.chw

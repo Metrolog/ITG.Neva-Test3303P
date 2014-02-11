@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Introduction">
+		<param name="Local" value="Help.html#intro">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Built-in methods">
+		<param name="Local" value="Help.html#methods">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Types of input parameters and return values">
+		<param name="Local" value="Help.html#inparams">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Output parameters">
+		<param name="Local" value="Help.html#outparams">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Strings">
+		<param name="Local" value="Help.html#strings">
+		</OBJECT>
+</UL>
+</BODY></HTML>

@@ -1,0 +1,18 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=DynWrapX.chm
+Contents file=toc.hhc
+Default topic=Help.html
+Display compile progress=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x419 Русский (Россия)
+Title=DynamicWrapperX
+
+
+[FILES]
+Help.html
+
+[INFOTYPES]
+
