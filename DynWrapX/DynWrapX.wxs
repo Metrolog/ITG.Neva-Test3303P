@@ -22,6 +22,7 @@
 			ShortNames="no"
 		/>
 
+		<!-- каталог установки DynWrapX.dll -->
 		<Configuration
 			Name="InstallPath"
 			DisplayName="!(loc.InstallPath.DisplayName)"
@@ -37,11 +38,44 @@
 			Value="[=InstallPath]"
 		/>
 
+		<!-- устанавливать ли справку к DynWrapX.dll -->
+		<PropertyRef Id="INSTALLDYNWRAPXHELP"/>
+		<Configuration
+			Name="INSTALLDYNWRAPXHELP"
+			DisplayName="!(loc.HelpInstall.DisplayName)"
+			Description="!(loc.HelpInstall.Description)"
+			Format="Integer"
+			NonNullable="no"
+		/>
+		<Substitution
+			Table="Property"
+			Column="Value"
+			Row="INSTALLDYNWRAPXHELP"
+			Value="[=INSTALLDYNWRAPXHELP]"
+		/>
+
+		<!-- каталог установки справки к DynWrapX.dll -->
+		<Configuration
+			Name="HelpInstallPath"
+			DisplayName="!(loc.HelpInstallPath.DisplayName)"
+			Description="!(loc.HelpInstallPath.Description)"
+			Format="Key"
+			NonNullable="yes"
+			DefaultValue="HelpFolder"
+		/>
+		<Substitution
+			Table="Directory"
+			Column="Directory_Parent"
+			Row="PRODUCTHELPFOLDER"
+			Value="[=HelpInstallPath]"
+		/>
+
 		<DirectoryRef Id="$(var.SystemFolderId)">
 			<Directory Id="DynWrapX"/>
 		</DirectoryRef>
 
 		<ComponentGroupRef Id="DynWrapX.dll"/>
+		<ComponentGroupRef Id="DynWrapX.chm"/>
 
 	</Module>
 </Wix>

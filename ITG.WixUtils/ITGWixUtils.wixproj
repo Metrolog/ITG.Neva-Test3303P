@@ -28,6 +28,7 @@
     <Compile Include="Common.Shortcuts.wxs" />
     <Compile Include="Common.DatabaseDir.wxs" />
     <Compile Include="Common.Properties.wxs" />
+    <Compile Include="Common.Help.wxs" />
     <Compile Include="WixUI_MondoWithoutLicenseDlg.wxs" />
   </ItemGroup>
   <ItemGroup>

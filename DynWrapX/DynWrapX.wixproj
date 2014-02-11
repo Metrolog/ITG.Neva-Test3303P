@@ -20,6 +20,7 @@
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DynWrapX.Help.wxs" />
     <Compile Include="DynWrapX.wxs" />
     <Compile Include="DynWrapX.dll.wxs" />
   </ItemGroup>

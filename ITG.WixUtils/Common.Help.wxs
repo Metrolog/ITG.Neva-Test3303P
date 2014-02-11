@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<Fragment Id="HelpFolder">
+		<DirectoryRef Id="WindowsFolder">
+			<Directory Id="HelpFolder" Name="Help"/>
+		</DirectoryRef>
+		<IgnoreModularization Type="Directory" Name="HelpFolder"/>
+	</Fragment>
+
+	<Fragment Id="PRODUCTHELPFOLDER">
+		<DirectoryRef Id="HelpFolder">
+			<Directory Id="PRODUCTHELPFOLDER"/>
+		</DirectoryRef>
+	</Fragment>
+
+</Wix>

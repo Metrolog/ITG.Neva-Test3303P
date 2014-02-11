@@ -17,4 +17,9 @@
 	<String Id="InstallPath.DisplayName">DynamicWrapperX dll install path</String>
 	<String Id="InstallPath.Description">Directory Id for DynamicWrapperX dll install path.</String>
 
+	<String Id="HelpInstallPath.DisplayName">DynamicWrapperX help install path</String>
+	<String Id="HelpInstallPath.Description">Directory Id for DynWrapX.chm. Empty value - for disabling DynWrapX.chm integration in msi package.</String>
+	<String Id="HelpInstall.DisplayName">Install DynWrapX.chm or don't</String>
+	<String Id="HelpInstall.Description">Install DynWrapX.chm (1) or don't intall (0).</String>
+
 </WixLocalization>

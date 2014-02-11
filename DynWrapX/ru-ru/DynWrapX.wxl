@@ -17,4 +17,9 @@
 	<String Id="InstallPath.DisplayName">Каталог DynamicWrapperX</String>
 	<String Id="InstallPath.Description">Идентификатор каталога для установки файлов DynamicWrapperX.</String>
 
+	<String Id="HelpInstallPath.DisplayName">Каталог справки</String>
+	<String Id="HelpInstallPath.Description">Идентификатор каталога для установки файлов справки DynWrapX.chm. Пустое значение запрещает интеграцию компонентов справки в итоговый msi пакет.</String>
+	<String Id="HelpInstall.DisplayName">Устанавливать справку</String>
+	<String Id="HelpInstall.Description">Устанавливать ли файлы справки (0 - нет, 1 - да).</String>
+
 </WixLocalization>

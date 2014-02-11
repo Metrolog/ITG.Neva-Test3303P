@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?include DynWrapX.wxi?>
+
+	<Fragment>
+
+		<DirectoryRef Id="PRODUCTHELPFOLDER" />
+
+		<Property Id="INSTALLDYNWRAPXHELP" Value="0" SuppressModularization="yes"/>
+
+		<ComponentGroup
+			Id="DynWrapX.chm"
+			Directory="PRODUCTHELPFOLDER"
+			Source=".\Help\!(loc.Culture)"
+		>
+
+			<?define AppHelpFileName="$(var.ProductInternalName).chm"?>
+			
+			<Component
+				Id="$(var.AppHelpFileName)"
+				Guid="{EBD6E2B7-DA6F-4CDE-B9AB-6FEBFA440E7C}"
+				Shared="yes"
+				Location="either"
+			>
+				<Condition><![CDATA[INSTALLDYNWRAPXHELP]]></Condition>
+				<File
+					Name="$(var.AppHelpFileName)"
+					Vital="no"
+					KeyPath="yes"
+				/>
+			</Component>
+
+			<Component
+				Id="$(var.AppHelpFileName).Reg"
+				Guid="{C0B01AC0-57A8-49CE-BCD4-3D49D2A5FB49}"
+				Shared="yes"
+				Location="either"
+			>
+				<Condition><![CDATA[INSTALLDYNWRAPXHELP]]></Condition>
+				<RegistryKey
+					Root="HKMU"
+					Key="Software\Microsoft\Windows\CurrentVersion\App Paths"
+				>
+					<RegistryKey Key="$(var.AppHelpFileName)">
+						<RegistryValue Value="[#$(var.AppHelpFileName)]" Type="string"/>
+						<RegistryValue Name="Path" Value="[$$$(var.AppHelpFileName)]" Type="string"/>
+					</RegistryKey>
+				</RegistryKey>
+
+				<!-- http://msdn.microsoft.com/en-us/library/windows/desktop/bb776786.aspx -->
+				<RegistryKey
+					Root="HKMU"
+					Key="Software\Microsoft\Windows\HTML Help"
+				>
+					<RegistryValue Name="$(var.AppHelpFileName)" Value="[$$$(var.AppHelpFileName)]" Type="string" KeyPath="yes" />
+				</RegistryKey>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>

@@ -18,6 +18,7 @@
 				Id="DynWrapX.dll"
 				Guid="$(var.DllCompId)"
 				SharedDllRefCount="yes"
+				Shared="yes"
 				Location="local"
 			>
 				<File
