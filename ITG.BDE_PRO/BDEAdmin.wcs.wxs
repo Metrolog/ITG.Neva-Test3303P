@@ -80,7 +80,7 @@
 					/>
 				</File>
 				<RegistryKey
-					Root="HKMU"
+					Root="HKCR"
 					Key="CLSID"
 				>
 					<RegistryKey Key="$(var.AppClsId)">
