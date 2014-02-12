@@ -39,6 +39,9 @@
 			<parameter name="AliasDriver"/>
 			<parameter name="Params"/>
 		</method>
+		<method name="DeleteAlias">
+			<parameter name="AliasName"/>
+		</method>
 		<method name="SaveConfigFile"/>
 	</public>
 
@@ -48,7 +51,7 @@
 	<script language="JScript">
 		<![CDATA[
 
-// описание типов BDE http://webfiles.icebreak.org/webfiles/CBuilderCD/v4/Runimage/Cbuilder4/Include/Vcl/BDE.HPP
+// описание функций IDAPI http://webfiles.icebreak.org/webfiles/CBuilderCD/v4/Runimage/Cbuilder4/Include/Vcl/BDE.HPP
 
 // "подключаем" idapi32.dll
 var IDAPI32Path = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" );
@@ -161,6 +164,17 @@ IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=lsssl", "r=t" );
 
 function AddAlias( alias, driver, params ) {
 	var DBIResult = IDAPI.DbiAddAlias( 0, alias, driver, params, true );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiDeleteAlias(hDBICfg hCfg, char * pszAliasName);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiDeleteAlias", "i=ls", "r=t" );
+
+function DeleteAlias( alias ) {
+	var DBIResult = IDAPI.DbiDeleteAlias( 0, alias );
 	// throw new Error( DBIResult );
 	return DBIResult;
 };
