@@ -42,6 +42,7 @@
 		<method name="DeleteAlias">
 			<parameter name="AliasName"/>
 		</method>
+		<method name="ImportODBC"/>
 		<method name="SaveConfigFile"/>
 	</public>
 
@@ -113,10 +114,10 @@ function Done() {
 		TIME     timeVer;   // version time (int)
 	} SYSVersion;
 */
-IDAPI.Register( IDAPI32DllPath, "DbiGetSysVersion", "i=p", "r=l" );
+IDAPI.Register( IDAPI32DllPath, "DbiGetSysVersion", "i=p", "r=t" );
 
 function getSysVersion() {
-	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
 		if ( DBIResult != 0 ) { throw DBIResult; };
@@ -127,7 +128,7 @@ function getSysVersion() {
 };
 
 function getIntLevel() {
-	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
 		if ( DBIResult != 0 ) { throw DBIResult; };
@@ -138,7 +139,7 @@ function getIntLevel() {
 };
 
 function getVersion() {
-	var pSYSVersion = IDAPI.MemAlloc( 8 );
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
 		if ( DBIResult != 0 ) { throw DBIResult; };
@@ -175,6 +176,17 @@ IDAPI.Register( IDAPI32DllPath, "DbiDeleteAlias", "i=ls", "r=t" );
 
 function DeleteAlias( alias ) {
 	var DBIResult = IDAPI.DbiDeleteAlias( 0, alias );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiImportODBC(hDBICfg hCfg, BOOL bPersist);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiImportODBC", "i=ll", "r=t" );
+
+function ImportODBC( ) {
+	var DBIResult = IDAPI.DbiImportODBC( 0, true );
 	// throw new Error( DBIResult );
 	return DBIResult;
 };
