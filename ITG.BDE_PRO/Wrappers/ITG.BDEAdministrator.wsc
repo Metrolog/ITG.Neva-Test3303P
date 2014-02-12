@@ -53,6 +53,7 @@
 		<![CDATA[
 
 // описание функций IDAPI http://webfiles.icebreak.org/webfiles/CBuilderCD/v4/Runimage/Cbuilder4/Include/Vcl/BDE.HPP
+// коды ошибок http://www.hitekdev.com/delphi/bdeerrorcodes.html
 
 // "подключаем" idapi32.dll
 var IDAPI32Path = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" );

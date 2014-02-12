@@ -55,6 +55,7 @@
     <Folder Include="Icons" />
     <Folder Include="Binary" />
     <Folder Include="en-us" />
+    <Folder Include="Wrappers" />
     <Folder Include="ru-ru" />
     <Folder Include="SourceDir" />
     <Folder Include="SourceDir\en-us" />
@@ -99,6 +100,9 @@
     <Content Include="SourceDir\sqlint32.dll" />
     <Content Include="SourceDir\sql_int.cnf" />
     <Content Include="SourceDir\usa.btl" />
+    <Content Include="Wrappers\BDE.HPP" />
+    <Content Include="Wrappers\bdeerrorcodes.txt" />
+    <Content Include="Wrappers\ITG.BDEAdministrator.wsc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ITG.WixUtils\ITGWixUtils.wixproj">
