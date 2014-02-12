@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define SystemFolderId="SystemFolder" ?>
+	<?else?>
+	<?define SystemFolderId="System64Folder" ?>
+	<?endif?>
+
+	<Fragment Id="WSCSERVER32">
+		<DirectoryRef Id="SystemFolder"/>
+		<Property Id="WSCSERVER32">
+			<DirectorySearch Id="SystemFolder" Path="[SystemFolder]">
+				<FileSearch Id="scrobj.dll_x86" Name="scrobj.dll"/>
+			</DirectorySearch>
+		</Property>
+	</Fragment>
+
+	<Fragment Id="WSCSERVER64">
+		<DirectoryRef Id="System64Folder"/>
+		<Property Id="WSCSERVER64">
+			<DirectorySearch Id="System64Folder" Path="[System64Folder]">
+				<FileSearch Id="scrobj.dll_x64" Name="scrobj.dll"/>
+			</DirectorySearch>
+		</Property>
+	</Fragment>
+
+</Wix>

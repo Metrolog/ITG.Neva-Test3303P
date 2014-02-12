@@ -26,6 +26,12 @@
 		<Exclusion 
 			ExcludedId="BDE_PRO.E966F0CB_76B3_11D3_945B_00C04FB1760A"
 		/>
+		<!-- указываем на необходимость подключения DynWrapX merge module -->
+		<Dependency
+			RequiredId="DynWrapX.28B8F0C1_023B_45F8_86E9_6C28E7299382"
+			RequiredLanguage="0"
+			RequiredVersion="2"
+		/>
 
 		<Configuration
 			Name="BDEPath"
@@ -71,6 +77,7 @@
 		<ComponentGroupRef Id="QueryEditor"/>
 		<ComponentGroupRef Id="InterbaseDrivers"/>
 		<ComponentGroupRef Id="BdeMTSDispenser"/>
+		<ComponentGroupRef Id="ITG.BDEAdministrator"/>
 
 	</Module>
 </Wix>

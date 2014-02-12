@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!-- http://msdn.microsoft.com/en-us/library/30f5bff1(v=vs.84).aspx -->
+<component id="ITG.BDEAdministrator">
+
+	<comment>
+		Данный компонент представляет собой ActiveX обёртку для
+		API BDE adminitrator (idapi32.dll).
+	</comment>
+
+	<?component error="false" debug="false"?>
+
+	<registration
+		progid="ITG.BDEAdministrator"
+		classid="{1FCBCD5F-438D-4C76-9A97-B3A6144B36A9}"
+		description="BDE Administrator API ActiveX wrapper"
+		version="1.0"
+		remotable="false"
+	/>
+
+	<public>
+		<!-- обязательный "конструктор" - должен быть вызван до использования методов BDE -->
+		<method name="Init"/>
+		<!-- обязательный "деструктор" - должен быть вызван до завершения работы -->
+		<!-- всё это необходимо из-за отсутствия поддержки деструкторов в скриплетах -->
+		<method name="Done"/>
+
+		<property name="SysVersion">
+			<get internalName="getSysVersion"/>
+		</property>
+		<property name="IntLevel">
+			<get internalName="getIntLevel"/>
+		</property>
+		<property name="Version">
+			<get internalName="getVersion"/>
+		</property>
+
+		<method name="AddAlias">
+			<parameter name="AliasName"/>
+			<parameter name="AliasDriver"/>
+			<parameter name="Params"/>
+		</method>
+		<method name="DeleteAlias">
+			<parameter name="AliasName"/>
+		</method>
+		<method name="ImportODBC"/>
+		<method name="SaveConfigFile"/>
+	</public>
+
+	<object id="IDAPI" progid="DynamicWrapperX.2"/>
+	<object id="WshShell" progid="WScript.Shell"/>
+
+	<script language="JScript">
+		<![CDATA[
+
+// описание функций IDAPI http://webfiles.icebreak.org/webfiles/CBuilderCD/v4/Runimage/Cbuilder4/Include/Vcl/BDE.HPP
+// коды ошибок http://www.hitekdev.com/delphi/bdeerrorcodes.html
+
+// "подключаем" idapi32.dll
+var IDAPI32Path = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" );
+var IDAPI32DllPath = IDAPI32Path + "idapi32.dll";
+
+/*
+	extern PACKAGE Word __stdcall DbiInitFn(Word iVer, pDBIEnv pEnv);
+	extern PACKAGE Word __stdcall DbiInit(pDBIEnv pEnv);
+	#pragma pack(push, 1)
+	struct DBIEnv
+	{
+		char szWorkDir[261];
+		char szIniFile[261];
+		Word bForceLocalInit;
+		char szLang[32];
+		char szClientName[32];
+	};
+	#pragma pack(pop)
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiInitFn", "i=lp", "r=t" );
+
+var pDBIEnv = null;
+
+function Init() {
+	if ( null == pDBIEnv ) {
+		pDBIEnv = IDAPI.MemAlloc( 588, 1 );
+		IDAPI.StrPut( IDAPI32Path, pDBIEnv+0, "s" );
+		// IDAPI.StrPut( "", pDBIEnv+261, "s" );
+		IDAPI.NumPut( 1, pDBIEnv, 522, "t" );
+		// IDAPI.StrPut( "", pDBIEnv+524, "s" );
+		IDAPI.StrPut( "ITGBDEAdmin", pDBIEnv+556, "s" );
+	};
+	var DBIResult = IDAPI.DbiInitFn( 0, pDBIEnv );
+	// if ( DBIResult != 0 ) { throw DBIResult; };
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiExit(void);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=t" );
+
+function Done() {
+	if ( null != pDBIEnv ) {
+		IDAPI.MemFree( pDBIEnv );
+		pDBIEnv = null;
+	};
+	var DBIResult = IDAPI.DbiExit();
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	DBIResult DBIFN DbiGetSysVersion ( SYSVersion *psysVersion );
+	typedef struct tagSYSVersion {
+		UINT16   iVersion;  // DBE Version
+		UINT16   iIntLevel; // Client Interface version
+		DBIDATE  dateVer;   // version date (int)
+		TIME     timeVer;   // version time (int)
+	} SYSVersion;
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiGetSysVersion", "i=p", "r=t" );
+
+function getSysVersion() {
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
+	try {
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
+		return IDAPI.NumGet( pSYSVersion, 0, "t" );
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+function getIntLevel() {
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
+	try {
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
+		return IDAPI.NumGet( pSYSVersion, 2, "t" );
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+function getVersion() {
+	var pSYSVersion = IDAPI.MemAlloc( 32 );
+	try {
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
+		var Version = IDAPI.NumGet( pSYSVersion, 0, "t" );
+		var Release = IDAPI.NumGet( pSYSVersion, 4, "t" );
+		var Build   = IDAPI.NumGet( pSYSVersion, 6, "t" );
+		return "" + ( ~~( Version / 100 ) ) + "." + ( Version % 100 ) + "." + Release + "." + Build;
+	} finally {
+		IDAPI.MemFree( pSYSVersion );
+	};
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiAddAlias(
+		hDBICfg hCfg,
+		char * pszAliasName,
+		char * pszDriverType,
+		char * pszParams,
+		BOOL bPersist
+	);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=lsssl", "r=t" );
+
+function AddAlias( alias, driver, params ) {
+	var DBIResult = IDAPI.DbiAddAlias( 0, alias, driver, params, true );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiDeleteAlias(hDBICfg hCfg, char * pszAliasName);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiDeleteAlias", "i=ls", "r=t" );
+
+function DeleteAlias( alias ) {
+	var DBIResult = IDAPI.DbiDeleteAlias( 0, alias );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiImportODBC(hDBICfg hCfg, BOOL bPersist);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiImportODBC", "i=ll", "r=t" );
+
+function ImportODBC( ) {
+	var DBIResult = IDAPI.DbiImportODBC( 0, true );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiCfgSave(hDBICfg hCfg, char * pszNewFile, BOOL bSaveAs16);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiCfgSave", "i=lsl", "r=t" );
+
+function SaveConfigFile() {
+	var DBIResult = IDAPI.DbiCfgSave( 0, "", false );
+	// throw new Error( DBIResult );
+	return DBIResult;
+};
+
+		]]>
+	</script>
+</component> 

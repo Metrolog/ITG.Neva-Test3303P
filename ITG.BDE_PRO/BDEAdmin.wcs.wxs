@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<Fragment>
+
+		<?if $(sys.BUILDARCH) = "x86" ?>
+		<?define PlatformPostfix="32" ?>
+		<?define Win64="no" ?>
+		<?else?>
+		<?define PlatformPostfix="64" ?>
+		<?define Win64="yes" ?>
+		<?endif?>
+		
+		<PropertyRef Id="WSCSERVER$(var.PlatformPostfix)"/>
+		
+		<ComponentGroup
+			Id="ITG.BDEAdministrator"
+			Source=".\Wrappers"
+			Directory="BDE_INSTALL_PATH"
+		>
+
+			<?define AppInternalName="ITG.BDEAdministrator"?>
+			<?define AppDescription="BDE Administrator API ActiveX wrapper"?>
+			<?define AppFileName="$(var.AppInternalName).wsc"?>
+			<?define AppProgId="$(var.AppInternalName)"?>
+			<?define AppClsId="{1FCBCD5F-438D-4C76-9A97-B3A6144B36A9}"?>
+
+			<Component
+				Id="$(var.AppFileName)"
+				Guid="{5FCD3E76-3463-46A9-B290-AB62FEAB8412}"
+				Shared="yes"
+				SharedDllRefCount="yes"
+				Location="local"
+			>
+				<Condition><![CDATA[WSCSERVER$(var.PlatformPostfix)]]></Condition>
+				<File
+					Name="$(var.AppFileName)"
+					KeyPath="yes"
+				/>
+				<Class
+					Id="$(var.AppClsId)"
+					Context="InprocServer32"
+					Description="$(var.AppDescription)"
+					Control="no"
+					ForeignServer="[WSCSERVER$(var.PlatformPostfix)]"
+					Insertable="no"
+					Programmable="yes"
+					ThreadingModel="apartment"
+					Version="1.0"
+					Advertise="no"
+						>
+					<ProgId
+						Id="$(var.AppProgId).1.0"
+						Description="$(var.AppDescription)"
+						NoOpen=""
+						Advertise="no"
+							>
+						<ProgId
+							Id="$(var.AppProgId)"
+							Description="$(var.AppDescription)"
+							NoOpen=""
+							Advertise="no"
+								/>
+					</ProgId>
+				</Class>
+				<File
+					Name="$(var.AppInternalName).tlb"
+					CompanionFile="$(var.AppFileName)"
+				>
+					<TypeLib
+						Id="$(var.AppClsId)"
+						Description="$(var.AppDescription)"
+						HasDiskImage="yes"
+						Control="no"
+						Language="0"
+						MajorVersion="1"
+						MinorVersion="0"
+						Advertise="no"
+					/>
+				</File>
+				<RegistryKey
+					Root="HKMU"
+					Key="CLSID"
+				>
+					<RegistryKey Key="$(var.AppClsId)">
+						<RegistryKey Key="ScriptletURL">
+							<RegistryValue Value="[#$(var.AppFileName)]" Type="string"/>
+						</RegistryKey>
+					</RegistryKey>
+				</RegistryKey>
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+</Wix>
