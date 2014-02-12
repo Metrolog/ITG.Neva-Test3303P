@@ -48,13 +48,57 @@
 	<script language="JScript">
 		<![CDATA[
 
-// "подключаем" idapi32.dll
-var IDAPI32DllPath = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" ) + "idapi32.dll";
+// описание типов BDE http://webfiles.icebreak.org/webfiles/CBuilderCD/v4/Runimage/Cbuilder4/Include/Vcl/BDE.HPP
 
-IDAPI.Register( IDAPI32DllPath, "DbiInitFn", "i=p", "r=l" );
+// "подключаем" idapi32.dll
+var IDAPI32Path = WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\DLLPath" );
+var IDAPI32DllPath = IDAPI32Path + "idapi32.dll";
+
+/*
+	extern PACKAGE Word __stdcall DbiInitFn(Word iVer, pDBIEnv pEnv);
+	extern PACKAGE Word __stdcall DbiInit(pDBIEnv pEnv);
+	#pragma pack(push, 1)
+	struct DBIEnv
+	{
+		char szWorkDir[261];
+		char szIniFile[261];
+		Word bForceLocalInit;
+		char szLang[32];
+		char szClientName[32];
+	};
+	#pragma pack(pop)
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiInitFn", "i=lp", "r=t" );
+
+var pDBIEnv = null;
 
 function Init() {
-	return IDAPI.DbiInitFn( null );
+	if ( null == pDBIEnv ) {
+		pDBIEnv = IDAPI.MemAlloc( 588, 1 );
+		IDAPI.StrPut( IDAPI32Path, pDBIEnv+0, "s" );
+		// IDAPI.StrPut( "", pDBIEnv+261, "s" );
+		IDAPI.NumPut( 1, pDBIEnv, 522, "t" );
+		// IDAPI.StrPut( "", pDBIEnv+524, "s" );
+		IDAPI.StrPut( "ITGBDEAdmin", pDBIEnv+556, "s" );
+	};
+	var DBIResult = IDAPI.DbiInitFn( 0, pDBIEnv );
+	// if ( DBIResult != 0 ) { throw DBIResult; };
+	return DBIResult;
+};
+
+/*
+	extern PACKAGE Word __stdcall DbiExit(void);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=t" );
+
+function Done() {
+	if ( null != pDBIEnv ) {
+		IDAPI.MemFree( pDBIEnv );
+		pDBIEnv = null;
+	};
+	var DBIResult = IDAPI.DbiExit();
+	// throw new Error( DBIResult );
+	return DBIResult;
 };
 
 /*
@@ -71,8 +115,8 @@ IDAPI.Register( IDAPI32DllPath, "DbiGetSysVersion", "i=p", "r=l" );
 function getSysVersion() {
 	var pSYSVersion = IDAPI.MemAlloc( 8 );
 	try {
-		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( dbiResult != 0 ) { throw dbiResult; };
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
 		return IDAPI.NumGet( pSYSVersion, 0, "t" );
 	} finally {
 		IDAPI.MemFree( pSYSVersion );
@@ -82,8 +126,8 @@ function getSysVersion() {
 function getIntLevel() {
 	var pSYSVersion = IDAPI.MemAlloc( 8 );
 	try {
-		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( dbiResult != 0 ) { throw dbiResult; };
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
 		return IDAPI.NumGet( pSYSVersion, 2, "t" );
 	} finally {
 		IDAPI.MemFree( pSYSVersion );
@@ -93,8 +137,8 @@ function getIntLevel() {
 function getVersion() {
 	var pSYSVersion = IDAPI.MemAlloc( 8 );
 	try {
-		var dbiResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( dbiResult != 0 ) { throw dbiResult; };
+		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
+		if ( DBIResult != 0 ) { throw DBIResult; };
 		var Version = IDAPI.NumGet( pSYSVersion, 0, "t" );
 		var Release = IDAPI.NumGet( pSYSVersion, 4, "t" );
 		var Build   = IDAPI.NumGet( pSYSVersion, 6, "t" );
@@ -104,22 +148,32 @@ function getVersion() {
 	};
 };
 
-IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=l" );
-
-function Done() {
-	return IDAPI.DbiExit();
-};
-
-IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=psssl", "r=l" );
+/*
+	extern PACKAGE Word __stdcall DbiAddAlias(
+		hDBICfg hCfg,
+		char * pszAliasName,
+		char * pszDriverType,
+		char * pszParams,
+		BOOL bPersist
+	);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=lsssl", "r=t" );
 
 function AddAlias( alias, driver, params ) {
-	return IDAPI.DbiAddAlias( null, alias, driver, params, true );
+	var DBIResult = IDAPI.DbiAddAlias( 0, alias, driver, params, true );
+	// throw new Error( DBIResult );
+	return DBIResult;
 };
 
-IDAPI.Register( IDAPI32DllPath, "DbiCfgSave", "i=ppl", "r=l" );
+/*
+	extern PACKAGE Word __stdcall DbiCfgSave(hDBICfg hCfg, char * pszNewFile, BOOL bSaveAs16);
+*/
+IDAPI.Register( IDAPI32DllPath, "DbiCfgSave", "i=lsl", "r=t" );
 
 function SaveConfigFile() {
-	return IDAPI.DbiCfgSave( null, null, true );
+	var DBIResult = IDAPI.DbiCfgSave( 0, "", false );
+	// throw new Error( DBIResult );
+	return DBIResult;
 };
 
 		]]>
