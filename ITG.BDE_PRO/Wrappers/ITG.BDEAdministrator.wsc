@@ -97,7 +97,7 @@ function _Init( configFilePath ) {
 		IDAPI.StrPut( "ITGBDEAdmin", pDBIEnv+556, "s" );
 
 		var DBIResult = IDAPI.DbiInitFn( 0, pDBIEnv );
-		if ( DBIResult != 0 ) { throw DBIResult; };
+		if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 	} finally {
 		IDAPI.MemFree( pDBIEnv );
 	};
@@ -107,8 +107,8 @@ function Init() {
 	var DBIResult = 0;
 	try {
 		_Init.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -120,15 +120,15 @@ IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=t" );
 
 function _Done() {
 	var DBIResult = IDAPI.DbiExit();
-	if ( DBIResult != 0 ) { throw DBIResult; };
+	if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 };
 
 function Done() {
 	var DBIResult = 0;
 	try {
 		_Done.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -148,7 +148,7 @@ function getSysVersion() {
 	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( DBIResult != 0 ) { throw DBIResult; };
+		if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 		return IDAPI.NumGet( pSYSVersion, 0, "t" );
 	} finally {
 		IDAPI.MemFree( pSYSVersion );
@@ -159,7 +159,7 @@ function getIntLevel() {
 	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( DBIResult != 0 ) { throw DBIResult; };
+		if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 		return IDAPI.NumGet( pSYSVersion, 2, "t" );
 	} finally {
 		IDAPI.MemFree( pSYSVersion );
@@ -170,7 +170,7 @@ function getVersion() {
 	var pSYSVersion = IDAPI.MemAlloc( 32 );
 	try {
 		var DBIResult = IDAPI.DbiGetSysVersion( pSYSVersion );
-		if ( DBIResult != 0 ) { throw DBIResult; };
+		if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 		var Version = IDAPI.NumGet( pSYSVersion, 0, "t" );
 		var Release = IDAPI.NumGet( pSYSVersion, 4, "t" );
 		var Build   = IDAPI.NumGet( pSYSVersion, 6, "t" );
@@ -193,15 +193,15 @@ IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=lsssl", "r=t" );
 
 function _AddAlias( alias, driver, params ) {
 	var DBIResult = IDAPI.DbiAddAlias( 0, alias, driver, params, true );
-	if ( DBIResult != 0 ) { throw DBIResult; };
+	if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 };
 
 function AddAlias() {
 	var DBIResult = 0;
 	try {
 		_AddAlias.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -213,15 +213,15 @@ IDAPI.Register( IDAPI32DllPath, "DbiDeleteAlias", "i=ls", "r=t" );
 
 function _DeleteAlias( alias ) {
 	var DBIResult = IDAPI.DbiDeleteAlias( 0, alias );
-	if ( DBIResult != 0 ) { throw DBIResult; };
+	if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 };
 
 function DeleteAlias() {
 	var DBIResult = 0;
 	try {
 		_DeleteAlias.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -233,15 +233,15 @@ IDAPI.Register( IDAPI32DllPath, "DbiImportODBC", "i=ll", "r=t" );
 
 function _ImportODBC( ) {
 	var DBIResult = IDAPI.DbiImportODBC( 0, true );
-	if ( DBIResult != 0 ) { throw DBIResult; };
+	if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 };
 
 function ImportODBC() {
 	var DBIResult = 0;
 	try {
 		_ImportODBC.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -255,8 +255,8 @@ function SaveConfigFile() {
 	var DBIResult = 0;
 	try {
 		_SaveConfigFileAs.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -266,15 +266,15 @@ function _SaveConfigFileAs( configFilePath ) {
 		configFilePath = "";
 	};
 	var DBIResult = IDAPI.DbiCfgSave( 0, configFilePath, false );
-	if ( DBIResult != 0 ) { throw DBIResult; };
+	if ( DBIResult != 0 ) { throw new Error( DBIResult ); };
 };
 
 function SaveConfigFileAs() {
 	var DBIResult = 0;
 	try {
 		_SaveConfigFileAs.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
@@ -292,8 +292,8 @@ function BackupConfigFileAs() {
 	var DBIResult = 0;
 	try {
 		_BackupConfigFileAs.apply( null, arguments );
-	} catch( DBIErrorCode ) {
-		DBIResult = DBIErrorCode;
+	} catch( DBIError ) {
+		DBIResult = DBIError.number;
 	};
 	return DBIResult;
 };
