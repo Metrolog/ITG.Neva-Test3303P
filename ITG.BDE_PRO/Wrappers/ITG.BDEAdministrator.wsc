@@ -281,8 +281,11 @@ function SaveConfigFileAs() {
 
 function _BackupConfigFileAs( configFilePath ) {
 	_Init();
-	_SaveConfigFileAs( configFilePath );
-	_Done();
+	try {
+		_SaveConfigFileAs( configFilePath );
+	} finally {
+		_Done();
+	};
 };
 
 function BackupConfigFileAs() {
@@ -297,8 +300,11 @@ function BackupConfigFileAs() {
 
 function _RestoreConfigFileFrom( configFilePath ) {
 	_Init( configFilePath );
-	_SaveConfigFileAs( WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\CONFIGFILE01" ) );
-	_Done();
+	try {
+		_SaveConfigFileAs( WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\CONFIGFILE01" ) );
+	} finally {
+		_Done();
+	};
 };
 
 function RestoreConfigFileFrom() {
