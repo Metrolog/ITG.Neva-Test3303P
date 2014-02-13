@@ -157,7 +157,7 @@ var rV = "UseCount";
 // Pop a message box. Also spool a message into the MSI log, if it is enabled. 
 function LogException( exc ) {
     var record = Session.Installer.CreateRecord( 0 );
-    record.StringData( 0 ) = "CustomAction: Exception: 0x" + decimalToHexString( exc.number ) + " : " + exc.message;
+    record.StringData( 0 ) = "CustomAction: Exception: 0x" + exc.number.toString(16).toUpperCase() + " : " + exc.message;
     Session.Message(
 		MsgKind.Error + Icons.Critical + Buttons.btnOkOnly,
 		record
@@ -172,25 +172,4 @@ function LogMessage( msg ) {
 		MsgKind.Log,
 		record
 	);
-};
-
-// http://msdn.microsoft.com/en-us/library/d5fk67ky(VS.85).aspx
-var WindowStyle = {
-    Hidden : 0,
-    Minimized : 1,
-    Maximized : 2
-};
-
-// http://msdn.microsoft.com/en-us/library/314cz14s(v=VS.85).aspx
-var OpenMode = {
-    ForReading : 1,
-    ForWriting : 2,
-    ForAppending : 8
-};
-
-// http://msdn.microsoft.com/en-us/library/a72y2t1c(v=VS.85).aspx
-var SpecialFolders = {
-    WindowsFolder : 0, 
-    SystemFolder :  1, 
-    TemporaryFolder : 2
 };

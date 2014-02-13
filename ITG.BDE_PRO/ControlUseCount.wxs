@@ -2,62 +2,75 @@
 <Wix
 	xmlns="http://wixtoolset.org/schemas/v4/wxs"
 >
-	<Fragment Id="ControlUseCount">
+	<?define CAModule="ControlUseCount"?>
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define Win64="no" ?>
+	<?else?>
+	<?define Win64="yes" ?>
+	<?endif?>
 
-		<Binary Id="ControlUseCount" SourceFile="ControlUseCount.js"/>
+	<Fragment Id="$(var.CAModule)">
+
+		<Binary Id="$(var.CAModule)" SourceFile="$(var.CAModule).js"/>
 
 		<CustomAction
 			Id="IncBDEUsageCount"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="IncBDEUsageCount_CA"
 			Execute="immediate"
 			Return="check"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 		<CustomAction
 			Id="IncBDEUsageCountDeferred"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="IncBDEUsageCountDeferred_CA"
 			Execute="deferred"
 			Impersonate="no"
 			Return="check"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 		<CustomAction
 			Id="IncBDEUsageCountRollback"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="IncBDEUsageCountRollback_CA"
 			Return="ignore"
 			Execute="rollback"
 			Impersonate="no"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 
 		<CustomAction
 			Id="DecBDEUsageCount"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="DecBDEUsageCount_CA"
 			Execute="immediate"
 			Return="check"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 		<CustomAction
 			Id="DecBDEUsageCountDeferred"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="DecBDEUsageCountDeferred_CA"
 			Execute="deferred"
 			Impersonate="no"
 			Return="check"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 		<CustomAction
 			Id="DecBDEUsageCountRollback"
-			BinaryKey="ControlUseCount"
+			BinaryKey="$(var.CAModule)"
 			JScriptCall="DecBDEUsageCountRollback_CA"
 			Return="ignore"
 			Execute="rollback"
 			Impersonate="no"
 			SuppressModularization="yes"
+			Win64="$(var.Win64)"
 		/>
 		
 		<InstallExecuteSequence>
