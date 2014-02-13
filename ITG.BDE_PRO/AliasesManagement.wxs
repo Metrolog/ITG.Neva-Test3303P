@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?define CAModule="AliasesManagement"?>
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define Win64="no" ?>
+	<?else?>
+	<?define Win64="yes" ?>
+	<?endif?>
+
+	<Fragment Id="$(var.CAModule)">
+
+		<PropertyRef Id="ITGBDEADMINISTRATOR"/>
+
+		<Binary Id="$(var.CAModule)" SourceFile="$(var.CAModule).js"/>
+
+		<CustomAction
+			Id="InstallBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="InstallBDEAliases_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="RemoveBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="RemoveBDEAliases_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<CustomAction
+			Id="BDEBackupConfig"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="BDEBackupConfig_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="BDERestoreConfig"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="BDERestoreConfig_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<CustomAction
+			Id="InstallBDEAlias"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="InstallBDEAlias_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes" 
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="RemoveBDEAlias"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="RemoveBDEAlias_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<InstallExecuteSequence>
+			<Custom Action="InstallBDEAliases" After="InstallODBC">
+				<![CDATA[]]>
+			</Custom>
+			<Custom Action="RemoveBDEAliases" Before="RemoveODBC">
+				<![CDATA[Installed]]>
+			</Custom>
+		</InstallExecuteSequence>
+		
+	</Fragment>
+</Wix>

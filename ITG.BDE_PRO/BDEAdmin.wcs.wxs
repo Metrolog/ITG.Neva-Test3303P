@@ -13,6 +13,8 @@
 		<?endif?>
 		
 		<PropertyRef Id="WSCSERVER$(var.PlatformPostfix)"/>
+
+		<Property Id="ITGBDEADMINISTRATOR" Value="1"/>
 		
 		<ComponentGroup
 			Id="ITG.BDEAdministrator"

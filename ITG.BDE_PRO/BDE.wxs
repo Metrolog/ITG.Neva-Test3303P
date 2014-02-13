@@ -79,5 +79,8 @@
 		<ComponentGroupRef Id="BdeMTSDispenser"/>
 		<ComponentGroupRef Id="ITG.BDEAdministrator"/>
 
+		<CustomActionRef Id="InstallBDEAliases"/>
+		<CustomActionRef Id="RemoveBDEAliases"/>
+
 	</Module>
 </Wix>
