@@ -1,6 +1,8 @@
 ﻿$t = New-Object -ComObject ITG.BDEAdministrator;
 $t.Version;
 
+$t.BackupConfigFileAs( 'c:\backup.cfg', $null );
+
 $t.Init( $null );
 
 # $t.ImportODBC( $null );
@@ -10,6 +12,7 @@ $t.SaveConfigFile( $null );
 
 $t.Done( $null );
 
+<#
 $t.Init( $null );
 
 # $t.ImportODBC( $null );
@@ -18,5 +21,10 @@ $t.DeleteAlias( 'NevaTest3303P', $null );
 $t.SaveConfigFile( $null );
 
 $t.Done( $null );
+#>
 
+[System.Runtime.InteropServices.Marshal]::ReleaseComObject( $t );
+
+$t = New-Object -ComObject ITG.BDEAdministrator;
+$t.RestoreConfigFileFrom( 'c:\backup.cfg', $null );
 [System.Runtime.InteropServices.Marshal]::ReleaseComObject( $t );

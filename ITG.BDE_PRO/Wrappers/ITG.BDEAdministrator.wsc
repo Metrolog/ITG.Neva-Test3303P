@@ -7,7 +7,7 @@
 		API BDE adminitrator (idapi32.dll).
 	</comment>
 
-	<?component error="false" debug="false"?>
+	<?component error="true" debug="false"?>
 
 	<registration
 		progid="ITG.BDEAdministrator"
@@ -44,6 +44,16 @@
 		</method>
 		<method name="ImportODBC"/>
 		<method name="SaveConfigFile"/>
+		<method name="SaveConfigFileAs">
+			<parameter name="ConfigFileName"/>
+		</method>
+
+		<method name="BackupConfigFileAs">
+			<parameter name="ConfigFileName"/>
+		</method>
+		<method name="RestoreConfigFileFrom">
+			<parameter name="ConfigFileName"/>
+		</method>
 	</public>
 
 	<object id="IDAPI" progid="DynamicWrapperX.2"/>
@@ -75,19 +85,31 @@ var IDAPI32DllPath = IDAPI32Path + "idapi32.dll";
 */
 IDAPI.Register( IDAPI32DllPath, "DbiInitFn", "i=lp", "r=t" );
 
-var pDBIEnv = null;
-
-function Init() {
-	if ( null == pDBIEnv ) {
-		pDBIEnv = IDAPI.MemAlloc( 588, 1 );
+function _Init( configFilePath ) {
+	var pDBIEnv = IDAPI.MemAlloc( 588, 1 );
+	try {
 		IDAPI.StrPut( IDAPI32Path, pDBIEnv+0, "s" );
-		// IDAPI.StrPut( "", pDBIEnv+261, "s" );
+		if ( null != configFilePath ) {
+			IDAPI.StrPut( configFilePath, pDBIEnv+261, "s" );
+		};
 		IDAPI.NumPut( 1, pDBIEnv, 522, "t" );
 		// IDAPI.StrPut( "", pDBIEnv+524, "s" );
 		IDAPI.StrPut( "ITGBDEAdmin", pDBIEnv+556, "s" );
+
+		var DBIResult = IDAPI.DbiInitFn( 0, pDBIEnv );
+		if ( DBIResult != 0 ) { throw DBIResult; };
+	} finally {
+		IDAPI.MemFree( pDBIEnv );
 	};
-	var DBIResult = IDAPI.DbiInitFn( 0, pDBIEnv );
-	// if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function Init() {
+	var DBIResult = 0;
+	try {
+		_Init.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
@@ -96,13 +118,18 @@ function Init() {
 */
 IDAPI.Register( IDAPI32DllPath, "DbiExit", "r=t" );
 
-function Done() {
-	if ( null != pDBIEnv ) {
-		IDAPI.MemFree( pDBIEnv );
-		pDBIEnv = null;
-	};
+function _Done() {
 	var DBIResult = IDAPI.DbiExit();
-	// throw new Error( DBIResult );
+	if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function Done() {
+	var DBIResult = 0;
+	try {
+		_Done.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
@@ -164,9 +191,18 @@ function getVersion() {
 */
 IDAPI.Register( IDAPI32DllPath, "DbiAddAlias", "i=lsssl", "r=t" );
 
-function AddAlias( alias, driver, params ) {
+function _AddAlias( alias, driver, params ) {
 	var DBIResult = IDAPI.DbiAddAlias( 0, alias, driver, params, true );
-	// throw new Error( DBIResult );
+	if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function AddAlias() {
+	var DBIResult = 0;
+	try {
+		_AddAlias.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
@@ -175,9 +211,18 @@ function AddAlias( alias, driver, params ) {
 */
 IDAPI.Register( IDAPI32DllPath, "DbiDeleteAlias", "i=ls", "r=t" );
 
-function DeleteAlias( alias ) {
+function _DeleteAlias( alias ) {
 	var DBIResult = IDAPI.DbiDeleteAlias( 0, alias );
-	// throw new Error( DBIResult );
+	if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function DeleteAlias() {
+	var DBIResult = 0;
+	try {
+		_DeleteAlias.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
@@ -186,9 +231,18 @@ function DeleteAlias( alias ) {
 */
 IDAPI.Register( IDAPI32DllPath, "DbiImportODBC", "i=ll", "r=t" );
 
-function ImportODBC( ) {
+function _ImportODBC( ) {
 	var DBIResult = IDAPI.DbiImportODBC( 0, true );
-	// throw new Error( DBIResult );
+	if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function ImportODBC() {
+	var DBIResult = 0;
+	try {
+		_ImportODBC.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
@@ -198,8 +252,62 @@ function ImportODBC( ) {
 IDAPI.Register( IDAPI32DllPath, "DbiCfgSave", "i=lsl", "r=t" );
 
 function SaveConfigFile() {
-	var DBIResult = IDAPI.DbiCfgSave( 0, "", false );
-	// throw new Error( DBIResult );
+	var DBIResult = 0;
+	try {
+		_SaveConfigFileAs.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
+	return DBIResult;
+};
+
+function _SaveConfigFileAs( configFilePath ) {
+	if ( null == configFilePath ) {
+		configFilePath = "";
+	};
+	var DBIResult = IDAPI.DbiCfgSave( 0, configFilePath, false );
+	if ( DBIResult != 0 ) { throw DBIResult; };
+};
+
+function SaveConfigFileAs() {
+	var DBIResult = 0;
+	try {
+		_SaveConfigFileAs.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
+	return DBIResult;
+};
+
+function _BackupConfigFileAs( configFilePath ) {
+	_Init();
+	_SaveConfigFileAs( configFilePath );
+	_Done();
+};
+
+function BackupConfigFileAs() {
+	var DBIResult = 0;
+	try {
+		_BackupConfigFileAs.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
+	return DBIResult;
+};
+
+function _RestoreConfigFileFrom( configFilePath ) {
+	_Init( configFilePath );
+	_SaveConfigFileAs( WshShell.RegRead( "HKLM\\Software\\Borland\\Database Engine\\CONFIGFILE01" ) );
+	_Done();
+};
+
+function RestoreConfigFileFrom() {
+	var DBIResult = 0;
+	try {
+		_RestoreConfigFileFrom.apply( null, arguments );
+	} catch( DBIErrorCode ) {
+		DBIResult = DBIErrorCode;
+	};
 	return DBIResult;
 };
 
