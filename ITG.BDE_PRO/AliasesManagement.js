@@ -1,15 +1,18 @@
-// http://stackoverflow.com/questions/471424/wix-tricks-and-tips
+var Messages = {
+	msierrBDEError : 26801
+};
+var uiCost = {
+	BDEBackupConfig : 1000,
+	BDERestoreConfig : 1000
+};
 
 function InstallBDEAliases_CA() {
 	try {
-		LogMessage( "Preparing BDE configuration operations..." );
 		BackupAndRestoreBDEConfig();
 		// теперь собственно создание алиасов и прочие необходимые действия по конфигурации
 		// ...
-		LogMessage( "BDE configuration operations was successfully scheduled." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
 };
@@ -17,36 +20,29 @@ function InstallBDEAliases_CA() {
 function BackupAndRestoreBDEConfig() {
 	var backupFileName = Session.Property( "BDECONFIGBACKUPFILE" );
 	if ( !backupFileName ) {
-		LogMessage( "Attempt to schedule BDE configuration backup and restore operations..." );
 		var FSO = new ActiveXObject("Scripting.FileSystemObject");
 		var backupFileName = FSO.BuildPath(
 			FSO.GetSpecialFolder( 2 ),
 			FSO.GetTempName()
 		);
-		Session.Property( "BDEBackupConfig" ) = backupFileName;
-		Session.DoAction( "BDEBackupConfig" );
-		Session.Property( "BDERestoreConfig" ) = backupFileName;
-		Session.DoAction( "BDERestoreConfig" );
+		DoDeferredAction( "BDEBackupConfig", backupFileName, uiCost.BDEBackupConfig );
+		DoDeferredAction( "BDERestoreConfig", backupFileName, uiCost.BDERestoreConfig );
 		Session.Property( "BDECONFIGBACKUPFILE" ) = backupFileName;
-		LogMessage( "BDE configuration backup and restore operations was successfully scheduled." );
 	};
-	LogMessage( "BDE configuration backup full filename " + backupFileName );
 };
 
 function BDEBackupConfig_CA() {
 	// deferred
 	try {
-		LogMessage( "Attempt to backup BDE configuration..." );
-		var backupFileName = Session.Property( "CustomActionData" );
-		LogMessage( "Backup file name " + backupFileName );
+		var backupFileName = JSON.parse( Session.Property( "CustomActionData" ) );
+		ActionData( backupFileName );
 		var BDEAdmin = new ActiveXObject( "ITG.BDEAdministrator" );
-		LogMessage( "ITG.BDEAdministrator is avaliable." );
-		var BDEResult = BDEAdmin.BackupConfigFileAs( backupFileName );
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
-		LogMessage( "BDE configuration was successfully backuped." );
+		// LogMessage( "ITG.BDEAdministrator is avaliable." );
+		CheckBDEError( BDEAdmin.BackupConfigFileAs( backupFileName ) );
+		ProgressBar( uiCost.BDEBackupConfig );
+		// LogMessage( "BDE configuration was successfully backuped." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
 };
@@ -54,17 +50,15 @@ function BDEBackupConfig_CA() {
 function BDERestoreConfig_CA() {
 	// rollback
 	try {
-		LogMessage( "Attempt to restore BDE configuration..." );
-		var backupFileName = Session.Property( "CustomActionData" );
-		LogMessage( "Backup file name " + backupFileName );
+		var backupFileName = JSON.parse( Session.Property( "CustomActionData" ) );
+		ActionData( backupFileName );
 		var BDEAdmin = new ActiveXObject( "ITG.BDEAdministrator" );
-		LogMessage( "ITG.BDEAdministrator is avaliable." );
-		var BDEResult = BDEAdmin.RestoreConfigFileFrom( backupFileName );
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
-		LogMessage( "BDE configuration was successfully restored." );
+		// LogMessage( "ITG.BDEAdministrator is avaliable." );
+		CheckBDEError( BDEAdmin.RestoreConfigFileFrom( backupFileName ) );
+		ProgressBar( uiCost.BDERestoreConfig );
+		// LogMessage( "BDE configuration was successfully restored." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
 };
@@ -81,38 +75,30 @@ function InstallBDEAlias_CA() {
 		LogMessage( "Alias description : " + Params.Description );
 		LogMessage( "Alias parameters  : " + Params.Parameters );
 		var BDEAdmin = new ActiveXObject( "ITG.BDEAdministrator" );
-		var BDEResult = BDEAdmin.Init();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		CheckBDEError( BDEAdmin.Init() );
 		LogMessage( "ITG.BDEAdministrator is successfully initialized." );
-		BDEResult = BDEAdmin.AddAlias(
+		CheckBDEError( BDEAdmin.AddAlias(
 			Params.DataSource,
 			Params.DriverDescription,
 			Params.Parameters
-		);
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
-		BDEResult = BDEAdmin.SaveConfigFile();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		) );
+		CheckBDEError( BDEAdmin.SaveConfigFile() );
 		LogMessage( "BDE configuration is successfully saved." );
-		BDEResult = BDEAdmin.Done();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		CheckBDEError( BDEAdmin.Done() );
 		LogMessage( "BDE alias was successfully added." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
 };
 
 function RemoveBDEAliases_CA() {
 	try {
-		LogMessage( "Preparing BDE configuration operations..." );
 		BackupAndRestoreBDEConfig();
 		// теперь собственно удаление алиасов и прочие необходимые действия по конфигурации
 		// ...
-		LogMessage( "BDE configuration operations was successfully scheduled." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
 };
@@ -126,24 +112,27 @@ function RemoveBDEAlias_CA() {
 		var Params = JSON.parse( data );
 		LogMessage( "Alias name        : " + Params.DataSource );
 		var BDEAdmin = new ActiveXObject( "ITG.BDEAdministrator" );
-		var BDEResult = BDEAdmin.Init();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		CheckBDEError( BDEAdmin.Init() );
 		LogMessage( "ITG.BDEAdministrator is successfully initialized." );
-		BDEResult = BDEAdmin.DeleteAlias(
+		CheckBDEError( BDEAdmin.DeleteAlias(
 			Params.DataSource
-		);
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
-		BDEResult = BDEAdmin.SaveConfigFile();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		) );
+		CheckBDEError( BDEAdmin.SaveConfigFile() );
 		LogMessage( "BDE configuration is successfully saved." );
-		BDEResult = BDEAdmin.Done();
-		if ( BDEResult != 0 ) { throw new Error( BDEResult ); };
+		CheckBDEError( BDEAdmin.Done() );
 		LogMessage( "BDE alias was successfully deleted." );
 	} catch ( exc ) {
-		LogException( exc );
-		return MsiActionStatus.Abort;
+		return CheckException( exc );
 	}
 	return MsiActionStatus.Ok;
+};
+
+// Check BDE error code, register error in log and throw exception
+function CheckBDEError( BDEResult ) {
+	if ( 0 != BDEResult ) {
+		ErrorMessage( Messages.msierrBDEError, BDEResult, Icons.Critical + Buttons.btnOkOnly );
+		throw new Error( BDEResult );
+	};
 };
 
 // http://msdn.microsoft.com/en-us/library/sfw6660x(VS.85).aspx
@@ -162,20 +151,178 @@ var Icons = {
 };
 
 var MsgKind = {
-	Error            : 0x01000000,
-	Warning          : 0x02000000,
-	User             : 0x03000000,
-	Log              : 0x04000000
+	FatalExit        : 0x00000000, // premature termination, possibly fatal OOM
+	Error            : 0x01000000, // formatted error message
+	Warning          : 0x02000000, // formatted warning message
+	User             : 0x03000000, // user request message
+	Log              : 0x04000000, // informative message for log
+	FilesInUse       : 0x05000000, // list of files in use that need to be replaced
+	ResolveSource    : 0x06000000, // request to determine a valid source location
+	OutOfDiskSpace   : 0x07000000, // insufficient disk space message
+	ActionStart      : 0x08000000, // start of action: action name & description
+	ActionData       : 0x09000000, // formatted data associated with individual action item
+	Progress         : 0x0A000000, // progress gauge info: units so far, total
+	CommonData       : 0x0B000000, // product info for dialog: language Id, dialog caption
+	Initialize       : 0x0C000000, // sent prior to UI initialization, no string data
+	Terminate        : 0x0D000000, // sent after UI termination, no string data
+	ShowDialog       : 0x0E000000  // sent prior to display or authored dialog or wizard
 };
 
 // http://msdn.microsoft.com/en-us/library/aa371254(VS.85).aspx
 var MsiActionStatus = {
-	None             : 0,
-	Ok               : 1,
-	Cancel           : 2,
-	Abort            : 3,
-	Retry            : 4,
-	Ignore           : 5
+	Error            :-1,
+	None             : 0,  // msiDoActionStatusNoAction
+	Ok               : 1,  // msiDoActionStatusSuccess
+	Cancel           : 2,  // msiDoActionStatusUserExit
+	Abort            : 3,  // msiDoActionStatusFailure
+	Retry            : 4,  // msiDoActionStatusSuspend
+	Ignore           : 5,  // msiDoActionStatusFinished
+	Yes              : 6,
+	No               : 7
+};
+
+//
+var RunMode = { 
+	Admin            : 0,  // Administrative mode install, else product install.
+	Advertise        : 1,  // Advertise mode of install.
+	Maintenance      : 2,  // Maintenance mode database loaded.
+	RollbackEnabled  : 3,  // Rollback is enabled.
+	LogEnabled       : 4,  // Log file is active.
+	Operations       : 5,  // Executing or spooling operations.
+	RebootAtEnd      : 6,  // Reboot is needed (settable).
+	RebootNow        : 7,  // Reboot is needed to continue installation (settable).
+	Cabinet          : 8,  // Installing files from cabinets and files using Media table.
+	SourceShortNames : 9,  // Source files use only short file names.
+	TargetShortNames : 10, // Target files are to use only short file names.
+	Windows9x        : 12, // Operating system is Windows 98/95.
+	ZawEnabled       : 13, // Operating system supports advertising of products.
+	Scheduled        : 16, // Deferred custom action called from install script execution.
+	Rollback         : 17, // Deferred custom action called from rollback execution script.
+	Commit           : 18  // Deferred custom action called from commit execution script.
+};
+
+function BreakOnUserCancel(
+	/* MsiActionStatus */ ret
+) {
+	if (
+		( MsiActionStatus.Abort == ret )
+		|| ( MsiActionStatus.Cancel == ret )
+	) {
+		throw MsiActionStatus.Cancel;
+	};
+};
+
+// spool an informational message into the MSI log, if it is enabled. 
+function MessageEx(
+	/* __in int     */ iError,  // id in Error table - http://msdn.microsoft.com/en-us/library/aa372835(v=vs.85).aspx
+	/* __in HRESULT */ hrError,
+	/* __in UINT    */ uiType   // Buttons || Icons || MsgKind
+) {
+	if ( typeof hrError === 'undefined' ) { hrError = MsiActionStatus.None };
+	if ( typeof uiType  === 'undefined' ) { uiType  = MsgKind.Log };
+	var cArgs = arguments.length - 3;
+	if ( cArgs < 0 ) { cArgs = 0 };
+	var record = Session.Installer.CreateRecord( cArgs + 2 );
+	record.IntegerData( 1 ) = iError;
+	record.IntegerData( 2 ) = hrError;
+	var i = 0;
+	for ( i = 0; i < cArgs; i++ ) {
+		record.StringData( i+3 ) = arguments[i+3];
+	};
+	return Session.Message( uiType, record );
+};
+
+// spool an error message into the MSI log and pop up it, if it is enabled. 
+function ErrorMessage(
+	/* __in int     */ iError,  // id in Error table - http://msdn.microsoft.com/en-us/library/aa372835(v=vs.85).aspx
+	/* __in HRESULT */ hrError,
+	/* __in UINT    */ uiType   // Buttons || Icons || MsgKind
+) {
+	/* hrError */ if ( typeof hrError === 'undefined' ) { arguments[ 1 ] = MsiActionStatus.Abort };
+	/* uiType  */ arguments[ 2 ] |= MsgKind.Error;    // ensure error type is set
+	return MessageEx.apply( Session, arguments );
+};
+
+// spool an informational message into the MSI log, if it is enabled. 
+function LogMessage(
+	msg
+) {
+	var record = Session.Installer.CreateRecord( 0 );
+	record.StringData( 0 ) = msg;
+	Session.Message( MsgKind.Log, record );
+};
+
+// spool an detailed action data into the MSI log, if it is enabled. 
+function ActionData(
+	/* data */
+) {
+	var cArgs = arguments.length;
+	var record = Session.Installer.CreateRecord( cArgs );
+	var i;
+	for ( i = 0; i < cArgs; i++ ) {
+		switch( typeof arguments[i] ) { 
+			case 'integer':
+				record.IntegerData( i+1 ) = arguments[i];
+				break;
+			case 'string':
+				record.StringData( i+1 ) = arguments[i];
+				break;
+			case 'object':
+			default:
+				record.StringData( i+1 ) = JSON.stringify( arguments[i] );
+				break;
+		};
+	};
+	Session.Message( MsgKind.ActionData, record );
+};
+
+function UseExplicitProgressMessages() {
+	// tell Darwin to use explicit progress messages
+	var record = Session.Installer.CreateRecord( 3 );
+	record.IntegerData( 1 ) = 1;
+	record.IntegerData( 2 ) = 1;
+	record.IntegerData( 3 ) = 0;
+	Session.Message( MsgKind.Progress, record );
+	UseExplicitProgressMessages = function () {};
+};
+
+// Extends the progress bar or sends a progress update from the CustomAction
+function ProgressMessage(
+	/* __in UINT    */ uiCost,
+	/* __in BOOL    */ fExtendProgressBar
+) {
+	if ( ! fExtendProgressBar ) { UseExplicitProgressMessages(); };
+	var record = Session.Installer.CreateRecord( 3 );
+	record.IntegerData( 1 ) = ( fExtendProgressBar ) ? 3 : 2;
+	record.IntegerData( 2 ) = uiCost;
+	record.IntegerData( 3 ) = 0;
+	BreakOnUserCancel( Session.Message( MsgKind.Progress, record ) );
+};
+
+function ExtendProgressBar(
+	/* __in UINT    */ uiCost
+) {
+	ProgressMessage( uiCost, true );
+};
+
+function ProgressBar(
+	/* __in UINT    */ uiCost
+) {
+	ProgressMessage( uiCost, false );
+};
+
+function DoDeferredAction(
+	/* __in_z LPCWSTR */ Action,
+	/* __in objects[] */ CustomActionData,
+	/* __in UINT      */ uiCost
+) {
+	if ( ( null != CustomActionData ) && ( undefined !== CustomActionData ) ) {
+		Session.Property( Action ) = JSON.stringify( CustomActionData );
+	};
+	if ( 0 < uiCost ) {
+		ExtendProgressBar( uiCost );
+	};
+	BreakOnUserCancel( Session.DoAction( Action ) );
 };
 
 // Pop a message box. Also spool a message into the MSI log, if it is enabled. 
@@ -188,14 +335,29 @@ function LogException( exc ) {
 	);
 };
 
-// spool an informational message into the MSI log, if it is enabled. 
-function LogMessage( msg ) {
-	var record = Session.Installer.CreateRecord( 0 );
-	record.StringData( 0 ) = msg;
-	Session.Message(
-		MsgKind.Log,
-		record
-	);
+// Pop a message box. Also spool a message into the MSI log, if it is enabled. 
+function LogExceptionEx(
+	/* __in HRESULT */ hrError,
+	/* __in int     */ iError  // id in Error table - http://msdn.microsoft.com/en-us/library/aa372835(v=vs.85).aspx
+) {
+	if ( typeof iError === 'undefined' ) { iError = 5 }; // internal error
+	ErrorMessage( iError, hrError, Icons.Critical + Buttons.btnOkOnly );
+};
+
+// For not a Cancel exception pop a message box. Also spool a message into the MSI log, if it is enabled. 
+function CheckException( exc ) {
+	if ( MsiActionStatus.Cancel === exc ) {
+		ErrorMessage( 2322 ); // error code "User canceled"
+		return MsiActionStatus.Cancel;
+	} else {
+		if ( 'Error' === exc.name ) {
+			// ошибка сгенерирована программно, выводить в журнал повторно сообщение нет необходимости
+		} else {
+			LogException ( exc );
+			// ErrorMessage( 5, exc.number, Icons.Critical + Buttons.btnOkOnly, exc.message, exc.description ); // internal error
+		};
+		return MsiActionStatus.Error;
+	}; 
 };
 
 // https://github.com/douglascrockford/JSON-js/blob/master/json2.js

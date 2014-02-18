@@ -84,6 +84,17 @@
 				<![CDATA[Installed]]>
 			</Custom>
 		</InstallExecuteSequence>
-		
+
+		<UI Id="$(var.CAModule)Errors">
+			<ProgressText Action="InstallBDEAliases">!(loc.InstallBDEAliases)</ProgressText>
+			<ProgressText Action="RemoveBDEAliases">!(loc.RemoveBDEAliases)</ProgressText>
+			<ProgressText Action="BDEBackupConfig" Template="!(loc.BDEBackupConfig_Template)">!(loc.BDEBackupConfig)</ProgressText>
+			<ProgressText Action="BDERestoreConfig" Template="!(loc.BDERestoreConfig_Template)">!(loc.BDERestoreConfig)</ProgressText>
+			<ProgressText Action="InstallBDEAlias" Template="!(loc.InstallBDEAlias_Template)">!(loc.InstallBDEAlias)</ProgressText>
+			<ProgressText Action="RemoveBDEAlias" Template="!(loc.RemoveBDEAlias_Template)">!(loc.RemoveBDEAlias)</ProgressText>
+
+			<Error Id="26801">!(loc.msierrBDEError)</Error>
+		</UI>
+
 	</Fragment>
 </Wix>

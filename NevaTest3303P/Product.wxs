@@ -108,7 +108,7 @@
 
 		<UI>
 			<UIRef Id="WixUI_MondoWithoutLicenseDlg"/>
-			<!--<UIRef Id="WixUI_ErrorProgressText" />-->
+			<UIRef Id="WixUI_ErrorProgressText"/>
 		</UI>
 		<Property Id="WixAppFolder" Value="WixPerMachineFolder" />
 		<WixVariable Id="WixUISupportPerUser" Value="0" />

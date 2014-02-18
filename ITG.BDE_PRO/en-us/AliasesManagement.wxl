@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="en-us"
+	Codepage="1252"
+	Language="1033"
+>
+
+	<String Id="InstallBDEAliases">Setup BDE aliases</String>
+	<String Id="RemoveBDEAliases">Remove BDE aliases</String>
+	<String Id="BDEBackupConfig">Backup BDE configuration</String>
+	<String Id="BDEBackupConfig_Template">Backup file: "[1]".</String>
+	<String Id="BDERestoreConfig">Restore BDE configuration</String>
+	<String Id="BDERestoreConfig_Template">!(loc.BDEBackupConfig_Template)</String>
+	<String Id="InstallBDEAlias">Add BDE aliases</String>
+	<String Id="InstallBDEAlias_Template">BDE alias: [1].</String>
+	<String Id="RemoveBDEAlias">Remove BDE aliases</String>
+	<String Id="RemoveBDEAlias_Template">!(loc.InstallBDEAlias_Template)</String>
+
+	<String Id="msierrBDEError">BDE API Error: [1].</String>
+
+</WixLocalization>

@@ -17,12 +17,12 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
     <SuppressIces>ICEM09</SuppressIces>
-    <SuppressSpecificWarnings>1085;1086;1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1085;1086;1101;1072</SuppressSpecificWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <SuppressSpecificWarnings>1085;1086;1101</SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>1085;1086;1101;1072</SuppressSpecificWarnings>
     <SuppressIces>ICEM09</SuppressIces>
   </PropertyGroup>
   <ItemGroup>
@@ -127,8 +127,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="en-us\AliasesManagement.wxl" />
     <EmbeddedResource Include="en-us\BDE.wxl" />
     <EmbeddedResource Include="ru-ru\BDE.wxl" />
+    <EmbeddedResource Include="ru-ru\AliasesManagement.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

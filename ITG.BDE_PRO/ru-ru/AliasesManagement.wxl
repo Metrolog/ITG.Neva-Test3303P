@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="ru-ru"
+	Codepage="1251"
+	Language="1049"
+>
+
+	<String Id="InstallBDEAliases">Настройка псевдонимов BDE</String>
+	<String Id="RemoveBDEAliases">Удаление псевдонимов BDE</String>
+	<String Id="BDEBackupConfig">Сохранение конфигурации BDE</String>
+	<String Id="BDEBackupConfig_Template">Файл резервной копии "[1]".</String>
+	<String Id="BDERestoreConfig">Восстановление конфигурации BDE</String>
+	<String Id="BDERestoreConfig_Template">!(loc.BDEBackupConfig_Template)</String>
+	<String Id="InstallBDEAlias">Настройка псевдонима BDE</String>
+	<String Id="InstallBDEAlias_Template">Псевдоним: [1].</String>
+	<String Id="RemoveBDEAlias">Удаление псевдонима BDE</String>
+	<String Id="RemoveBDEAlias_Template">!(loc.InstallBDEAlias_Template)</String>
+
+	<String Id="msierrBDEError">Ошибка при вызове BDE API: [1].</String>
+
+</WixLocalization>
