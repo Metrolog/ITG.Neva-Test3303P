@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="ru-ru"
+	Codepage="1251"
+	Language="1049"
+>
+
+	<String Id="IncBDEUsageCount">Увеличение счётчика использования BDE</String>
+	<String Id="IncBDEUsageCountDeferred">!(loc.IncBDEUsageCount)</String>
+	<String Id="IncBDEUsageCountRollback">!(loc.IncBDEUsageCount)</String>
+	<String Id="DecBDEUsageCount">Уменьшение счётчика использования BDE</String>
+	<String Id="DecBDEUsageCountDeferred">!(loc.DecBDEUsageCount)</String>
+	<String Id="DecBDEUsageCountRollback">!(loc.DecBDEUsageCount)</String>
+	<String Id="BDEUsageCountData_Template">Значение счётчика до операции: [1], после операции: [2].</String>
+
+	<String Id="InstallBDEAliases">Настройка псевдонимов BDE</String>
+	<String Id="RemoveBDEAliases">Удаление псевдонимов BDE</String>
+	<String Id="BDEBackupConfig">Сохранение конфигурации BDE</String>
+	<String Id="BDEBackupConfig_Template">Файл резервной копии "[1]".</String>
+	<String Id="BDERestoreConfig">Восстановление конфигурации BDE</String>
+	<String Id="BDERestoreConfig_Template">!(loc.BDEBackupConfig_Template)</String>
+	<String Id="DoInstallBDEAliases">Настройка псевдонима BDE</String>
+	<String Id="DoInstallBDEAliases_Template">Псевдоним: [1].</String>
+	<String Id="DoRemoveBDEAliases">Удаление псевдонима BDE</String>
+	<String Id="DoRemoveBDEAliases_Template">!(loc.DoInstallBDEAliases_Template)</String>
+
+	<String Id="msierrBDEError">Ошибка при вызове BDE API: [1].</String>
+
+</WixLocalization>

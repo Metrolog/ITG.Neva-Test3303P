@@ -1,16 +1,144 @@
+//#region custom actions specific constants
+
 var Messages = {
 	msierrBDEError : 26801
 };
 var uiCost = {
-	BDEBackupConfig : 1000,
-	BDERestoreConfig : 1000
+	BDEBackupConfig  : 100000,
+	BDERestoreConfig : 100000,
+	BDEAddAlias      : 100000,
+	BDERemoveAlias   : 100000,
+	BDEUsageCount    : 10000
 };
+
+//#endregion
+//#region BDE UseCount management
+
+// http://msdn.microsoft.com/en-us/library/aa393286.aspx
+var RegistryRoot = {
+	HKEY_CLASSES_ROOT   : 0x80000000,
+	HKEY_CURRENT_USER   : 0x80000001,
+	HKEY_LOCAL_MACHINE  : 0x80000002,
+	HKEY_USERS          : 0x80000003,
+	HKEY_CURRENT_CONFIG : 0x80000005,
+	HKEY_DYN_DATA       : 0x80000006
+};
+
+var rR = RegistryRoot.HKEY_LOCAL_MACHINE;
+var rK = "Software\\Borland\\Database Engine";
+var rV = "UseCount";
+
+function IncBDEUsageCount_CA() {
+	try {
+		DoDeferredAction( "IncBDEUsageCountDeferred", uiCost.BDEUsageCount );
+		DoDeferredAction( "IncBDEUsageCountRollback", uiCost.BDEUsageCount );
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function IncBDEUsageCountDeferred_CA() {
+	try {
+		IncBDEUsageCount();
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function IncBDEUsageCountRollback_CA() {
+	try {
+		DecBDEUsageCount();
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function DecBDEUsageCount_CA() {
+	try {
+		DoDeferredAction( "DecBDEUsageCountDeferred", uiCost.BDEUsageCount );
+		DoDeferredAction( "DecBDEUsageCountRollback", uiCost.BDEUsageCount );
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function DecBDEUsageCountDeferred_CA() {
+	try {
+		DecBDEUsageCount();
+		ProgressBar( uiCost.BDEUsageCount );
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function DecBDEUsageCountRollback_CA() {
+	try {
+		IncBDEUsageCount();
+		ProgressBar( uiCost.BDEUsageCount );
+	} catch ( exc ) {
+		return CheckException( exc );
+	}
+	return MsiActionStatus.Ok;
+};
+
+function IncBDEUsageCount() {
+	var objRegistry = GetObject( "winmgmts:\\\\.\\root\\default:StdRegProv" );
+	//#region objRegistry.GetDWORDValue( rR, rK, rV, &UseCount );
+	var GetDWORDValue = objRegistry.Methods_.Item( "GetDWORDValue" );
+	var inParameters = GetDWORDValue.InParameters.SpawnInstance_();
+	inParameters.hDefKey = rR;
+	inParameters.sSubKeyName = rK;
+	inParameters.sValueName = rV;
+	var outParameters = objRegistry.ExecMethod_( "GetDWORDValue", inParameters);
+	var UseCount = outParameters.uValue;
+	//#endregion
+	var Before = UseCount;
+	if ( null === UseCount ) {
+		UseCount = 0;
+	};
+	var After = UseCount += 1;
+	ActionData( Before, After );
+	objRegistry.SetDWORDValue( rR, rK, rV, UseCount );
+};
+
+function DecBDEUsageCount() {
+	var objRegistry = GetObject( "winmgmts:\\\\.\\root\\default:StdRegProv" );
+	//#region objRegistry.GetDWORDValue( rR, rK, rV, &UseCount );
+	var GetDWORDValue = objRegistry.Methods_.Item( "GetDWORDValue" );
+	var inParameters = GetDWORDValue.InParameters.SpawnInstance_();
+	inParameters.hDefKey = rR;
+	inParameters.sSubKeyName = rK;
+	inParameters.sValueName = rV;
+	var outParameters = objRegistry.ExecMethod_( "GetDWORDValue", inParameters);
+	var UseCount = outParameters.uValue;
+	//#endregion
+	var Before = UseCount;
+	var After;
+	if ( null !== UseCount ) {
+		After = UseCount -= 1;
+		if ( UseCount ) {
+			objRegistry.SetDWORDValue( rR, rK, rV, UseCount );
+		} else {
+			objRegistry.DeleteValue( rR, rK, rV );
+		};
+	};
+	ActionData( Before, After );
+};
+
+//#endregion
+//#region BDE aliases management
 
 function InstallBDEAliases_CA() {
 	try {
 		BackupAndRestoreBDEConfig();
 		// теперь собственно создание алиасов и прочие необходимые действия по конфигурации
 		// ...
+		DoDeferredAction( "DoInstallBDEAliases", uiCost.BDEAddAlias );
 	} catch ( exc ) {
 		return CheckException( exc );
 	}
@@ -25,8 +153,8 @@ function BackupAndRestoreBDEConfig() {
 			FSO.GetSpecialFolder( 2 ),
 			FSO.GetTempName()
 		);
-		DoDeferredAction( "BDEBackupConfig", backupFileName, uiCost.BDEBackupConfig );
-		DoDeferredAction( "BDERestoreConfig", backupFileName, uiCost.BDERestoreConfig );
+		DoDeferredAction( "BDEBackupConfig", uiCost.BDEBackupConfig, backupFileName );
+		DoDeferredAction( "BDERestoreConfig", uiCost.BDERestoreConfig, backupFileName );
 		Session.Property( "BDECONFIGBACKUPFILE" ) = backupFileName;
 	};
 };
@@ -63,9 +191,19 @@ function BDERestoreConfig_CA() {
 	return MsiActionStatus.Ok;
 };
 
-function InstallBDEAlias_CA() {
+function DoInstallBDEAliases_CA() {
 	// deferred
 	try {
+		var record = Session.Installer.CreateRecord( 1 );
+		for ( var i = 0; i < 5; i++ ) {
+			record.StringData( 0 ) = "test" + i;
+			Session.Message(
+				MsgKind.User + Icons.Information + Buttons.btnOkOnly,
+				record
+			);
+			ProgressBar( uiCost.BDEAddAlias / 5 );
+		};
+		/*
 		LogMessage( "Attempt to register new BDE alias..." );
 		var data = Session.Property( "CustomActionData" );
 		LogMessage( "Parameters " + data );
@@ -86,6 +224,7 @@ function InstallBDEAlias_CA() {
 		LogMessage( "BDE configuration is successfully saved." );
 		CheckBDEError( BDEAdmin.Done() );
 		LogMessage( "BDE alias was successfully added." );
+		*/
 	} catch ( exc ) {
 		return CheckException( exc );
 	}
@@ -103,7 +242,7 @@ function RemoveBDEAliases_CA() {
 	return MsiActionStatus.Ok;
 };
 
-function RemoveBDEAlias_CA() {
+function DoRemoveBDEAliases_CA() {
 	// deferred
 	try {
 		LogMessage( "Attempt to delete BDE alias..." );
@@ -134,6 +273,9 @@ function CheckBDEError( BDEResult ) {
 		throw new Error( BDEResult );
 	};
 };
+
+//#endregion
+//#region common MSI wrappers
 
 // http://msdn.microsoft.com/en-us/library/sfw6660x(VS.85).aspx
 var Buttons = {
@@ -295,7 +437,7 @@ function ProgressMessage(
 	var record = Session.Installer.CreateRecord( 3 );
 	record.IntegerData( 1 ) = ( fExtendProgressBar ) ? 3 : 2;
 	record.IntegerData( 2 ) = uiCost;
-	record.IntegerData( 3 ) = 0;
+	record.IntegerData( 3 ) = 0; // do not increment for each ActionData message
 	BreakOnUserCancel( Session.Message( MsgKind.Progress, record ) );
 };
 
@@ -313,8 +455,8 @@ function ProgressBar(
 
 function DoDeferredAction(
 	/* __in_z LPCWSTR */ Action,
-	/* __in objects[] */ CustomActionData,
-	/* __in UINT      */ uiCost
+	/* __in UINT      */ uiCost,
+	/* __in objects[] */ CustomActionData
 ) {
 	if ( ( null != CustomActionData ) && ( undefined !== CustomActionData ) ) {
 		Session.Property( Action ) = JSON.stringify( CustomActionData );
@@ -573,3 +715,5 @@ if (typeof JSON !== 'object') {
 		};
 	}
 }());
+
+//#endregion

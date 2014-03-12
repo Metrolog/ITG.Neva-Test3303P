@@ -33,9 +33,8 @@
     <Compile Include="bantam.wxs" />
     <Compile Include="charset.cvb.wxs" />
     <Compile Include="blw32.wxs" />
-    <Compile Include="ControlUseCount.wxs" />
     <Compile Include="BDEAdmin.wcs.wxs" />
-    <Compile Include="AliasesManagement.wxs" />
+    <Compile Include="BDECustomActions.wxs" />
     <Compile Include="SearchBDE.wxs" />
     <Compile Include="idqbe32.wxs" />
     <Compile Include="idr20009.wxs" />
@@ -65,8 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Binary\bdesetup.dll" />
-    <Content Include="ControlUseCount.js" />
-    <Content Include="AliasesManagement.js" />
+    <Content Include="BDECustomActions.js" />
     <Content Include="Icons\bdeadmin.ico" />
     <Content Include="SourceDir\bantam.dll" />
     <Content Include="SourceDir\BDEADMIN.CNT" />
@@ -127,10 +125,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="en-us\AliasesManagement.wxl" />
+    <EmbeddedResource Include="en-us\BDECustomActions.wxl" />
     <EmbeddedResource Include="en-us\BDE.wxl" />
     <EmbeddedResource Include="ru-ru\BDE.wxl" />
-    <EmbeddedResource Include="ru-ru\AliasesManagement.wxl" />
+    <EmbeddedResource Include="ru-ru\BDECustomActions.wxl" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

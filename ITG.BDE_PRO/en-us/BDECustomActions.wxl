@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization
+	xmlns="http://wixtoolset.org/schemas/v4/wxl"
+	Culture="en-us"
+	Codepage="1252"
+	Language="1033"
+>
+
+	<String Id="IncBDEUsageCount">Increment BDE UseCount</String>
+	<String Id="IncBDEUsageCountDeferred">!(loc.IncBDEUsageCount)</String>
+	<String Id="IncBDEUsageCountRollback">!(loc.IncBDEUsageCount)</String>
+	<String Id="DecBDEUsageCount">Decrement BDE UseCount</String>
+	<String Id="DecBDEUsageCountDeferred">!(loc.DecBDEUsageCount)</String>
+	<String Id="DecBDEUsageCountRollback">!(loc.DecBDEUsageCount)</String>
+	<String Id="BDEUsageCountData_Template">UseCount value before operation: [1], after operation: [2].</String>
+
+	<String Id="InstallBDEAliases">Setup BDE aliases</String>
+	<String Id="RemoveBDEAliases">Remove BDE aliases</String>
+	<String Id="BDEBackupConfig">Backup BDE configuration</String>
+	<String Id="BDEBackupConfig_Template">Backup file: "[1]".</String>
+	<String Id="BDERestoreConfig">Restore BDE configuration</String>
+	<String Id="BDERestoreConfig_Template">!(loc.BDEBackupConfig_Template)</String>
+	<String Id="DoInstallBDEAliases">Add BDE aliases</String>
+	<String Id="DoInstallBDEAliases_Template">BDE alias: [1].</String>
+	<String Id="DoRemoveBDEAliases">Remove BDE aliases</String>
+	<String Id="DoRemoveBDEAliases_Template">!(loc.DoInstallBDEAliases_Template)</String>
+
+	<String Id="msierrBDEError">BDE API Error: [1].</String>
+
+</WixLocalization>

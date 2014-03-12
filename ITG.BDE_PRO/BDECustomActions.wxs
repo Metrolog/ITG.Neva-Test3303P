@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+	<?define CAModule="BDECustomActions"?>
+	<?if $(sys.BUILDARCH) = "x86" ?>
+	<?define Win64="no" ?>
+	<?else?>
+	<?define Win64="yes" ?>
+	<?endif?>
+
+	<Fragment Id="$(var.CAModule)">
+
+		<PropertyRef Id="ITGBDEADMINISTRATOR"/>
+
+		<Binary Id="$(var.CAModule)" SourceFile="$(var.CAModule).js"/>
+
+		<CustomAction
+			Id="IncBDEUsageCount"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="IncBDEUsageCount_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="IncBDEUsageCountDeferred"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="IncBDEUsageCountDeferred_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="IncBDEUsageCountRollback"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="IncBDEUsageCountRollback_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<CustomAction
+			Id="DecBDEUsageCount"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="DecBDEUsageCount_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="DecBDEUsageCountDeferred"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="DecBDEUsageCountDeferred_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="DecBDEUsageCountRollback"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="DecBDEUsageCountRollback_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<InstallExecuteSequence>
+			<Custom Action="IncBDEUsageCount" Before="InstallFinalize">
+				<![CDATA[($idapi32.dll = 3) AND (?idapi32.dll = 2)]]>
+			</Custom>
+			<Custom Action="DecBDEUsageCount" After="InstallInitialize">
+				<![CDATA[($idapi32.dll = 2) AND (?idapi32.dll = 3)]]>
+			</Custom>
+		</InstallExecuteSequence>
+
+		<UI>
+			<ProgressText Action="IncBDEUsageCount">!(loc.IncBDEUsageCount)</ProgressText>
+			<ProgressText Action="IncBDEUsageCountDeferred" Template="!(loc.BDEUsageCountData_Template)">!(loc.IncBDEUsageCountDeferred)</ProgressText>
+			<ProgressText Action="IncBDEUsageCountRollback" Template="!(loc.BDEUsageCountData_Template)">!(loc.IncBDEUsageCountRollback)</ProgressText>
+			<ProgressText Action="DecBDEUsageCount">!(loc.DecBDEUsageCount)</ProgressText>
+			<ProgressText Action="DecBDEUsageCountDeferred" Template="!(loc.BDEUsageCountData_Template)">!(loc.DecBDEUsageCountDeferred)</ProgressText>
+			<ProgressText Action="DecBDEUsageCountRollback" Template="!(loc.BDEUsageCountData_Template)">!(loc.DecBDEUsageCountRollback)</ProgressText>
+		</UI>
+
+		<CustomAction
+			Id="InstallBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="InstallBDEAliases_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="RemoveBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="RemoveBDEAliases_CA"
+			Execute="immediate"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<CustomAction
+			Id="BDEBackupConfig"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="BDEBackupConfig_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="BDERestoreConfig"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="BDERestoreConfig_CA"
+			Return="ignore"
+			Execute="rollback"
+			Impersonate="no"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<CustomAction
+			Id="DoInstallBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="DoInstallBDEAliases_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes" 
+			Win64="$(var.Win64)"
+		/>
+		<CustomAction
+			Id="DoRemoveBDEAliases"
+			BinaryKey="$(var.CAModule)"
+			JScriptCall="DoRemoveBDEAliases_CA"
+			Execute="deferred"
+			Impersonate="no"
+			Return="check"
+			SuppressModularization="yes"
+			Win64="$(var.Win64)"
+		/>
+
+		<InstallExecuteSequence>
+			<Custom Action="InstallBDEAliases" After="InstallODBC">
+				<![CDATA[]]>
+			</Custom>
+			<Custom Action="RemoveBDEAliases" Before="RemoveODBC">
+				<![CDATA[Installed]]>
+			</Custom>
+		</InstallExecuteSequence>
+
+		<UI>
+			<ProgressText Action="InstallBDEAliases">!(loc.InstallBDEAliases)</ProgressText>
+			<ProgressText Action="RemoveBDEAliases">!(loc.RemoveBDEAliases)</ProgressText>
+			<ProgressText Action="BDEBackupConfig" Template="!(loc.BDEBackupConfig_Template)">!(loc.BDEBackupConfig)</ProgressText>
+			<ProgressText Action="BDERestoreConfig" Template="!(loc.BDERestoreConfig_Template)">!(loc.BDERestoreConfig)</ProgressText>
+			<ProgressText Action="DoInstallBDEAliases" Template="!(loc.DoInstallBDEAliases_Template)">!(loc.DoInstallBDEAliases)</ProgressText>
+			<ProgressText Action="DoRemoveBDEAliases" Template="!(loc.DoRemoveBDEAliases_Template)">!(loc.DoRemoveBDEAliases)</ProgressText>
+		</UI>
+
+		<UI Id="$(var.CAModule)Errors">
+			<Error Id="26801">!(loc.msierrBDEError)</Error>
+		</UI>
+
+	</Fragment>
+</Wix>
