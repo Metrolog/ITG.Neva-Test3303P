@@ -7,12 +7,6 @@
 
 	<Fragment>
 
-		<?define DBsShortName="!(loc.Database)"?>
-		<?define DBsInternalName="APPDATABASE"?>
-		<?define DBsDescription="!(loc.DatabaseDescription)"?>
-
-		<?define DBsDirectory="$(var.DBsInternalName)FOLDER"?>
-
 		<Feature
 			Id="$(var.DBsInternalName)"
 			Level="2"
@@ -25,16 +19,12 @@
 			Description="$(var.DBsDescription)"
 			ConfigurableDirectory="$(var.DBsDirectory)"
 		>
-			<MergeRef Id="BDE"/>
-
 			<ComponentGroupRef Id="DBsFiles"/>
 		</Feature>
 
-		<Binary Id="bdemerge.ini" SourceFile=".\msm\bde\bdemerge.ini"/>
-
 		<DirectoryRef Id="PRODUCTCOMMONAPPDATAFOLDER">
 			<Directory
-				Id="$(var.DBsInternalName)FOLDER"
+				Id="$(var.DBsDirectory)"
 				Name="DB"
 				FileSource=".\SourceDir\Database"
 			/> 

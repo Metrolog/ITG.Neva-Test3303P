@@ -59,4 +59,9 @@
 
 	<?define AppRegKeySddl="D:AI(A;CI;KA;;;BU)(A;;KR;;;BU)(A;CIIO;GR;;;BU)(A;;KA;;;BA)(A;CIIO;GA;;;BA)(A;;KA;;;SY)(A;CIIO;GA;;;SY)(A;CIIO;GA;;;CO)(A;;KR;;;AC)(A;CIIO;GR;;;AC)"?>
 
+	<?define DBsShortName="!(loc.Database)"?>
+	<?define DBsInternalName="NEVATESTDB"?>
+	<?define DBsDescription="!(loc.DatabaseDescription)"?>
+	<?define DBsDirectory="$(var.DBsInternalName)FOLDER"?>
+
 </Include>
