@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix
+	xmlns="http://wixtoolset.org/schemas/v4/wxs"
+>
+
+	<?include NevaTest3303P.wxi?>
+
+	<Fragment>
+
+		<!-- Свойство, позволяющее указать полный путь к каталогу базы данных через трансформацию либо при создании административной точки установки -->
+		<Property Id="$(var.DBsDirectory)" Admin="yes"/>
+
+		<!-- Свойство, позволяющее запретить создание псевдонима BDE -->
+		<Property Id="BDEALIASDONTSETUP" Admin="yes"/>
+
+		<ComponentGroup
+			Id="DBsAlias"
+			Directory="$(var.DBsDirectory)"
+		>
+			<Component
+				Id="DBsAlias"
+				Guid="{E04056DE-4F64-4F9C-B2EC-E3B8E1E018EA}"
+				NeverOverwrite="yes"
+				Location="local"
+			>
+				<Condition><![CDATA[Not BDEALIASDONTSETUP]]></Condition>
+				<RegistryKey
+					Root="HKLM"
+					Key="$(var.ProductRegKey)"
+				>
+					<RegistryValue Name="DBsAlias" Value="$(var.DBsInternalName)" Type="string" KeyPath="yes"/>
+				</RegistryKey>
+			</Component>
+		</ComponentGroup>
+
+		<CustomTable Id="BDEAlias">
+			<Column
+				Id="DataSource"
+				Description="Internal token name for data source (BDE Alias). A primary key for the table."
+				Type="string"
+				Category="Identifier"
+				PrimaryKey="yes"
+				Modularize="Column"
+				Width="16"
+				Nullable="no"
+			/>
+			<Column
+				Id="Component_"
+				Description="External key into the Component table."
+				Type="string"
+				Category="Identifier"
+				KeyTable="Component"
+				KeyColumn="1"
+				Modularize="Column"
+				Width="72"
+				Nullable="no"
+			/>
+			<Column
+				Id="Description"
+				Description="The description registered for this data source."
+				Type="string"
+				Category="Text"
+				Localizable="yes"
+				Modularize="None"
+				Width="255"
+				Nullable="yes"
+			/>
+			<Column
+				Id="DriverDescription"
+				Description="Associated driver which may be pre-existing."
+				Type="string"
+				Category="Text"
+				Localizable="no"
+				Modularize="None"
+				Width="64"
+				Nullable="no"
+			/>
+			<Column
+				Id="Parameters"
+				Description="BDE Alias parameters."
+				Type="string"
+				Category="Formatted"
+				Localizable="no"
+				Modularize="None"
+				Width="511"
+				Nullable="no"
+			/>
+
+			<Row>
+				<Data Column="DataSource">$(var.DBsInternalName)</Data>
+				<Data Column="Component_">DBsAlias</Data>
+				<Data Column="Description"><![CDATA[$(var.DBsDescription)]]></Data>
+				<Data Column="DriverDescription"><![CDATA[Microsoft dBase Driver (*.dbf)]]></Data>
+				<Data Column="Parameters"><![CDATA[DSN:NevaTest]]></Data>
+			</Row>
+		</CustomTable>
+
+	</Fragment>
+</Wix>

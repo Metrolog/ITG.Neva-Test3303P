@@ -32,6 +32,7 @@
     <Compile Include="Common.UninstallOldPackage.wxs" />
     <Compile Include="Application.wxs" />
     <Compile Include="barcode.wxs" />
+    <Compile Include="DBAlias.wxs" />
     <Compile Include="Database.wxs" />
     <Compile Include="Meteres.wxs" />
     <Compile Include="LocResources.wxs" />

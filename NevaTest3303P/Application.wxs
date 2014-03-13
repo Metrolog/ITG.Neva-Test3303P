@@ -41,6 +41,8 @@
 			<ComponentRef Id="hsgps.dll"/>
 			<ComponentRef Id="line485.exe"/>
 			<ComponentGroupRef Id="barcode.dll"/>
+
+			<ComponentGroupRef Id="DBsAlias"/>
 			<MergeRef Id="BDE"/>
 			<MergeRef Id="DynWrapX"/>
 
