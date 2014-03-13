@@ -25,6 +25,7 @@
 			Description="!(loc.PackageDescription) $(var.ProductName)."
 			Comments="!(loc.PackageDescription) $(var.ProductName)."
 			Keywords="Installer, $(var.ProductShortName)"
+			SummaryCodepage="!(loc.CodePage)"
 		/>
 
 		<WixVariable Id="ManufacturerId"      Value="$(var.ManufacturerId)"/>
@@ -40,7 +41,7 @@
 		<WixVariable Id="PRIMARYFOLDER"       Value="PRODUCTPROGRAMFOLDER"/>
 
 		<FeatureRef Id="$(var.ProductInternalName)"/>
-		<FeatureRef Id="APPDATABASE"/>
+		<FeatureRef Id="$(var.DBsInternalName)"/>
 
 		<Upgrade Id="$(var.UpgradeCode)">
 			<UpgradeVersion
